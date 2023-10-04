@@ -1,0 +1,56 @@
+
+.centeredContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workOrderGrid {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.workOrderCard {
+  color: white;
+  border: 1px solid #ccc;
+  width: 350px;
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border: 0.1px solid rgba(255, 255, 255, 0.103);
+  background-color: #0000008f;
+  backdrop-filter: blur(50px);
+}
+
+
+.spin {
+  animation: spin 1s infinite linear;
+  font-size: 100px;
+  color: rgba(0, 0, 0, 0.315);
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1200px) {
+  .workOrderGrid {
+    grid-template-columns: 1fr;
+    padding-left: 15%;
+
+  }
+
+  .workOrderCard {
+    width: 70%;
+    margin: 0 auto;
+    padding: 30px;
+  }
+}

@@ -1,0 +1,79 @@
+.sbIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15%;
+}
+
+.sidebarOpen {
+  background-color: #0000008f;
+  backdrop-filter: blur(20px);    
+  color: white;
+  width: 150px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebarClosed {
+  background-color: #0000008f;
+  backdrop-filter: blur(20px);    
+  color: white;
+  width: 60px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebarOpen a {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.sidebarOpen a:hover {
+  background-color: #ffffff2a;
+  backdrop-filter: blur(20px); 
+}
+
+.navContainer {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.navContainerClosed {
+  margin-top: 10px;
+}
+
+.navLink {
+  padding: 10px 20px;
+  color: white;
+  display: block;
+}
+
+.toggleButtonContainerOpen {
+  position: fixed;
+  bottom: 20px;
+}
+
+.toggleButtonContainerClosed {
+  position: fixed;
+  bottom: 20px;
+}
+
+.sidebarContent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

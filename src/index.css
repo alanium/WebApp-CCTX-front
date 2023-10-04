@@ -1,0 +1,111 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-image: url("background2.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
+}
+
+.global-container {
+  width: 100%;
+  max-width: 350px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border: 0.1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 10px;
+  background-color: #0000008f;
+  backdrop-filter: blur(60px);    
+}
+
+.global-input-1 {
+  width: 100%;
+  margin-bottom: 16px;
+  background-color: rgba(0, 0, 0, 0.308);
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  outline: transparent;
+  box-shadow: none;
+  border: transparent;
+}
+.global-input-1::placeholder {
+  font-weight: bold;
+}
+
+.global-card-title {
+  font-size: 50px;
+  color: white;
+}
+
+.global-card-subtitle {
+  font-size: 35px;
+  color: white;
+  padding-bottom: 50px;
+}
+
+.global-button {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.300);
+  color: white;
+  border-width: 1px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  align-self: center;
+  margin-top: 16px;
+  border: transparent;
+}
+
+.global-button:hover {
+  border: 1px solid white;
+}
+
+.titleDiv {
+  text-align: center;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 14px;
+  bottom: 35%;
+  color:rgb(156, 156, 156);
+  position: absolute;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.global-input-1:not(:placeholder-shown) + .icon {
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .global-container {
+    width: 100%;
+    max-width: 70%;
+    padding: 30px;
+  }
+}
+
+.global-button:disabled {
+  background-color: #CCCCCC;
+  cursor: not-allowed;
+  color: #666666;
+}
