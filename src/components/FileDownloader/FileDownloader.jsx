@@ -5,6 +5,7 @@ import styles from "./FileDownloader.module.css";
 export function FileDownloader(props) {
   const [worders, setWorders] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [input, setInput] = useState({
     selected_wo: "Select a Work Order",
   });
@@ -34,6 +35,7 @@ export function FileDownloader(props) {
 
   const handleSubmit = async (event, action) => {
     event.preventDefault();
+    setIsSubmitting(true);
     if (input["selected_wo"] !== "Select a Work Order") {
         try {
             const response = await fetch("http://alanium.pythonanywhere.com/wo", {
@@ -59,6 +61,7 @@ export function FileDownloader(props) {
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
+                    setIsSubmitting(false);
                 } else if (contentType.includes("application/zip")) {
                     // Si la respuesta es un archivo ZIP, descárgalo
                     const blob = await response.blob();
@@ -69,18 +72,22 @@ export function FileDownloader(props) {
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
+                    setIsSubmitting(false);
                 } else {
                     console.error("Tipo de archivo no compatible.");
+                    setIsSubmitting(false);
                 }
             } else {
                 const errorResponse = await response.json();
                 console.error("Error al enviar la solicitud POST:", errorResponse.error);
+                setIsSubmitting(false);
             }
         } catch (error) {
             console.error("Error: ", error);
         }
     } else {
         console.log("Por favor, selecciona una orden de trabajo antes de hacer clic en enviar.");
+        setIsSubmitting(false);
     }
 };
   
@@ -121,6 +128,7 @@ export function FileDownloader(props) {
               className="global-button"
               type="submit"
               onClick={(event) => handleSubmit(event, "generate_single")}
+              disabled={isSubmitting}
             >
               Download Selected
             </button>
@@ -128,6 +136,7 @@ export function FileDownloader(props) {
               className="global-button"
               type="submit"
               onClick={(event) => handleSubmit(event, "generate")}
+              disabled={isSubmitting}
             >
               Download All
             </button>
@@ -140,7 +149,7 @@ export function FileDownloader(props) {
           </div>
         </div>
       )}
-      <button className="global-button" onClick={() => navigate("/home")}>
+      <button disabled={isSubmitting} className="global-button" onClick={() => navigate("/home")}>
         Back
       </button>
     </div>
