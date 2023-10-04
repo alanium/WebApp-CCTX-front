@@ -54,6 +54,8 @@
   border: 1px solid white;
 }
 
+.btnDiv {width: 100% ; display: flex ;  flex-direction: column ; align-items: center; color: white;}
+
 @media (max-width: 1000px) {
   .homeContainer {
     width: 100%;
@@ -61,11 +63,14 @@
     max-height: 100%;
     padding: 30px;
   }
+
+  
   
   .buttonsDiv {
     display: initial;  
     width: 100%;
   }
+
 
   .homeButton{
     margin-left: 0px;

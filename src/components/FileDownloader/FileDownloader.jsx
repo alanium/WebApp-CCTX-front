@@ -12,6 +12,7 @@ export function FileDownloader(props) {
     selected_wo: "Select a Work Order",
   });
   const navigate = useNavigate();
+  const [click, setClick] = useState(0)
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +39,7 @@ export function FileDownloader(props) {
   const handleSubmit = async (event, action) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setClick(1)
     if (input["selected_wo"] === "Select a Work Order" && action === "generate_single") {
       console.log("Please select a work order before clicking on submit.");
       setIsSubmitting(false);
@@ -138,9 +140,9 @@ export function FileDownloader(props) {
               </option>
             ))}
           </select>
-          {input["selected_wo"] === "Select a Work Order" && (
+          {input["selected_wo"] === "Select a Work Order" && click > 0 && (
           <p style={{ color: "red" }}>
-            <BiXCircle/> Please select a work order before clicking on submit.
+            <BiXCircle/> Please select a work order before clicking on Download Selected.
           </p> )}
           <br />
           <div>

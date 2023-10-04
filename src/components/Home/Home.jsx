@@ -38,9 +38,9 @@ export default function Home(props) {
         <div className={styles.titleDiv}>
           <label className="global-card-subtitle">Hello, {user.fullname}</label>
         </div>
-      </div>
-      
+      </div>   
       <div className={styles.buttonsDiv}>
+      <div className={styles.btnDiv}>
         <button
           className={styles.homeButton}
           name="view_wo"
@@ -51,16 +51,25 @@ export default function Home(props) {
             className={styles.icon}
           />
         </button>
+        <label>View WO</label>
+      </div>
+      <div className={styles.btnDiv}>
         <button className={styles.homeButton}>
           <BiSolidStar
             className={styles.icon}
             />
         </button>
+        <label>Placeholder</label>
+      </div>
+      <div className={styles.btnDiv}>
         <button className={styles.homeButton}>
           <BiSolidCheckboxChecked
             className={styles.icon}
             />
         </button>
+        <label>Placeholder</label>
+      </div>
+      <div className={styles.btnDiv}>
         <button 
           name="control_panel"
           className={styles.homeButton}
@@ -70,8 +79,11 @@ export default function Home(props) {
             name="control_panel"
             className={styles.icon}
             onClick={handleOnClick}
-             />
+          />
         </button>
+        <label>Control Panel</label>
+      </div>
+      <div className={styles.btnDiv}>
         <button
         className={styles.homeButton}
         name="download_wo"
@@ -83,11 +95,17 @@ export default function Home(props) {
         onClick={handleOnClick}
         />
         </button>
+        <label>Download WO</label>
+      </div>
+      <div className={styles.btnDiv}>
         <button onClick={logoutHandler} className={styles.homeButton}>
         <BiLogOut className={styles.icon} />
-        
-
         </button>
+        <label>
+          Logout
+        </label>
+      </div>
+        
       </div>
     </div>
   );
