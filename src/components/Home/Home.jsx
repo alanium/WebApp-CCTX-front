@@ -19,8 +19,12 @@ export default function Home(props) {
   const user = useSelector((state) => state.user);
   const state = useSelector((state) => state)
   const handleOnClick = (event) => {
-    console.log(event.target.name);
-    navigate(`/home/${event.target.name}`);
+    const targetButton = event.target.closest("button");
+  
+    if (targetButton) {
+      console.log(targetButton.name);
+      navigate(`/home/${targetButton.name}`);
+    }
   };
   const logoutHandler = (event) => {
     window.location.reload()
