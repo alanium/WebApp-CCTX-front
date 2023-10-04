@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./FileDownloader.module.css";
+import { ImSpinner8 } from 'react-icons/im'
 
 export function FileDownloader(props) {
   const [worders, setWorders] = useState({});
@@ -94,6 +95,12 @@ export function FileDownloader(props) {
 
   return (
     <div className="global-container">
+      {isSubmitting ? (
+        <div className="global-container" style={{zIndex: 1000}}>
+              <div className={styles.loadingIcon}>
+                <ImSpinner8 className={styles.spin} />
+            </div>
+        </div>) :(null) }
       <div className={styles.titleDiv}>
         <label className="global-card-title" style={{ marginBottom: "20px" }}>
           Download Work Orders
@@ -140,6 +147,7 @@ export function FileDownloader(props) {
             >
               Download All
             </button>
+            
           </div>
         </form>
       ) : (
