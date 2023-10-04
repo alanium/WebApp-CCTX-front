@@ -22,6 +22,7 @@ export default function ViewWorkOrder(props) {
   }, [props]);
 
   return (
+    <div className={styles.centeredContainer}>
     <div>
       {loading ? (
         <div className={styles.loadingIcon}>
@@ -48,6 +49,7 @@ export default function ViewWorkOrder(props) {
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 }
