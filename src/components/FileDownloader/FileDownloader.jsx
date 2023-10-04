@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./FileDownloader.module.css";
+import { BiXCircle } from "react-icons/bi";
 import { ImSpinner8 } from 'react-icons/im'
 
 export function FileDownloader(props) {
@@ -137,6 +138,10 @@ export function FileDownloader(props) {
               </option>
             ))}
           </select>
+          {input["selected_wo"] === "Select a Work Order" && (
+          <p style={{ color: "red" }}>
+            <BiXCircle/> Please select a work order before clicking on submit.
+          </p> )}
           <br />
           <div>
             <button
@@ -157,7 +162,6 @@ export function FileDownloader(props) {
             >
               Download All
             </button>
-            
           </div>
         </form>
       ) : (
