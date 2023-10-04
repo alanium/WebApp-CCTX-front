@@ -78,7 +78,7 @@ function App() {
             path="/home/control_panel"
             element={<ControlPanel obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
             <Route
-            path="/home/FileDownloader"
+            path="/home/download_wo"
             element={<FileDownloader obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
           </Route>
           <Route

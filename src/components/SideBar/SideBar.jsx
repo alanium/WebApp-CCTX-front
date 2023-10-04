@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { BiSolidUserCircle, BiHome, BiLogOut, BiHide, BiShow, BiSolidWrench, BiSolidFileFind} from 'react-icons/bi';
+import { BiSolidUserCircle, BiHome, BiLogOut, BiHide, BiShow, BiSolidWrench, BiSolidFileFind, BiDownload} from 'react-icons/bi';
 import { setAccess, setUser } from '../../redux/actions';
 import styles from './SideBar.module.css';
 
@@ -13,7 +13,7 @@ export default function NavBar(props) {
     window.location.reload()
   };
 
-  const allowedPaths = ["/home/view_wo", "/home/control_panel"]
+  const allowedPaths = ["/home/view_wo", "/home/control_panel", "/home/download_wo"]
 
   if ( allowedPaths.includes(location.pathname))
     return (
@@ -29,6 +29,9 @@ export default function NavBar(props) {
                 </NavLink>
                 <NavLink to="/home/view_wo" className={styles.navLink}>
                 {isSidebarOpen ? <label>View Work Orders</label> : <BiSolidFileFind />}
+                </NavLink>
+                <NavLink to="/home/download_wo" className={styles.navLink}>
+                {isSidebarOpen ? <label>Download Work Orders</label> : <BiDownload />}
                 </NavLink>
                 <NavLink to="/home/control_panel" className={styles.navLink}>
                 {isSidebarOpen ? <label>Control Panel</label> : <BiSolidWrench />}

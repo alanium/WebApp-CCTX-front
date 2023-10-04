@@ -9,7 +9,8 @@ import {
   BiSolidCheckboxChecked,
   BiSolidWrench,
   BiSolidStar,
-  BiLogOut
+  BiLogOut,
+  BiDownload
 } from "react-icons/bi";
 import "../../index.css";
 
@@ -73,10 +74,14 @@ export default function Home(props) {
         </button>
         <button
         className={styles.homeButton}
-        name="FileDownloader"
+        name="download_wo"
         onClick={handleOnClick}
         >
-        Download Work Order
+        <BiDownload
+        className={styles.icon}
+        name="download_wo"
+        onClick={handleOnClick}
+        />
         </button>
         <button onClick={logoutHandler} className={styles.homeButton}>
         <BiLogOut className={styles.icon} />
