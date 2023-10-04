@@ -96,8 +96,8 @@ export function FileDownloader(props) {
   return (
     <div className="global-container">
       {isSubmitting ? (
-        <div className="global-container" style={{zIndex: 1000}}>
-              <div className={styles.loadingIcon}>
+        <div className={styles.spinContainer} style={{zIndex: 1000}}>
+              <div className={styles.spinContainer}>
                 <ImSpinner8 className={styles.spin} />
             </div>
         </div>) :(null) }
