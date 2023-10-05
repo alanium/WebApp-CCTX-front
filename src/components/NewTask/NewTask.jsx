@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from './NewTask.module.css'
 import { useNavigate } from 'react-router-dom'
-
 export function NewTask (props) {
-
     const [processes, setProcesses] = useState([])
     const [projects, setProjects] = useState([])
     const [datos, setDatos] = useState({})
@@ -11,9 +9,7 @@ export function NewTask (props) {
         selected_project:"",
         selected_processes: [],
     })
-
     const navigate = useNavigate()
-
     useEffect(() => {
         async function fetchData() {
           try {
@@ -32,66 +28,51 @@ export function NewTask (props) {
         }
         fetchData();
       }, []);
-
-    const handleProjectChange = (event) => {
-        setInput({ ...input, selected_project:  event.target.value})
-        console.log(input)
-    }
-
+      const handleProjectChange = (event) => {
+        setInput({ ...input, selected_project: event.target.value });
+    };
     const handleProcessChange = (event) => {
-        const processId = event.target.id
+        const processId = event.target.id;
         const isChecked = event.target.checked;
-        if (isChecked) {
-            
-            setInput((prevInput) => ({
-                ...prevInput,
-                selected_processes: [
-                    ...prevInput.selected_processes,
-                    processId
-                ]
-            }))
-        } else {
-            setInput((prevInput) => ({
-                ...prevInput,
-                selected_processes: prevInput.selected_processes.filter(
-                    (process) => process !== processId
-                ),
-            }));
-        }
-        console.log(input)
-    }
-
+        setInput((prevInput) => {
+            if (isChecked) {
+                return {
+                    ...prevInput,
+                    selected_processes: [...prevInput.selected_processes, processId],
+                };
+            } else {
+                return {
+                    ...prevInput,
+                    selected_processes: prevInput.selected_processes.filter(
+                        (process) => process !== processId
+                    ),
+                };
+            }
+        });
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        if (
-            input["selected_project"] !== "Select a Project" &&
-            input["selected_processes"]
-        ) {
-            const jsonData = [
-                {selected_project: input.selected_project},
-                {selected_processes: input.selected_processes}
-            ]
-
-
+        if (input.selected_project !== "Select a Project" && input.selected_processes.length > 0) {
+            const jsonData = {
+                selected_project: input.selected_project,
+                selected_processes: input.selected_processes,
+            };
             props
-                .enviarDatos(jsonData, "asssign_task")
+                .enviarDatos(jsonData, "assign_task")
                 .then((datos) => {
                     if (datos) {
-                        console.log(datos)
+                        console.log(datos);
                     }
                 })
                 .catch((error) => {
-                    console.error("Error: ", error)
+                    console.error("Error: ", error);
                 });
-                console.log(jsonData)
         } else {
-            console.log("Please select a project and a process before clicking submit");
-        }   
+            console.log("Please select a project and at least one process before clicking submit");
+        }
     };
-    
     return (
-        <div className="global-container">
+        <div className="global-container" style={{ position: "fixed"}}>
             <div className={styles.titleDiv}>
             <label className='global-card-title' style={{marginBottom: "20px"}}>
                 Assign New Task
@@ -113,7 +94,7 @@ export function NewTask (props) {
                     >
                     <option>Select a Project</option>
                     {projects.map((selected_project) => (
-                        <option 
+                        <option
                         key={selected_project.id}
                         id={selected_project.id}
                         value={selected_project.id}>
@@ -121,17 +102,16 @@ export function NewTask (props) {
                         </option>
                     ))}
                     </select>
-                    <br />
                     <label
                     className='form-label'
                     style={{ color: "white"}}
                     >
                     Select Processes
                     </label>
+                    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                     {processes.map((process) => (
-                        <div>
+                        <div key={process.id} style={{ display: 'flex', flexDirection: 'row' }}>
                             <input
-                            key={process.id}
                             type="checkbox"
                             id={process.id}
                             name={process.name}
@@ -142,6 +122,8 @@ export function NewTask (props) {
                             </label>
                         </div>
                     ))}
+                    </div>
+                    
                     <hr/>
                     <div>
                         <button
@@ -152,6 +134,8 @@ export function NewTask (props) {
                         Assign Tasks
                         </button>
                     </div>
+                    
+                    <br />
                 </form>
             ) : (
                 <div>
@@ -161,10 +145,12 @@ export function NewTask (props) {
                 </div>
             )}
             </div>
-            <button className="global-button" onClick={() => navigate("/home")}>
-                Back
-            </button>
         </div>
-
     )
 }
+
+
+
+
+
+

@@ -100,7 +100,8 @@ body {
   .global-container {
     width: 100%;
     max-width: 70%;
-    padding: 30px;
+    padding-left: 15%;
+    padding: 40px;
   }
 }
 
