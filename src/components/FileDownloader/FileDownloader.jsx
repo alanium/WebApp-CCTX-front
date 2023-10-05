@@ -101,9 +101,6 @@ export function FileDownloader(props) {
         }
         }
       }
-;
-  
-
   return (
     <div className="global-container">
       {isSubmitting ? (

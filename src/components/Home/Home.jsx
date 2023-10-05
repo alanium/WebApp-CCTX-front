@@ -58,12 +58,16 @@ export default function Home(props) {
         <label>View WO</label>
       </div>
       <div className={styles.btnDiv}>
-        <button className={styles.homeButton}>
+        <button 
+        name="assign_task"
+        onClick={handleOnClick}
+        className={styles.homeButton}>
+        
           <BiSolidStar
             className={styles.icon}
             />
         </button>
-        <label>Placeholder</label>
+        <label>Assign Task</label>
       </div>
       <div className={styles.btnDiv}>
         <button className={styles.homeButton}>

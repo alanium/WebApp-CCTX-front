@@ -45,7 +45,6 @@
   .workOrderGrid {
     grid-template-columns: 1fr;
     padding-left: 15%;
-
   }
 
   .workOrderCard {

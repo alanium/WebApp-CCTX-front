@@ -13,7 +13,7 @@ export default function NavBar(props) {
     window.location.reload()
   };
 
-  const allowedPaths = ["/home/view_wo", "/home/control_panel", "/home/download_wo"]
+  const allowedPaths = ["/home/view_wo", "/home/control_panel", "/home/download_wo", "/home/assign_task"]
 
   if ( allowedPaths.includes(location.pathname))
     return (

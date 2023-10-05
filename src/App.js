@@ -14,12 +14,10 @@ import "./App.css";
 import "./SourceSansPro.css";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
 import { FileDownloader } from "./components/FileDownloader/FileDownloader";
+import { NewTask } from "./components/NewTask/NewTask";
 
 function App() {
   const access = useSelector((state) => state.access);
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const location = useLocation()
 
   const renderNavBar = () => {
     if (access) {
@@ -80,6 +78,9 @@ function App() {
             <Route
             path="/home/download_wo"
             element={<FileDownloader obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
+            <Route
+            path="/home/assign_task"
+            element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
           </Route>
           <Route
             path="/recovery"
