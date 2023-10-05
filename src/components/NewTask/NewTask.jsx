@@ -104,7 +104,7 @@ export function NewTask (props) {
                     </select>
                     <label
                     className='form-label'
-                    style={{ color: "white"}}
+                    style={{margin:"10px", color: "white"}}
                     >
                     Select Processes
                     </label>
