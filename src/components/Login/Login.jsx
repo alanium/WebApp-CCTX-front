@@ -41,7 +41,7 @@ function Login(props) {
       const datos = await props.enviarDatos(input, "login");
   
       if (datos.response === "True") {
-        console.log("Funciona!!!");
+        console.log(datos);
         dispatch(setAccess(true));
         dispatch(setUser(datos));
         navigate("/home");

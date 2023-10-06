@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+.titleDiv {
+  text-align: center; 
+  margin-bottom: 40px;
+}
+
 .workOrderGrid {
   display:grid;
   grid-template-columns: repeat(2, 1fr);

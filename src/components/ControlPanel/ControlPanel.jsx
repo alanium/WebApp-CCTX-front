@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./ControlPanel.module.css";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BiNoEntry } from "react-icons/bi";
 
 export function ControlPanel(props) {
   const [members, setMembers] = useState([]);
@@ -12,6 +14,7 @@ export function ControlPanel(props) {
     new_role: "",
   });
   const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role);
 
   useEffect(() => {
     async function fetchData() {
@@ -64,77 +67,98 @@ export function ControlPanel(props) {
 
   return (
     <div className="global-container">
-      <div className={styles.titleDiv}>
-        <label className="global-card-title" style={{ marginBottom: "20px" }}>
-          Manage Roles
-        </label>
-      </div>
-      {roles.length > 0 && members.length > 0 ? ( // Check if datos is not empty
-        <form>
-          <label
-            htmlFor="selected_user"
-            className="form-label"
-            style={{ color: "white" }}
-          >
-            Select user:
-          </label>
-          <select
-            name="selected_user"
-            id="selected_user"
-            className="global-input-1"
-            onChange={handleMemberChange}
-            value={input["selected_user"]}
-          >
-            <option>Select a User</option>
-            {members.map((selected_user) => (
-              <option key={selected_user} value={selected_user}>
-                {selected_user}
-              </option>
-            ))}
-          </select>
-          <br />
-          <label
-            htmlFor="new_role"
-            className="form-label"
-            style={{ color: "white" }}
-          >
-            New role:
-          </label>
-          <select
-            name="new_role"
-            id="new_role"
-            className="global-input-1"
-            onChange={handleRoleChange}
-            value={input["new_role"]}
-          >
-            <option value="">Select a role</option>
-            {roles.map((new_role) => (
-              <option key={new_role} value={new_role}>
-                {new_role}
-              </option>
-            ))}
-          </select>
-          <br />
-          <div>
-            <button
-              className="global-button"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      ) : (
+      {role === "admin" ? (
         <div>
+          <div className={styles.titleDiv}>
+            <label
+              className="global-card-title"
+              style={{ marginBottom: "20px" }}
+            >
+              Manage Roles
+            </label>
+          </div>
+          {roles.length > 0 && members.length > 0 ? ( // Check if datos is not empty
+            <form>
+              <label
+                htmlFor="selected_user"
+                className="form-label"
+                style={{ color: "white" }}
+              >
+                Select user:
+              </label>
+              <select
+                name="selected_user"
+                id="selected_user"
+                className="global-input-1"
+                onChange={handleMemberChange}
+                value={input["selected_user"]}
+              >
+                <option>Select a User</option>
+                {members.map((selected_user) => (
+                  <option key={selected_user} value={selected_user}>
+                    {selected_user}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <label
+                htmlFor="new_role"
+                className="form-label"
+                style={{ color: "white" }}
+              >
+                New role:
+              </label>
+              <select
+                name="new_role"
+                id="new_role"
+                className="global-input-1"
+                onChange={handleRoleChange}
+                value={input["new_role"]}
+              >
+                <option value="">Select a role</option>
+                {roles.map((new_role) => (
+                  <option key={new_role} value={new_role}>
+                    {new_role}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <div>
+                <button
+                  className="global-button"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div>
+              <div>
+                <p style={{ color: "white" }}>Loading data...</p>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles.titleDiv}>
           <div>
-            <p style={{ color: "white" }}>Loading data...</p>
+            <label className="global-card-title">You Dont Have Access</label>
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              marginBottom: "0px",
+            }}
+          >
+            <label className="global-card-title" style={{ fontSize: "70px" }}>
+              <BiNoEntry />
+            </label>
           </div>
         </div>
       )}
-      <button className="global-button" onClick={() => navigate("/home")}>
-        Back
-      </button>
     </div>
   );
 }

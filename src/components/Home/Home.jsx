@@ -26,6 +26,7 @@ export default function Home(props) {
       navigate(`/home/${targetButton.name}`);
     }
   };
+
   const logoutHandler = (event) => {
     window.location.reload();
   };
