@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { BiSolidUserCircle, BiHome, BiLogOut, BiHide, BiShow, BiSolidWrench, BiSolidFileFind, BiDownload} from 'react-icons/bi';
+import { BiSolidUserCircle, BiHome, BiLogOut, BiHide, BiShow, BiSolidWrench, BiSolidFileFind, BiDownload, BiSolidStar} from 'react-icons/bi';
 import { setAccess, setUser } from '../../redux/actions';
 import styles from './SideBar.module.css';
 
@@ -32,6 +32,9 @@ export default function NavBar(props) {
                 </NavLink>
                 <NavLink to="/home/download_wo" className={styles.navLink}>
                 {isSidebarOpen ? <label>Download Work Orders</label> : <BiDownload />}
+                </NavLink>
+                <NavLink to="/home/assign_task" className={styles.navLink} >
+                {isSidebarOpen ? <label>Assign Tasks</label> : <BiSolidStar />}
                 </NavLink>
                 <NavLink to="/home/control_panel" className={styles.navLink}>
                 {isSidebarOpen ? <label>Control Panel</label> : <BiSolidWrench />}

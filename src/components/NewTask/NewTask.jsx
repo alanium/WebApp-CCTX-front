@@ -110,14 +110,18 @@ export function NewTask (props) {
                     </label>
                     <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                     {processes.map((process) => (
-                        <div key={process.id} style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div key={process.id} style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start'}}>
                             <input
                             type="checkbox"
                             id={process.id}
                             name={process.name}
                             value={process.id}
                             onChange={handleProcessChange} />
-                            <label>
+                            <label
+                            style={{color: "white", textAlign: "justify",
+                            textJustify: "inter-word",
+                            flex: "1"}}
+                            >
                                 {process.name}
                             </label>
                         </div>
