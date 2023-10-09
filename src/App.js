@@ -15,6 +15,12 @@ import "./SourceSansPro.css";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
 import { FileDownloader } from "./components/FileDownloader/FileDownloader";
 import { NewTask } from "./components/NewTask/NewTask";
+import { CreateWo } from "./components/CreateWo/CreateWo";
+import { ViewProjects } from "./components/ViewProjects/ViewProjects";
+import ManageWo from "./components/ManageWo/ManageWo";
+import { ManageRoles } from "./components/ManageRoles/ManageRoles";
+import { ManageTasks } from "./components/MangeTasks/ManageTasks";
+import { ManageProjects } from "./components/ManageProjects/ManageProjects";
 
 function App() {
   const access = useSelector((state) => state.access);
@@ -29,7 +35,7 @@ function App() {
 
   async function enviarDatos(datos, ruta) {
     try {
-      const response = await fetch(`https://alanium.pythonanywhere.com/${ruta}`, {
+      const response = await fetch(`http://127.0.0.1:5000/${ruta}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +54,7 @@ function App() {
 
   async function obtenerJSON(ruta) {
     try {
-      const response = await fetch(`https://alanium.pythonanywhere.com/${ruta}`);
+      const response = await fetch(`http://127.0.0.1:5000/${ruta}`);
   
       if (!response.ok) {
         throw new Error("La solicitud no fue exitosa");
@@ -67,20 +73,38 @@ function App() {
       {renderNavBar()}
       <Routes>
         <Route element={<PrivateRoutes />}>
-            <Route path="/home" exact element={<Home enviarDatos={enviarDatos} />} />
+            <Route path="/home" exact element={<Home />} />
             <Route
-              path="/home/view_wo"
+              path="/home/manage_wo/view_wo"
               element={<ViewWorkOrder obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />}
             />
             <Route
-            path="/home/control_panel"
-            element={<ControlPanel obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
+            path="/home/manage_tasks/"
+            element={<ManageTasks obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
             <Route
-            path="/home/download_wo"
+            path="/home/control_panel/manage_roles"
+            element={<ManageRoles obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
+            <Route
+            path="/home/manage_wo/download_wo"
             element={<FileDownloader obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
             <Route
-            path="/home/assign_task"
+            path="/home/manage_tasks/assign_task"
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
+            <Route
+            path="/home/manage_wo/create_wo"
+            element={<CreateWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
+            <Route
+            path="/home/manage_projects/view_projects"
+            element={<ViewProjects obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} /> } />
+            <Route
+            path="/home/manage_wo"
+            element={<ManageWo />} />
+            <Route
+            path="/home/control_panel"
+            element={<ControlPanel  />} />
+            <Route
+            path="/home/manage_projects"
+            element={<ManageProjects />} />
           </Route>
           <Route
             path="/recovery"

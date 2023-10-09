@@ -46,28 +46,31 @@ export default function Home(props) {
         <div className={styles.btnDiv}>
           <button
             className={styles.homeButton}
-            name="view_wo"
+            name="manage_wo"
             onClick={handleOnClick}
           >
             <BiSolidFileFind name="view_wo" className={styles.icon} />
           </button>
-          <label>View WO</label>
+          <label>Manage WO</label>
         </div>
         <div className={styles.btnDiv}>
           <button 
-          name="assign_task"
+          name="manage_tasks"
           className={styles.homeButton}
           onClick={handleOnClick}
           >
             <BiSolidStar className={styles.icon} />
           </button>
-          <label>Assign Task</label>
+          <label>Manage Tasks</label>
         </div>
         <div className={styles.btnDiv}>
-          <button className={styles.homeButton}>
+          <button
+          name="manage_projects"
+          onClick={handleOnClick} 
+          className={styles.homeButton}>
             <BiSolidCheckboxChecked className={styles.icon} />
           </button>
-          <label>Placeholder</label>
+          <label>Manage Projects</label>
         </div>
         <div className={styles.btnDiv}>
           <button
@@ -86,7 +89,7 @@ export default function Home(props) {
         <div className={styles.btnDiv}>
           <button
             className={styles.homeButton}
-            name="download_wo"
+            name=""
             onClick={handleOnClick}
           >
             <BiDownload
@@ -95,7 +98,7 @@ export default function Home(props) {
               onClick={handleOnClick}
             />
           </button>
-          <label>Download WO</label>
+          <label>Placeholder</label>
         </div>
         <div className={styles.btnDiv}>
           <button onClick={logoutHandler} className={styles.homeButton}>

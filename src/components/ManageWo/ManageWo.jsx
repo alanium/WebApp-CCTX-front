@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { setAccess, setUser } from "../../redux/actions";
-import styles from "./ControlPanel.module.css";
+import styles from "./ManageWo.module.css";
 import {
   BiSolidUserCircle,
   BiSolidFileFind,
@@ -14,7 +14,7 @@ import {
 } from "react-icons/bi";
 import "../../index.css";
 
-export function ControlPanel(props) {
+export default function ManageWo(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const state = useSelector((state) => state);
@@ -23,7 +23,7 @@ export function ControlPanel(props) {
 
     if (targetButton) {
       console.log(targetButton.name);
-      navigate(`/home/control_panel/${targetButton.name}`);
+      navigate(`/home/manage_wo/${targetButton.name}`);
     }
   };
 
@@ -38,20 +38,41 @@ export function ControlPanel(props) {
           <label className="global-card-subtitle">Hello, {user.fullname}</label>
         </div>
       </div>
-      <div className={styles.btnDiv}>
+      <div className={styles.buttonsDiv}>
+        <div className={styles.btnDiv}>
           <button
-            name="manage_roles"
             className={styles.homeButton}
+            name="view_wo"
             onClick={handleOnClick}
           >
-            <BiSolidWrench
-              name="manage_roles"
+            <BiSolidFileFind name="view_wo" className={styles.icon} />
+          </button>
+          <label>View WO</label>
+        </div>
+        <div className={styles.btnDiv}>
+          <button
+          name="create_wo"
+          onClick={handleOnClick} 
+          className={styles.homeButton}>
+            <BiSolidCheckboxChecked className={styles.icon} />
+          </button>
+          <label>Create WO</label>
+        </div>
+        <div className={styles.btnDiv}>
+          <button
+            className={styles.homeButton}
+            name="download_wo"
+            onClick={handleOnClick}
+          >
+            <BiDownload
               className={styles.icon}
+              name="download_wo"
               onClick={handleOnClick}
             />
           </button>
-          <label>Manage Roles</label>
+          <label>Download WO</label>
         </div>
       </div>
+    </div>
   );
 }
