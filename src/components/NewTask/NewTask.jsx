@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./NewTask.module.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BiNoEntry } from "react-icons/bi";
+import { BiNoEntry, BiXCircle } from "react-icons/bi";
 import { ImSpinner8 } from "react-icons/im";
 export function NewTask(props) {
   const [processes, setProcesses] = useState([]);
@@ -10,6 +10,7 @@ export function NewTask(props) {
   const [datos, setDatos] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(false);
   const [input, setInput] = useState({
     selected_project: "",
     selected_processes: [],
@@ -60,6 +61,7 @@ export function NewTask(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setError(false);
     if (
       input.selected_project !== "Select a Project" &&
       input.selected_processes.length > 0
@@ -87,6 +89,7 @@ export function NewTask(props) {
         });
     } else {
       setIsSubmitting(false);
+      setError(true);
       console.log(
         "Please select a project and at least one process before clicking submit"
       );
@@ -172,7 +175,6 @@ export function NewTask(props) {
                       </div>
                     ))}
                   </div>
-
                   <hr />
                   <div>
                     <button
@@ -182,8 +184,10 @@ export function NewTask(props) {
                     >
                       Assign Tasks
                     </button>
+                    { error ? 
+                        <p style={{ color: "red" }} > <BiXCircle/> Please select a project and a process before submitting the form</p>  : null
+                    }
                   </div>
-
                   <br />
                 </form>
               ) : (

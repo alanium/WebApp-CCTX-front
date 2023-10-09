@@ -3,12 +3,13 @@ import styles from "./ControlPanel.module.css";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BiNoEntry } from "react-icons/bi";
+import { BiNoEntry, BiXCircle } from "react-icons/bi";
 
 export function ManageRoles(props) {
   const [members, setMembers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [datos, setDatos] = useState({});
+  const [error, setError] = useState(false);
   const [input, setInput] = useState({
     selected_user: "",
     new_role: "",
@@ -46,6 +47,7 @@ export function ManageRoles(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError(false)
     if (
       input["new_role"] !== "Select a role" &&
       input["selected_user"] !== "Select"
@@ -54,7 +56,9 @@ export function ManageRoles(props) {
         .enviarDatos(input, "control_panel")
         .then((datos) => {
           if (datos) {
-            console.log(datos);
+            if (datos.response == "False") {
+              setError(true)
+            } else {navigate("/home")}
           }
         })
         .catch((error) => {
@@ -62,6 +66,7 @@ export function ManageRoles(props) {
         });
     } else {
       console.log("Please select a user and a role before clicking submit");
+      setError(true)
     }
   };
 
@@ -131,6 +136,9 @@ export function ManageRoles(props) {
                 >
                   Submit
                 </button>
+                { error ? 
+                  <p style={{ color: "red" }} > <BiXCircle/> Please select a user and a role before submitting the form</p>  : null
+                }
               </div>
             </form>
           ) : (

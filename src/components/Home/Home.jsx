@@ -17,7 +17,6 @@ import "../../index.css";
 export default function Home(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const state = useSelector((state) => state);
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
