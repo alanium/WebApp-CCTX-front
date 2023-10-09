@@ -24,9 +24,9 @@ import { ManageProjects } from "./components/ManageProjects/ManageProjects";
 
 function App() {
   const access = useSelector((state) => state.access);
-
+  const location = useLocation()
   const renderNavBar = () => {
-    if (access) {
+    if (access && location.pathname != "/home") {
       return <SideBar />;
     }
     return null;
@@ -35,7 +35,7 @@ function App() {
 
   async function enviarDatos(datos, ruta) {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/${ruta}`, {
+      const response = await fetch(`https://alanium.pythonanywhere.com/${ruta}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ function App() {
 
   async function obtenerJSON(ruta) {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/${ruta}`);
+      const response = await fetch(`https://alanium.pythonanywhere.com/${ruta}`);
   
       if (!response.ok) {
         throw new Error("La solicitud no fue exitosa");

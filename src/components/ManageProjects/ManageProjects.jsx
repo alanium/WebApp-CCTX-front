@@ -27,10 +27,6 @@ export function ManageProjects(props) {
     }
   };
 
-  const logoutHandler = (event) => {
-    window.location.reload();
-  };
-
   return (
     <div className={styles.homeContainer}>
       <div style={{ textAlign: "center" }}>

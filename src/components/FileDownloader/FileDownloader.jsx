@@ -52,7 +52,7 @@ export function FileDownloader(props) {
       return; // Exit the function early
     } else {
       try {
-        const response = await fetch("http://127.0.0.1:5000/wo", {
+        const response = await fetch("https://alanium.pythonanywhere.com/wo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

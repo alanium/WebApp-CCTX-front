@@ -13,7 +13,7 @@ export default function NavBar(props) {
     window.location.reload();
   };
 
-  const blockedPaths = ["/", "/login", "/register", "/recovery", "*"];
+  const blockedPaths = ["/", "/login", "/register", "/recovery", "*", "/home"];
 
   // Check if the current path is blocked
   const isPathBlocked = blockedPaths.includes(location.pathname);
