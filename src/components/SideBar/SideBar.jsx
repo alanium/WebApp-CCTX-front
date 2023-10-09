@@ -45,7 +45,7 @@ export default function NavBar(props) {
               <NavLink to="/home/manage_tasks/" className={styles.navLink} >
                 {isSidebarOpen ? <label>Manage Tasks</label> : <BiSolidStar />}
               </NavLink>
-              <NavLink to="/home/assign_task" className={styles.navLink} >
+              <NavLink to="/home/manage_tasks/assign_task" className={styles.navLink} >
                 {isSidebarOpen ? <label>Assign Tasks</label> : <BiSolidStar />}
               </NavLink>
               <NavLink to="/home/control_panel" className={styles.navLink}>
