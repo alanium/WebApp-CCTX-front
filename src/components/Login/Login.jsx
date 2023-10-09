@@ -26,12 +26,18 @@ function Login(props) {
 
   const [data, setData] = useState({})
 
-  const handleChange = (event) => {
+  const handleChangeUsername = (event) => {
     setInput({
       ...input,
-      [event.target.name]: event.target.value,
+      username: event.target.value.toLowerCase(),
     });
-    console.log(input);
+  };
+
+  const handleChangePassword = (event) => {
+    setInput({
+      ...input,
+      password: event.target.value
+    });
   };
 
   const handleLogin = async (event) => {
@@ -71,7 +77,7 @@ function Login(props) {
           <input
             className="global-input-1"
             name="username"
-            onChange={handleChange}
+            onChange={handleChangeUsername}
             type="text"
             placeholder="Username"
             style={{marginTop: "10px"}}
@@ -86,7 +92,7 @@ function Login(props) {
           <input
             className="global-input-1"
             name="password"
-            onChange={handleChange}
+            onChange={handleChangePassword}
             type="password"
             placeholder="Password"
             style={{marginTop: "10px"}}
