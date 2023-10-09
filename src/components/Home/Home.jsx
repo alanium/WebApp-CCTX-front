@@ -21,7 +21,7 @@ export default function Home(props) {
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
-    if (targetButton) {
+    if (targetButton && targetButton.name) {
       console.log(targetButton.name);
       navigate(`/home/${targetButton.name}`);
     }
@@ -89,7 +89,6 @@ export default function Home(props) {
         <div className={styles.btnDiv}>
           <button
             className={styles.homeButton}
-            name=""
             onClick={handleOnClick}
           >
             <BiDownload
