@@ -33,24 +33,29 @@ function App() {
   };
 
 
-  async function enviarDatos(datos, ruta) {
+  async function enviarDatos(datos, ruta, action = undefined) {
     try {
+      let bodyData = JSON.stringify(datos);
+      if (action !== undefined) {
+        datos.action = action
+        bodyData = JSON.stringify( datos );
+      }
       const response = await fetch(`https://alanium.pythonanywhere.com/${ruta}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(datos),
+        body: bodyData,
       });
-  
-  
-      const data = await response.json();
-      return data;
+      const responseData = await response.json();
+      return responseData;
     } catch (error) {
       console.error("Error:", error);
       throw error; // Rethrow the error for further handling if needed
     }
   }
+
+
 
   async function obtenerJSON(ruta) {
     try {
