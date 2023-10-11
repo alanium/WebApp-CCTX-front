@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { WoPreview } from "../WoPreview/WoPreview";
 import styles from "./CreateWo.module.css";
 
 export function CreateWo(props) {
@@ -9,13 +10,22 @@ export function CreateWo(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const [input, setInput] = useState({});
-  const [taskInput, setTaskInput] = useState({
-    tasks: [],
+  const [projectId, setProjectId] = useState({
+    project_name: "",
+    project_id: "",
   });
-  const [subcontractor, setSubcontractor] = useState({})
+  const [taskId, setTaskId] = useState({
+    task_name: [],
+    task_id: [],
+  });
+  const [subId, setSubId] = useState({
+    sub_name: "",
+    sub_id: "",
+  });
   const role = useSelector((state) => state.user.role);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isTaskReady, setIsTaskReady] = useState(false);
+  const [isWoReady, setIsWoReady] = useState(false);
   const [submitCounter, setSubmitcounter] = useState(0);
 
   useEffect(() => {
@@ -37,65 +47,93 @@ export function CreateWo(props) {
   }, []);
 
   const changeHandler = (event) => {
+    setProjectId({
+      project_name:
+        event.target.options[event.target.selectedIndex].getAttribute("name"),
+      project_id:
+        event.target.options[event.target.selectedIndex].getAttribute("id"),
+      action: "preview",
+    });
     setInput({
-      id: event.target.options[event.target.selectedIndex].getAttribute("id"),
+      project_id:
+        event.target.options[event.target.selectedIndex].getAttribute("id"),
       action: "get_task",
     });
     console.log(input);
   };
 
-  const subcontractorChangeHandler = (event) => {
-    setSubcontractor({
-      subcontractor: event.target.options[event.target.selectedIndex].getAttribute("id"),
+  const subChangeHandler = (event) => {
+    setSubId({
+      sub_name:
+        event.target.options[event.target.selectedIndex].getAttribute("name"),        
+      sub_id:
+        event.target.options[event.target.selectedIndex].getAttribute("id"),
       action: "preview",
     });
-    console.log(input);
+    console.log(subId);
   };
 
   const handleTaskChange = (event) => {
+    const taskName = event.target.name;
     const taskId = event.target.id;
     const isChecked = event.target.checked;
-    setTaskInput((prevInput) => {
+    setTaskId((prevInput) => {
       if (isChecked) {
         return {
-          tasks: [...prevInput.tasks, taskId],
-          action: "get_subcontractor",
+          task_name: [...prevInput.task_name, taskName],
+          task_id: [...prevInput.task_id, taskId],
+          action: "preview",
         };
       } else {
         return {
-          tasks: prevInput.tasks.filter((task) => task !== taskId),
-          action: "get_subcontractor",
+          task_name: prevInput.task_name.filter((task) => task !== taskName),
+          task_id: prevInput.task_id.filter((task) => task !== taskId),
+          action: "preview",
         };
       }
     });
-    console.log(taskInput);
+    console.log(taskId);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (input.id !== null || (taskInput.tasks && taskInput.tasks.length > 0)) {
+    if (input.id !== null || (taskId.task_id && taskId.task_id.length > 0)) {
       try {
         let result;
 
         // Check conditions to determine what to submit
         if (submitCounter == 0) {
-          result = await props.enviarDatos(input, "generate_wo")
+          result = await props.enviarDatos({
+            project_id: projectId.project_id,
+            action: "get_task"
+          }, "generate_wo");
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
-          result = await props.enviarDatos(taskInput, "generate_wo")
+          result = await props.enviarDatos(
+            { action: "get_subcontractor" },
+            "generate_wo"
+          );
           setIsTaskReady(true);
         } else if (submitCounter == 2) {
-          result = await props.enviarDatos(subcontractor, "generate_wo")
+          console.log([projectId, taskId, subId]);
+          result = await props.enviarDatos(
+            {
+              project_id: projectId.project_id,
+              task_id: taskId.task_id,
+              sub_id: subId.sub_id,
+              action: "preview",
+            },
+            "generate_wo"
+          );
+          setIsWoReady(true);
         }
         setSubmitcounter(submitCounter + 1);
-        console.log(submitCounter)
+        console.log(submitCounter);
         if (result) {
           console.log(result);
           setWorders(result);
-          setIsProjectReady(true);
-          if (submitCounter == 2) setIsTaskReady(true);
         }
       } catch (error) {
         console.error("Error: ", error);
@@ -122,36 +160,47 @@ export function CreateWo(props) {
               <div>
                 {isTaskReady ? (
                   <div>
-                    <form>
-                      <label className="form-label" style={{ color: "white" }}>
-                        Select Conractor
-                      </label>
-                      <select
-                        name="contractors"
-                        id="contractors"
-                        className="global-input-1"
-                        onChange={subcontractorChangeHandler}
-                      >
-                        <option>Select a Contractor</option>
-                        {worders.map((contractor) => (
-                          <option
-                            key={contractor.id}
-                            id={contractor.id}
-                            name={contractor.name}
-                          >
-                            {contractor.name}
-                          </option>
-                        ))}
-                      </select>
-                      <br />
-                      <button
-                        className="global-button"
-                        type="submit"
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </button>
-                    </form>
+                    {isWoReady ? (
+                      <WoPreview
+                      project={projectId}
+                      sub={subId}
+                      task={taskId}
+                      />
+                    ) : (
+                      <form>
+                        <label
+                          className="form-label"
+                          style={{ color: "white" }}
+                        >
+                          Select Conractor
+                        </label>
+                        <select
+                          name="contractors"
+                          id="contractors"
+                          className="global-input-1"
+                          onChange={subChangeHandler}
+                        >
+                          <option>Select a Contractor</option>
+                          {worders.map((contractor) => (
+                            <option
+                              key={contractor.id}
+                              id={contractor.id}
+                              name={contractor.name}
+                            >
+                              {contractor.name}
+                            </option>
+                          ))}
+                        </select>
+                        <br />
+                        <button
+                          className="global-button"
+                          type="submit"
+                          onClick={handleSubmit}
+                        >
+                          Submit
+                        </button>
+                      </form>
+                    )}
                   </div>
                 ) : (
                   <div>
