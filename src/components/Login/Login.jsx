@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions";
+import { loginUser, setSuccess } from "../../redux/actions";
 import { setAccess, setUser } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import styles from "../Login/Login.module.css";
@@ -10,6 +10,7 @@ import "../../index.css";
 
 function Login(props) {
   const access = useSelector((state) => state.access);
+  const success = useSelector((state) => state.succes)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [clickCount, setClick] = useState(0)
@@ -138,6 +139,16 @@ function Login(props) {
           </div>
         </div>
       </form>
+      {success ? 
+      <div className={styles.popupContainer}>
+        <div className="global-container">
+        <label className="form-label" style={{color: "white"}}>
+          Operation Successful
+        </label>
+        <button className="global-button" onClick={() => dispatch(setSuccess(false))}>Close</button>
+        </div>
+      </div>  : null
+    }
     </div>
   );
 }

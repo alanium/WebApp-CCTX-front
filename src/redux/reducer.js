@@ -1,6 +1,7 @@
 const initialState = {
     access: false,
-    user: undefined
+    user: undefined,
+    success: false,
   };
   
   const accessReducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ const initialState = {
           ...state,
           user: action.payload
         }
+        case "SET_SUCCESS":
+          return {
+            ...state,
+            success: action.payload
+          }
       default:
         return state;
     }

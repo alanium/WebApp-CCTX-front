@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BiXCircle } from "react-icons/bi";
 import styles from "../../index.css";
+import { MdEmail } from "react-icons/md";
+import { FaKey } from "react-icons/fa6";
 
 
 export default function Recovery(props) {
@@ -49,13 +51,25 @@ const [click, setClick] = useState(0)
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            style={{marginTop: "10px"}}
+            style={{
+              marginTop: "10px",
+              paddingLeft: "30px",}}
             className="global-input-1"
             name="email"
             type="text"
             placeholder="Email"
             onChange={handleChange}
-          ></input>
+          />
+          <MdEmail className="icon"
+          style={{
+            fontSize: "14px",
+            top: "37%",
+            color: "rgb(156, 156, 156)",
+            position: "absolute",
+            right: "14%",
+            transform: "translateY(-50%)",
+          }}
+          />
         </div>
         <div>
           <input
@@ -65,7 +79,15 @@ const [click, setClick] = useState(0)
             type="text"
             placeholder="Recovery code"
             onChange={handleChange}
-          ></input>
+          />
+          <FaKey style={{
+            fontSize: "14px",
+            top: "61%",
+            color: "rgb(156, 156, 156)",
+            position: "absolute",
+            right: "14%",
+            transform: "translateY(-50%)",
+          }} />
         </div>
         <div>
           <input
@@ -75,7 +97,15 @@ const [click, setClick] = useState(0)
             type="password"
             placeholder="New password"
             onChange={handleChange}
-          ></input>
+          />
+           <FaKey style={{
+            fontSize: "14px",
+            top: "49%",
+            color: "rgb(156, 156, 156)",
+            position: "absolute",
+            right: "14%",
+            transform: "translateY(-50%)",
+          }} />
           { validate === "False" && click > 0 ? <p style={{ color: "red" }} > <BiXCircle/> Invalid credentials</p>  : null }
         </div>
         <button

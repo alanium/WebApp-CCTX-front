@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./NewTask.module.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
 import { ImSpinner8 } from "react-icons/im";
+import { setSuccess } from "../../redux/actions";
 export function NewTask(props) {
   const [processes, setProcesses] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -15,8 +16,10 @@ export function NewTask(props) {
     selected_project: "",
     selected_processes: [],
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role);
+  const success = useSelector((state) => state.success)
   useEffect(() => {
     async function fetchData() {
       try {
@@ -63,7 +66,7 @@ export function NewTask(props) {
     setIsSubmitting(true);
     setError(false);
     if (
-      input.selected_project !== "Select a Project" &&
+      input.selected_project !== "Select a Project" && input.selected_project !== "" &&
       input.selected_processes.length > 0
     ) {
       const jsonData = {
@@ -79,6 +82,7 @@ export function NewTask(props) {
               selected_project: "",
               selected_processes: [],
             })
+            dispatch(setSuccess(true))
             navigate("/home")
             setIsSubmitting(false);
           }
@@ -99,6 +103,7 @@ export function NewTask(props) {
     <div className="global-container" style={{ position: "fixed" }}>
       {role !== "member" ? (
         <div>
+          {}
           <div>
           {isSubmitting ? (
             <div className={styles.spinContainer} style={{ zIndex: 1000 }}>

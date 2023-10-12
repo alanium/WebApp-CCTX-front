@@ -31,8 +31,7 @@ export default function ManageWo(props) {
     <div className={styles.homeContainer}>
       <div style={{ textAlign: "center" }}>
         <BiSolidUserCircle
-          className={styles.icon}
-          style={{ color: "white", fontSize: 200 }}
+          className={styles.bigIcon}
         />
         <div className={styles.titleDiv}>
           <label className="global-card-subtitle">Hello, {user.fullname}</label>

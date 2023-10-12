@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { setAccess, setUser } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccess, setSuccess, setUser } from "../../redux/actions";
 import styles from "./Home.module.css";
 import {
   BiSolidUserCircle,
@@ -17,6 +17,8 @@ import "../../index.css";
 export default function Home(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const success = useSelector((state) => state.success)
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
@@ -105,6 +107,16 @@ export default function Home(props) {
           <label>Logout</label>
         </div>
       </div>
+      {success ? 
+      <div className={styles.popupContainer}>
+        <div className="global-container">
+        <label className="form-label" style={{color: "white"}}>
+          Operation Successful
+        </label>
+        <button className="global-button" onClick={() => dispatch(setSuccess(false))}>Close</button>
+        </div>
+      </div>  : null
+    }
     </div>
   );
 }

@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./FileDownloader.module.css";
 import { BiXCircle } from "react-icons/bi";
 import { ImSpinner8 } from "react-icons/im";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiNoEntry } from "react-icons/bi";
+import { setSuccess } from "../../redux/actions";
 
 export function FileDownloader(props) {
   const [worders, setWorders] = useState({});
@@ -16,6 +17,10 @@ export function FileDownloader(props) {
   const navigate = useNavigate();
   const [click, setClick] = useState(0);
   const role = useSelector((state) => state.user.role);
+  const dispatch = useDispatch();
+  const success = useSelector((state) => state.success)
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -76,6 +81,8 @@ export function FileDownloader(props) {
             a.click();
             window.URL.revokeObjectURL(url);
             setIsSubmitting(false);
+            dispatch(setSuccess(true))
+            navigate("/home")
             console.log("Llegué 1");
           } else if (contentType.includes("application/zip")) {
             // Si la respuesta es un archivo ZIP, descárgalo
@@ -88,6 +95,8 @@ export function FileDownloader(props) {
             a.click();
             window.URL.revokeObjectURL(url);
             setIsSubmitting(false);
+            dispatch(setSuccess(true))
+            navigate("/home")
             console.log("Llegué 2");
           } else {
             console.error("Tipo de archivo no compatible.");

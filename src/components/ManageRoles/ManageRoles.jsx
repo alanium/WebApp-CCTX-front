@@ -2,20 +2,25 @@ import React, { useState, useEffect } from "react";
 import styles from "./ControlPanel.module.css";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
+import { setSuccess } from "../../redux/actions";
+import { ImSpinner8 } from "react-icons/im";
 
 export function ManageRoles(props) {
   const [members, setMembers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [datos, setDatos] = useState({});
   const [error, setError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [input, setInput] = useState({
     selected_user: "",
     new_role: "",
   });
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role);
+  const dispatch = useDispatch()
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -47,6 +52,7 @@ export function ManageRoles(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
     setError(false)
     if (
       input["new_role"] !== "Select a role" &&
@@ -58,7 +64,9 @@ export function ManageRoles(props) {
           if (datos) {
             if (datos.response == "False") {
               setError(true)
-            } else {navigate("/home")}
+            } else {
+              dispatch(setSuccess(true))
+              navigate("/home")}
           }
         })
         .catch((error) => {
@@ -74,6 +82,13 @@ export function ManageRoles(props) {
     <div className="global-container">
       {role === "admin" ? (
         <div>
+          {isSubmitting ? (
+            <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
+              <div className={styles.spinContainer}>
+                <ImSpinner8 className={styles.spin} />
+              </div>
+            </div>
+          ) : null}
           <div className={styles.titleDiv}>
             <label
               className="global-card-title"
