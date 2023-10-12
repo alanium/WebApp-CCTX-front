@@ -15,6 +15,10 @@ export function CreateWo(props) {
     project_name: "",
     project_id: "",
   });
+  const [category, setCategory] = useState({
+    category_name: "",
+    category_id: [],
+  })
   const [taskId, setTaskId] = useState({
     task_name: [],
     task_id: [],
@@ -24,6 +28,7 @@ export function CreateWo(props) {
     sub_id: "",
   });
   const role = useSelector((state) => state.user.role);
+  const [isCategoryReady, setIsCategoryReady] = useState(false)
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isTaskReady, setIsTaskReady] = useState(false);
   const [isWoReady, setIsWoReady] = useState(false);
@@ -62,6 +67,28 @@ export function CreateWo(props) {
     });
     console.log(input);
   };
+
+  const catChangeHandler = (event) => {
+    const catName = event.target.name
+    const catId = event.target.id
+    const isChecked = event.target.checked;
+
+    setCategory((prevInput) => {
+      if (isChecked) {
+        return {
+          category_name: [...prevInput.category_name, catName],
+          category_id: [...prevInput.category_id, catId],
+          action: "preview",
+        };
+      } else {
+        return {
+          category_name: prevInput.category_name.filter((task) => task !== catName),
+          category_id: prevInput.category_id.filter((task) => task !== catId),
+          action: "preview",
+        };
+      }
+    });
+  }
 
   const subChangeHandler = (event) => {
     setSubId({
@@ -108,19 +135,31 @@ export function CreateWo(props) {
         if (submitCounter == 0) {
           result = await props.enviarDatos(
             {
-              project_id: projectId.project_id,
-              action: "get_task",
+              action: "get_category",
             },
             "generate_wo"
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
-            { action: "get_subcontractor" },
+            { 
+              action: "get_master",
+              category_id: category.category_id
+          },
             "generate_wo"
           );
-          setIsTaskReady(true);
+          setIsCategoryReady(true);
         } else if (submitCounter == 2) {
+          result = await props.enviarDatos(
+            { action: "get_process" },
+            "generate_wo"
+          );
+          } else if (submitCounter == 3) {
+            result = await props.enviarDatos(
+              { action: "get_subcontractor" },
+              "generate_wo"
+            );
+        } else if (submitCounter == 4) {
           console.log([projectId, taskId, subId]);
           result = await props.enviarDatos(
             {
@@ -152,16 +191,16 @@ export function CreateWo(props) {
 
   return (
     <div className="global-container">
-                {isSubmitting ? (
-            <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
-              <div className={styles.spinContainer}>
-                <ImSpinner8 className={styles.spin} />
-              </div>
-            </div>
-          ) : null}
+      {isSubmitting ? (
+        <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
+          <div className={styles.spinContainer}>
+            <ImSpinner8 className={styles.spin} />
+          </div>
+        </div>
+      ) : null}
       <div className={styles.titleDiv}>
         <label className="global-card-title" style={{ marginBottom: "20px" }}>
-          Generte Work Order
+          Generate Work Order
         </label>
       </div>
       {role !== "member" ? (
@@ -174,100 +213,155 @@ export function CreateWo(props) {
             <div>
               {isProjectReady ? (
                 <div>
-                  {isTaskReady ? (
+                  {isCategoryReady ? (
                     <div>
-                      {isWoReady ? (
-                        <WoPreview
-                          project={projectId}
-                          sub={subId}
-                          task={taskId}
-                        />
-                      ) : (
-                        <form>
-                          <label
-                            className="form-label"
-                            style={{ color: "white" }}
-                          >
-                            Select Conractor
-                          </label>
-                          <select
-                            name="contractors"
-                            id="contractors"
-                            className="global-input-1"
-                            onChange={subChangeHandler}
-                          >
-                            <option>Select a Contractor</option>
-                            {worders.map((contractor) => (
-                              <option
-                                key={contractor.id}
-                                id={contractor.id}
-                                name={contractor.name}
+                      {isTaskReady ? (
+                        <div>
+                          {isWoReady ? (
+                            <WoPreview
+                              project={projectId}
+                              sub={subId}
+                              task={taskId}
+                            />
+                          ) : (
+                            <form>
+                              <label
+                                className="form-label"
+                                style={{ color: "white" }}
                               >
-                                {contractor.name}
-                              </option>
-                            ))}
-                          </select>
-                          <br />
-                          <button
-                            className="global-button"
-                            type="submit"
-                            onClick={handleSubmit}
-                          >
-                            Submit
-                          </button>
-                        </form>
+                                Select Contractor
+                              </label>
+                              <select
+                                name="contractors"
+                                id="contractors"
+                                className="global-input-1"
+                                onChange={subChangeHandler}
+                              >
+                                <option>Select a Contractor</option>
+                                {worders.map((contractor) => (
+                                  <option
+                                    key={contractor.id}
+                                    id={contractor.id}
+                                    name={contractor.name}
+                                  >
+                                    {contractor.name}
+                                  </option>
+                                ))}
+                              </select>
+                              <br />
+                              <button
+                                className="global-button"
+                                type="submit"
+                                onClick={handleSubmit}
+                              >
+                                Submit
+                              </button>
+                            </form>
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          <form>
+                            <label
+                              className="form-label"
+                              style={{ color: "white" }}
+                            >
+                              Edit Tasks
+                            </label>
+                            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                              {worders.map((task) => (
+                                <div
+                                  key={task.id}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "flex-start",
+                                  }}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    id={task.id}
+                                    name={task.name}
+                                    value={task.id}
+                                    onChange={handleTaskChange}
+                                  />
+                                  <label
+                                    style={{
+                                      color: "white",
+                                      textAlign: "justify",
+                                      textJustify: "inter-word",
+                                      flex: "1",
+                                    }}
+                                  >
+                                    {task.name}
+                                  </label>
+                                </div>
+                              ))}
+                              <div>
+                                <button
+                                  type="submit"
+                                  className="global-button"
+                                  onClick={handleSubmit}
+                                >
+                                  Edit Tasks
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
                       )}
                     </div>
                   ) : (
                     <div>
-                      <form>
-                        <label
-                          className="form-label"
-                          style={{ color: "white" }}
-                        >
-                          Edit Tasks
-                        </label>
-                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                          {worders.map((task) => (
-                            <div
-                              key={task.id}
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "flex-start",
-                              }}
+                          <form>
+                            <label
+                              className="form-label"
+                              style={{ color: "white" }}
                             >
-                              <input
-                                type="checkbox"
-                                id={task.id}
-                                name={task.name}
-                                value={task.id}
-                                onChange={handleTaskChange}
-                              />
-                              <label
-                                style={{
-                                  color: "white",
-                                  textAlign: "justify",
-                                  textJustify: "inter-word",
-                                  flex: "1",
-                                }}
-                              >
-                                {task.name}
-                              </label>
+                              Select Category
+                            </label>
+                            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                              {worders.map((task) => (
+                                <div
+                                  key={task.id}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "flex-start",
+                                  }}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    id={task.id}
+                                    name={task.category}
+                                    value={task.id}
+                                    onChange={catChangeHandler}
+                                  />
+                                  <label
+                                    style={{
+                                      color: "white",
+                                      textAlign: "justify",
+                                      textJustify: "inter-word",
+                                      flex: "1",
+                                    }}
+                                  >
+                                    {task.category}
+                                  </label>
+                                </div>
+                              ))}
+                              <div>
+ 
+                              </div>
                             </div>
-                          ))}
-                          <div>
                             <button
-                              type="submit"
-                              className="global-button"
-                              onClick={handleSubmit}
-                            >
-                              Edit Tasks
-                            </button>
-                          </div>
+                                  type="submit"
+                                  className="global-button"
+                                  onClick={handleSubmit}
+                                >
+                                  Select Category
+                                </button>
+                          </form>
                         </div>
-                      </form>
-                    </div>
                   )}
                 </div>
               ) : (
@@ -310,7 +404,7 @@ export function CreateWo(props) {
       ) : (
         <div className={styles.titleDiv}>
           <div>
-            <label className="global-card-title">You Dont Have Access</label>
+            <label className="global-card-title">You Don't Have Access</label>
           </div>
           <div
             style={{
