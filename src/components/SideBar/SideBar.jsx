@@ -5,7 +5,7 @@ import { setAccess, setUser } from '../../redux/actions';
 import styles from './SideBar.module.css';
 
 export default function NavBar(props) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
