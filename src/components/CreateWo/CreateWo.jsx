@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { WoPreview } from "../WoPreview/WoPreview";
 import { ImSpinner8 } from "react-icons/im";
 import styles from "./CreateWo.module.css";
+import { EditTask } from "../EditTask/EditTask";
 
 export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
@@ -12,25 +13,36 @@ export function CreateWo(props) {
   const [error, setError] = useState(false);
   const [input, setInput] = useState({});
   const [projectId, setProjectId] = useState({
+    selected_project: null,
     project_name: "",
     project_id: "",
   });
   const [category, setCategory] = useState({
-    category_name: "",
+    selected_category: [],
+    category_name: [],
     category_id: [],
-  })
-  const [taskId, setTaskId] = useState({
-    task_name: [],
-    task_id: [],
+  });
+  const [master, setMaster] = useState({
+    selected_master: [],
+    master_name: [],
+    master_id: [],
+  });
+  const [process, setProcess] = useState({
+    selected_process: [],
+    process_name: [],
+    process_id: [],
   });
   const [subId, setSubId] = useState({
+    selected_sub: {},
     sub_name: "",
     sub_id: "",
   });
   const role = useSelector((state) => state.user.role);
-  const [isCategoryReady, setIsCategoryReady] = useState(false)
+  const [isEditTaskReady, setIsEditTaskReady] = useState(false)
+  const [isCategoryReady, setIsCategoryReady] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
-  const [isTaskReady, setIsTaskReady] = useState(false);
+  const [isMitemsReady, setIsMitemsReady] = useState(false);
+  const [isProcessReady, setIsProcessReady] = useState(false);
   const [isWoReady, setIsWoReady] = useState(false);
   const [submitCounter, setSubmitcounter] = useState(0);
 
@@ -54,11 +66,13 @@ export function CreateWo(props) {
 
   const changeHandler = (event) => {
     setProjectId({
+      selected_project: JSON.parse(
+        event.target.options[event.target.selectedIndex].getAttribute("data")
+      ),
       project_name:
         event.target.options[event.target.selectedIndex].getAttribute("name"),
       project_id:
         event.target.options[event.target.selectedIndex].getAttribute("id"),
-      action: "preview",
     });
     setInput({
       project_id:
@@ -69,65 +83,122 @@ export function CreateWo(props) {
   };
 
   const catChangeHandler = (event) => {
-    const catName = event.target.name
-    const catId = event.target.id
+    const catName = event.target.name;
+    const catId = event.target.id;
+    const categoryObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
 
     setCategory((prevInput) => {
       if (isChecked) {
         return {
+          ...prevInput,
+          selected_category: [...prevInput.selected_category, categoryObj],
           category_name: [...prevInput.category_name, catName],
           category_id: [...prevInput.category_id, catId],
           action: "preview",
         };
       } else {
         return {
-          category_name: prevInput.category_name.filter((task) => task !== catName),
-          category_id: prevInput.category_id.filter((task) => task !== catId),
+          ...prevInput,
+          selected_category: prevInput.selected_category.filter(
+            (category) => category != categoryObj
+          ),
+          category_name: prevInput.category_name.filter(
+            (category) => category !== catName
+          ),
+          category_id: prevInput.category_id.filter(
+            (category) => category !== catId
+          ),
           action: "preview",
         };
       }
     });
-  }
-
-  const subChangeHandler = (event) => {
-    setSubId({
-      sub_name:
-        event.target.options[event.target.selectedIndex].getAttribute("name"),
-      sub_id:
-        event.target.options[event.target.selectedIndex].getAttribute("id"),
-      action: "preview",
-    });
-    console.log(subId);
   };
 
-  const handleTaskChange = (event) => {
-    const taskName = event.target.name;
-    const taskId = event.target.id;
+  const masterChangeHandler = (event) => {
+    const masterName = event.target.name;
+    const masterId = event.target.id;
+    const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
-    setTaskId((prevInput) => {
+
+    setMaster((prevInput) => {
       if (isChecked) {
         return {
-          task_name: [...prevInput.task_name, taskName],
-          task_id: [...prevInput.task_id, taskId],
+          ...prevInput,
+          selected_master: [...prevInput.selected_master, masterObj],
+          master_name: [...prevInput.master_name, masterName],
+          master_id: [...prevInput.master_id, masterId],
+        };
+      } else {
+        return {
+          ...prevInput,
+          selected_master: prevInput.selected_master.filter(
+            (master) => master !== masterObj
+          ),
+          master_name: prevInput.master_name.filter(
+            (master) => master !== masterName
+          ),
+          master_id: prevInput.master_id.filter(
+            (master) => master !== masterId
+          ),
+        };
+      }
+    });
+    console.log(masterObj);
+  };
+
+  const processChangeHandler = (event) => {
+    const processName = event.target.name;
+    const processId = event.target.id;
+    const process = JSON.parse(event.target.getAttribute("data"));
+    const isChecked = event.target.checked;
+
+    setProcess((prevInput) => {
+      if (isChecked) {
+        return {
+          ...prevInput,
+          selected_process: [...prevInput.selected_process, process],
+          process_name: [...prevInput.process_name, processName],
+          process_id: [...prevInput.process_id, processId],
           action: "preview",
         };
       } else {
         return {
-          task_name: prevInput.task_name.filter((task) => task !== taskName),
-          task_id: prevInput.task_id.filter((task) => task !== taskId),
+          ...prevInput,
+          selected_process: prevInput.selected_process.filter(
+            (process) => process !== process
+          ),
+          process_name: prevInput.process_name.filter(
+            (process) => process !== processName
+          ),
+          process_id: prevInput.process_id.filter(
+            (process) => process !== processId
+          ),
           action: "preview",
         };
       }
     });
-    console.log(taskId);
+    console.log(process);
+  };
+
+  const subChangeHandler = (event) => {
+    setSubId({
+      selected_sub: JSON.parse(
+        event.target.options[event.target.selectedIndex].getAttribute("data")
+      ),
+      sub_id:
+        event.target.options[event.target.selectedIndex].getAttribute("id"),
+      sub_name:
+        event.target.options[event.target.selectedIndex].getAttribute("name"),
+    });
+    console.log(subId);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (input.id !== null || (taskId.task_id && taskId.task_id.length > 0)) {
+    if (input.id !== null ) {
       try {
         let result;
 
@@ -141,30 +212,39 @@ export function CreateWo(props) {
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
+          console.log(category.category_id);
           result = await props.enviarDatos(
-            { 
+            {
               action: "get_master",
-              category_id: category.category_id
-          },
+              category_id: category.category_id,
+            },
             "generate_wo"
           );
           setIsCategoryReady(true);
         } else if (submitCounter == 2) {
+          console.log(category.category_id);
           result = await props.enviarDatos(
-            { action: "get_process" },
+            { action: "get_process", category_id: category.category_id },
             "generate_wo"
           );
-          } else if (submitCounter == 3) {
-            result = await props.enviarDatos(
-              { action: "get_subcontractor" },
-              "generate_wo"
-            );
+          setIsMitemsReady(true);
+        } else if (submitCounter == 3) {
+          result = await props.enviarDatos(
+            { action: "get_subcontractor" },
+            "generate_wo"
+          );
+          setIsProcessReady(true); 
         } else if (submitCounter == 4) {
-          console.log([projectId, taskId, subId]);
+          result = await props.enviarDatos(
+            { action: "get_subcontractor" },
+            "generate_wo"
+          );
+          setIsEditTaskReady(true); 
+        } else if (submitCounter == 5) {
+          console.log([projectId, subId]);
           result = await props.enviarDatos(
             {
               project_id: projectId.project_id,
-              task_id: taskId.task_id,
               sub_id: subId.sub_id,
               action: "preview",
             },
@@ -215,48 +295,129 @@ export function CreateWo(props) {
                 <div>
                   {isCategoryReady ? (
                     <div>
-                      {isTaskReady ? (
+                      {isMitemsReady ? (
                         <div>
-                          {isWoReady ? (
-                            <WoPreview
-                              project={projectId}
-                              sub={subId}
-                              task={taskId}
-                            />
+                          {isProcessReady ? (
+                            <div>
+                              {isEditTaskReady ? (
+                                <div>
+                                  {isWoReady ? (
+                                    <WoPreview
+                                      project={projectId}
+                                      sub={subId}
+                                      master={master}
+                                      process={process}
+                                      category={category}
+                                    />
+                                  ) : (
+                                    <form>
+                                      <label
+                                        className="form-label"
+                                        style={{ color: "white" }}
+                                      >
+                                        Select SubContractor
+                                      </label>
+                                      <select
+                                        name="contractors"
+                                        id="contractors"
+                                        className="global-input-1"
+                                        onChange={subChangeHandler}
+                                      >
+                                        <option>Select a Contractor</option>
+                                        {worders.map((contractor) => (
+                                          <option
+                                            key={contractor.id}
+                                            id={contractor.id}
+                                            name={contractor.name}
+                                            data={JSON.stringify(contractor)}
+                                          >
+                                            {contractor.name}
+                                          </option>
+                                        ))}
+                                      </select>
+                                      <br />
+                                      <button
+                                        className="global-button"
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                      >
+                                        Submit
+                                      </button>
+                                    </form>
+                                  )}
+                                </div>
+                              ) : (
+                                <EditTask
+                                  project={projectId}
+                                  sub={subId}
+                                  master={master}
+                                  process={process}
+                                  category={category}
+                                  submit={handleSubmit}
+                                />
+                              )}
+                            </div>
                           ) : (
-                            <form>
-                              <label
-                                className="form-label"
-                                style={{ color: "white" }}
-                              >
-                                Select Contractor
-                              </label>
-                              <select
-                                name="contractors"
-                                id="contractors"
-                                className="global-input-1"
-                                onChange={subChangeHandler}
-                              >
-                                <option>Select a Contractor</option>
-                                {worders.map((contractor) => (
-                                  <option
-                                    key={contractor.id}
-                                    id={contractor.id}
-                                    name={contractor.name}
-                                  >
-                                    {contractor.name}
-                                  </option>
-                                ))}
-                              </select>
-                              <br />
-                              <button
-                                className="global-button"
-                                type="submit"
-                                onClick={handleSubmit}
-                              >
-                                Submit
-                              </button>
-                            </form>
+                            <div>
+                              <form>
+                                <label
+                                  className="form-label"
+                                  style={{ color: "white" }}
+                                >
+                                  Select Processes
+                                </label>
+                                <div
+                                  style={{
+                                    maxHeight: "300px",
+                                    overflowY: "auto",
+                                  }}
+                                >
+                                  {worders.map((processes, index) => (
+                                    <div>
+                                      <label>Process</label>
+                                      {processes.map((process) => (
+                                        <div
+                                          key={process.id}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignItems: "flex-start",
+                                          }}
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            id={process.id}
+                                            name={process.name}
+                                            data={JSON.stringify(process)}
+                                            onChange={processChangeHandler}
+                                          />
+                                          <label
+                                            style={{
+                                              color: "white",
+                                              textAlign: "justify",
+                                              textJustify: "inter-word",
+                                              flex: "1",
+                                            }}
+                                          >
+                                            {process.name}
+                                          </label>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ))}
+
+                                  <div>
+                                    <button
+                                      type="submit"
+                                      className="global-button"
+                                      onClick={handleSubmit}
+                                    >
+                                      Select Processes
+                                    </button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
                           )}
                         </div>
                       ) : (
@@ -266,44 +427,52 @@ export function CreateWo(props) {
                               className="form-label"
                               style={{ color: "white" }}
                             >
-                              Edit Tasks
+                              Select Master Items
                             </label>
-                            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                              {worders.map((task) => (
-                                <div
-                                  key={task.id}
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "flex-start",
-                                  }}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    id={task.id}
-                                    name={task.name}
-                                    value={task.id}
-                                    onChange={handleTaskChange}
-                                  />
-                                  <label
-                                    style={{
-                                      color: "white",
-                                      textAlign: "justify",
-                                      textJustify: "inter-word",
-                                      flex: "1",
-                                    }}
-                                  >
-                                    {task.name}
-                                  </label>
+                            <div
+                              style={{ maxHeight: "300px", overflowY: "auto" }}
+                            >
+                              {worders.map((masters, index) => (
+                                <div>
+                                  <label>Category</label>
+                                  {masters.map((master) => (
+                                    <div
+                                      key={master.id}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "flex-start",
+                                      }}
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        id={master.id}
+                                        name={master.description}
+                                        data={JSON.stringify(master)}
+                                        onChange={masterChangeHandler}
+                                      />
+                                      <label
+                                        style={{
+                                          color: "white",
+                                          textAlign: "justify",
+                                          textJustify: "inter-word",
+                                          flex: "1",
+                                        }}
+                                      >
+                                        {master.description}
+                                      </label>
+                                    </div>
+                                  ))}
                                 </div>
                               ))}
+
                               <div>
                                 <button
                                   type="submit"
                                   className="global-button"
                                   onClick={handleSubmit}
                                 >
-                                  Edit Tasks
+                                  Select Master Items
                                 </button>
                               </div>
                             </div>
@@ -313,55 +482,53 @@ export function CreateWo(props) {
                     </div>
                   ) : (
                     <div>
-                          <form>
-                            <label
-                              className="form-label"
-                              style={{ color: "white" }}
+                      <form>
+                        <label
+                          className="form-label"
+                          style={{ color: "white" }}
+                        >
+                          Select Category
+                        </label>
+                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                          {worders.map((category) => (
+                            <div
+                              key={category.id}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "flex-start",
+                              }}
                             >
-                              Select Category
-                            </label>
-                            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                              {worders.map((task) => (
-                                <div
-                                  key={task.id}
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "flex-start",
-                                  }}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    id={task.id}
-                                    name={task.category}
-                                    value={task.id}
-                                    onChange={catChangeHandler}
-                                  />
-                                  <label
-                                    style={{
-                                      color: "white",
-                                      textAlign: "justify",
-                                      textJustify: "inter-word",
-                                      flex: "1",
-                                    }}
-                                  >
-                                    {task.category}
-                                  </label>
-                                </div>
-                              ))}
-                              <div>
- 
-                              </div>
+                              <input
+                                type="checkbox"
+                                id={category.id}
+                                name={category.category}
+                                data={JSON.stringify(category)}
+                                onChange={catChangeHandler}
+                              />
+                              <label
+                                style={{
+                                  color: "white",
+                                  textAlign: "justify",
+                                  textJustify: "inter-word",
+                                  flex: "1",
+                                }}
+                              >
+                                {category.category}
+                              </label>
                             </div>
-                            <button
-                                  type="submit"
-                                  className="global-button"
-                                  onClick={handleSubmit}
-                                >
-                                  Select Category
-                                </button>
-                          </form>
+                          ))}
+                          <div></div>
                         </div>
+                        <button
+                          type="submit"
+                          className="global-button"
+                          onClick={handleSubmit}
+                        >
+                          Select Category
+                        </button>
+                      </form>
+                    </div>
                   )}
                 </div>
               ) : (
@@ -382,6 +549,7 @@ export function CreateWo(props) {
                           key={project.id}
                           id={project.id}
                           name={project.name}
+                          data={JSON.stringify(project)}
                         >
                           {project.name}
                         </option>

@@ -4,7 +4,7 @@ export function WoPreview(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [click, setClick] = useState(0);
   const [input, setInput] = useState({
-    selected_wo: "Select a Work Order",
+    
   });
   const handleSubmit = async (event, action) => {
     event.preventDefault();
@@ -130,7 +130,7 @@ export function WoPreview(props) {
           Selected Tasks:
         </label>
         <div style={{ maxHeight: "100px", overflowY: "auto" }}>
-          {props.task.task_name.map((t, index) => (
+          {props.master.master_name.map((t, index) => (
             <div
               style={{
                 display: "flex",
