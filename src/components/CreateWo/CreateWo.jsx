@@ -42,8 +42,8 @@ export function CreateWo(props) {
     sub_name: "",
     sub_id: "",
   });
+  const user = useSelector((state) => state.user)
   const role = useSelector((state) => state.user.role);
-  const [isEditTaskReady, setIsEditTaskReady] = useState(false)
   const [isCategoryReady, setIsCategoryReady] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isMitemsReady, setIsMitemsReady] = useState(false);
@@ -88,35 +88,14 @@ export function CreateWo(props) {
   };
 
   const catChangeHandler = (event) => {
-    const catName = event.target.name;
-    const catId = event.target.id;
-    const categoryObj = JSON.parse(event.target.getAttribute("data"));
-    const isChecked = event.target.checked;
-
-    setCategory((prevInput) => {
-      if (isChecked) {
-        return {
-          ...prevInput,
-          selected_category: [...prevInput.selected_category, categoryObj],
-          category_name: [...prevInput.category_name, catName],
-          category_id: [...prevInput.category_id, catId],
-          action: "preview",
-        };
-      } else {
-        return {
-          ...prevInput,
-          selected_category: prevInput.selected_category.filter(
-            (category) => category != categoryObj
-          ),
-          category_name: prevInput.category_name.filter(
-            (category) => category !== catName
-          ),
-          category_id: prevInput.category_id.filter(
-            (category) => category !== catId
-          ),
-          action: "preview",
-        };
-      }
+    setCategory({
+      selected_category: [JSON.parse(
+        event.target.options[event.target.selectedIndex].getAttribute("data")
+      )],
+      category_id:
+        [event.target.options[event.target.selectedIndex].getAttribute("id")],
+      category_name:
+        [event.target.options[event.target.selectedIndex].getAttribute("name")],
     });
   };
 
@@ -239,13 +218,8 @@ export function CreateWo(props) {
             "generate_wo"
           );
           setIsProcessReady(true); 
+
         } else if (submitCounter == 4) {
-          result = await props.enviarDatos(
-            { action: "get_subcontractor" },
-            "generate_wo"
-          );
-          setIsEditTaskReady(true); 
-        } else if (submitCounter == 5) {
           console.log([projectId, subId]);
           result = await props.enviarDatos(
             {
@@ -303,8 +277,6 @@ export function CreateWo(props) {
                       {isMitemsReady ? (
                         <div>
                           {isProcessReady ? (
-                            <div>
-                              {isEditTaskReady ? (
                                 <div>
                                   {isWoReady ? (
                                     <WoPreview
@@ -313,6 +285,12 @@ export function CreateWo(props) {
                                       master={master}
                                       process={process}
                                       category={category}
+                                      user={user}
+                                      enviarDatos={props.enviarDatos}
+                                      selected_project={projectId.selected_project}
+                                      selected_master={master.selected_master}
+                                      selected_sub={subId.selected_sub}
+                                      selected_processes={process.selected_process}
                                     />
                                   ) : (
                                    <SelectSub
@@ -322,17 +300,6 @@ export function CreateWo(props) {
                                    />
                                   )}
                                 </div>
-                              ) : (
-                                <EditTask
-                                  project={projectId}
-                                  sub={subId}
-                                  master={master}
-                                  process={process}
-                                  category={category}
-                                  submit={handleSubmit}
-                                />
-                              )}
-                            </div>
                           ) : (
                             <SelectProcesses
                             worders={worders}

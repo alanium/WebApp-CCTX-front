@@ -1,5 +1,4 @@
 import React from "react";
-
 export function SelectCategory(props) {
   return (
     <div>
@@ -7,37 +6,23 @@ export function SelectCategory(props) {
         <label className="form-label" style={{ color: "white" }}>
           Select Category
         </label>
-        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+        <select 
+        name="categories"
+        id="categories"
+        className="global-input-1"
+        onChange={props.catChangeHandler}
+        style={{ color: "white"}}>
+        <option>Select a Category</option>
           {props.worders.map((category) => (
-            <div
+            <option
               key={category.id}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "flex-start",
-              }}
-            >
-              <input
-                type="checkbox"
-                id={category.id}
-                name={category.category}
-                data={JSON.stringify(category)}
-                onChange={props.catChangeHandler}
-              />
-              <label
-                style={{
-                  color: "white",
-                  textAlign: "justify",
-                  textJustify: "inter-word",
-                  flex: "1",
-                }}
-              >
-                {category.category}
-              </label>
-            </div>
+              id={category.id}
+              name={category.name}
+              data={JSON.stringify(category)}
+            >{category.category}
+            </option>
           ))}
-          <div></div>
-        </div>
+        </select>
         <button type="submit" className="global-button" onClick={props.handleSubmit}>
           Select Category
         </button>

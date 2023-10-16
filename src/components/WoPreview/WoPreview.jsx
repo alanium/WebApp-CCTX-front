@@ -8,6 +8,10 @@ export function WoPreview(props) {
   });
   const handleSubmit = async (event, action) => {
     event.preventDefault();
+    const nombre = await props.enviarDatos({
+      action: "get_wo_id"
+    }, "generate_wo")
+    console.log(nombre)
     setIsSubmitting(true);
     setClick(1);
     if (
@@ -19,18 +23,23 @@ export function WoPreview(props) {
       return; // Exit the function early
     } else {
       try {
-        const response = await fetch("https://alanium.pythonanywhere.com/wo", {
+        const response = await fetch("https://alanium.pythonanywhere.com/generate_wo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            action: action,
-            selected_wo: input["selected_wo"],
+            action: "download",
+            user: props.user,
+            selected_project: props.selected_project,
+            selected_master: props.selected_master,
+            selected_sub: props.selected_sub,
+            selected_processes: props.selected_processes,
           }),
         });
 
         if (response.ok) {
+          console.log(response.json())
           const contentType = response.headers.get("content-type");
           if (contentType && contentType.includes("application/pdf")) {
             // Si la respuesta es un PDF, descárgalo
@@ -38,24 +47,12 @@ export function WoPreview(props) {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `.pdf`;
+            a.download = `${nombre}.pdf`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
             setIsSubmitting(false);
             console.log("Llegué 1");
-          } else if (contentType.includes("application/zip")) {
-            // Si la respuesta es un archivo ZIP, descárgalo
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "all_pdfs.zip";
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            setIsSubmitting(false);
-            console.log("Llegué 2");
           } else {
             console.error("Tipo de archivo no compatible.");
             setIsSubmitting(false);
@@ -149,7 +146,7 @@ export function WoPreview(props) {
         <button
           className="global-button"
           type="submit"
-          onClick={(event) => handleSubmit(event, "generate_single")}
+          onClick={handleSubmit}
           disabled={isSubmitting}
           value="Download Selected"
         >
