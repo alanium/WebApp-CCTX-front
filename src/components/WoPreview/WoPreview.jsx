@@ -10,68 +10,56 @@ export function WoPreview(props) {
     event.preventDefault();
     const nombre = await props.enviarDatos({
       action: "get_wo_id"
-    }, "generate_wo")
-    console.log(nombre)
+    }, "generate_wo");
+    console.log(nombre);
     setIsSubmitting(true);
     setClick(1);
-    if (
-      input["selected_wo"] === "Select a Work Order" &&
-      action === "generate_single"
-    ) {
-      console.log("Please select a work order before clicking on submit.");
-      setIsSubmitting(false);
-      return; // Exit the function early
-    } else {
-      try {
-        const response = await fetch("https://alanium.pythonanywhere.com/generate_wo", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "download",
-            user: props.user,
-            selected_project: props.selected_project,
-            selected_master: props.selected_master,
-            selected_sub: props.selected_sub,
-            selected_processes: props.selected_processes,
-          }),
-        });
-
-        if (response.ok) {
-          console.log(response.json())
-          const contentType = response.headers.get("content-type");
-          if (contentType && contentType.includes("application/pdf")) {
-            // Si la respuesta es un PDF, descárgalo
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${nombre}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            setIsSubmitting(false);
-            console.log("Llegué 1");
-          } else {
-            console.error("Tipo de archivo no compatible.");
-            setIsSubmitting(false);
-            console.log("Llegué 3");
-          }
-        } else {
-          const errorResponse = await response.json();
-          console.error(
-            "Error al enviar la solicitud POST:",
-            errorResponse.error
-          );
+    try {
+      const response = await fetch("https://alanium.pythonanywhere.com/generate_wo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "download",
+          user: props.user,
+          selected_project: props.selected_project,
+          selected_master: props.selected_master,
+          selected_sub: props.selected_sub,
+          selected_processes: props.selected_processes,
+        }),
+      });
+  
+      if (response.ok) {
+        const blob = await response.blob();
+        const contentType = response.headers.get("content-type");
+  
+        // Check the content type and create objects accordingly
+        if (contentType && contentType.includes("application/pdf")) {
+          // If the response is a PDF, create a download link for the blob
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${nombre}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
           setIsSubmitting(false);
-          console.log("Llegué 4");
+        } else {
+          console.error("Tipo de archivo no compatible.");
+          setIsSubmitting(false);
         }
-      } catch (error) {
-        console.error("Error: ", error);
+      } else {
+        const errorResponse = await response.text();
+        console.error("Error al enviar la solicitud POST:", errorResponse);
+        setIsSubmitting(false);
       }
+    } catch (error) {
+      console.error("Error:", error);
+      setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div>
