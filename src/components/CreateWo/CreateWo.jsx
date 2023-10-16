@@ -5,6 +5,11 @@ import { WoPreview } from "../WoPreview/WoPreview";
 import { ImSpinner8 } from "react-icons/im";
 import styles from "./CreateWo.module.css";
 import { EditTask } from "../EditTask/EditTask";
+import { SelectSub } from "../SelectSub/SelectSub";
+import { SelectProcesses } from "../SelectProcesses/SelectProcesses";
+import { SelectMasterItems } from "../SelectMasterItems/SelectMasterItems";
+import { SelectCategory } from "../SelectCategory/SelectCategory";
+import { SelectProject } from "../SelectProject/SelectProject";
 
 export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
@@ -310,40 +315,11 @@ export function CreateWo(props) {
                                       category={category}
                                     />
                                   ) : (
-                                    <form>
-                                      <label
-                                        className="form-label"
-                                        style={{ color: "white" }}
-                                      >
-                                        Select SubContractor
-                                      </label>
-                                      <select
-                                        name="contractors"
-                                        id="contractors"
-                                        className="global-input-1"
-                                        onChange={subChangeHandler}
-                                      >
-                                        <option>Select a Contractor</option>
-                                        {worders.map((contractor) => (
-                                          <option
-                                            key={contractor.id}
-                                            id={contractor.id}
-                                            name={contractor.name}
-                                            data={JSON.stringify(contractor)}
-                                          >
-                                            {contractor.name}
-                                          </option>
-                                        ))}
-                                      </select>
-                                      <br />
-                                      <button
-                                        className="global-button"
-                                        type="submit"
-                                        onClick={handleSubmit}
-                                      >
-                                        Submit
-                                      </button>
-                                    </form>
+                                   <SelectSub
+                                    worders={worders}
+                                    subChangeHandler={subChangeHandler}
+                                    handleSubmit={handleSubmit}
+                                   />
                                   )}
                                 </div>
                               ) : (
@@ -358,213 +334,35 @@ export function CreateWo(props) {
                               )}
                             </div>
                           ) : (
-                            <div>
-                              <form>
-                                <label
-                                  className="form-label"
-                                  style={{ color: "white" }}
-                                >
-                                  Select Processes
-                                </label>
-                                <div
-                                  style={{
-                                    maxHeight: "300px",
-                                    overflowY: "auto",
-                                  }}
-                                >
-                                  {worders.map((processes, index) => (
-                                    <div>
-                                      <label>Process</label>
-                                      {processes.map((process) => (
-                                        <div
-                                          key={process.id}
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            alignItems: "flex-start",
-                                          }}
-                                        >
-                                          <input
-                                            type="checkbox"
-                                            id={process.id}
-                                            name={process.name}
-                                            data={JSON.stringify(process)}
-                                            onChange={processChangeHandler}
-                                          />
-                                          <label
-                                            style={{
-                                              color: "white",
-                                              textAlign: "justify",
-                                              textJustify: "inter-word",
-                                              flex: "1",
-                                            }}
-                                          >
-                                            {process.name}
-                                          </label>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  ))}
-
-                                  <div>
-                                    <button
-                                      type="submit"
-                                      className="global-button"
-                                      onClick={handleSubmit}
-                                    >
-                                      Select Processes
-                                    </button>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
+                            <SelectProcesses
+                            worders={worders}
+                            handleSubmit={handleSubmit}
+                            processChangeHandler={processChangeHandler}
+                            />
                           )}
                         </div>
                       ) : (
-                        <div>
-                          <form>
-                            <label
-                              className="form-label"
-                              style={{ color: "white" }}
-                            >
-                              Select Master Items
-                            </label>
-                            <div
-                              style={{ maxHeight: "300px", overflowY: "auto" }}
-                            >
-                              {worders.map((masters, index) => (
-                                <div>
-                                  <label>Category</label>
-                                  {masters.map((master) => (
-                                    <div
-                                      key={master.id}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "flex-start",
-                                      }}
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        id={master.id}
-                                        name={master.description}
-                                        data={JSON.stringify(master)}
-                                        onChange={masterChangeHandler}
-                                      />
-                                      <label
-                                        style={{
-                                          color: "white",
-                                          textAlign: "justify",
-                                          textJustify: "inter-word",
-                                          flex: "1",
-                                        }}
-                                      >
-                                        {master.description}
-                                      </label>
-                                    </div>
-                                  ))}
-                                </div>
-                              ))}
-
-                              <div>
-                                <button
-                                  type="submit"
-                                  className="global-button"
-                                  onClick={handleSubmit}
-                                >
-                                  Select Master Items
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
+                        <SelectMasterItems
+                        worders={worders}
+                        masterChangeHandler={masterChangeHandler}
+                        handleSubmit={handleSubmit}
+                        />
                       )}
                     </div>
                   ) : (
-                    <div>
-                      <form>
-                        <label
-                          className="form-label"
-                          style={{ color: "white" }}
-                        >
-                          Select Category
-                        </label>
-                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                          {worders.map((category) => (
-                            <div
-                              key={category.id}
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "flex-start",
-                              }}
-                            >
-                              <input
-                                type="checkbox"
-                                id={category.id}
-                                name={category.category}
-                                data={JSON.stringify(category)}
-                                onChange={catChangeHandler}
-                              />
-                              <label
-                                style={{
-                                  color: "white",
-                                  textAlign: "justify",
-                                  textJustify: "inter-word",
-                                  flex: "1",
-                                }}
-                              >
-                                {category.category}
-                              </label>
-                            </div>
-                          ))}
-                          <div></div>
-                        </div>
-                        <button
-                          type="submit"
-                          className="global-button"
-                          onClick={handleSubmit}
-                        >
-                          Select Category
-                        </button>
-                      </form>
-                    </div>
+                    <SelectCategory 
+                    worders={worders}
+                    handleSubmit={handleSubmit}
+                    catChangeHandler={catChangeHandler}
+                    />
                   )}
                 </div>
               ) : (
-                <div>
-                  <form>
-                    <label className="form-label" style={{ color: "white" }}>
-                      Select Project
-                    </label>
-                    <select
-                      name="projects"
-                      id="projects"
-                      className="global-input-1"
-                      onChange={changeHandler}
-                    >
-                      <option>Select a Project</option>
-                      {worders.map((project) => (
-                        <option
-                          key={project.id}
-                          id={project.id}
-                          name={project.name}
-                          data={JSON.stringify(project)}
-                        >
-                          {project.name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <button
-                      className="global-button"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
-                  </form>
-                </div>
+                <SelectProject 
+                worders={worders}
+                changeHandler={changeHandler}
+                handleSubmit={handleSubmit}
+                />
               )}
             </div>
           )}
