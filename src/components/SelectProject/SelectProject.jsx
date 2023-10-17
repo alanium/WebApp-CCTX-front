@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { BiXCircle } from "react-icons/bi";
+
 export function SelectProject(props) {
+
   return (
     <div>
       <form>
@@ -24,9 +28,17 @@ export function SelectProject(props) {
           ))}
         </select>
         <br />
-        <button className="global-button" type="submit" onClick={props.handleSubmit}>
-          Submit
-        </button>
+        {
+        props.project.selected_project !== null && 
+        props.project.project_name !== null &&
+        props.project.project_id !== null ? (
+           <button className="global-button" type="submit" onClick={props.handleSubmit}>
+           Submit
+          </button>
+        ) : (
+          <p style={{ color: "red" }} ><BiXCircle/> Select a Project before submitting</p>
+        )}
+       
       </form>
     </div>
   );

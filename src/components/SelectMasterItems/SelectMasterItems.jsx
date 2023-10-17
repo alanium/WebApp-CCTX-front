@@ -1,4 +1,5 @@
 import React from "react";
+import { BiXCircle } from "react-icons/bi";
 
 export function SelectMasterItems(props) {
   return (
@@ -10,7 +11,6 @@ export function SelectMasterItems(props) {
         <div style={{ maxHeight: "300px", overflowY: "auto" }}>
           {props.worders.map((masters, index) => (
             <div>
-              <label>Category</label>
               {masters.map((master) => (
                 <div
                   key={master.id}
@@ -41,17 +41,15 @@ export function SelectMasterItems(props) {
               ))}
             </div>
           ))}
-
-          <div>
-            <button
-              type="submit"
-              className="global-button"
-              onClick={props.handleSubmit}
-            >
-              Select Master Items
-            </button>
-          </div>
         </div>
+          <button
+            type="submit"
+            className="global-button"
+            onClick={props.handleSubmit}
+          >
+            Select Master Items
+          </button>
+
       </form>
     </div>
   );

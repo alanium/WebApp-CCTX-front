@@ -16,16 +16,17 @@ export function CreateWo(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(false);
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+  });
   const [projectId, setProjectId] = useState({
     selected_project: null,
     project_name: "",
     project_id: "",
   });
   const [category, setCategory] = useState({
-    selected_category: [],
-    category_name: [],
-    category_id: [],
+    selected_category: [null],
+    category_name: [null],
+    category_id: [null],
   });
   const [master, setMaster] = useState({
     selected_master: [],
@@ -38,9 +39,9 @@ export function CreateWo(props) {
     process_id: [],
   });
   const [subId, setSubId] = useState({
-    selected_sub: {},
-    sub_name: "",
-    sub_id: "",
+    selected_sub: null,
+    sub_name: null,
+    sub_id: null,
   });
   const user = useSelector((state) => state.user)
   const role = useSelector((state) => state.user.role);
@@ -70,6 +71,15 @@ export function CreateWo(props) {
   }, []);
 
   const changeHandler = (event) => {
+    if (
+      event.target.options[event.target.selectedIndex].getAttribute("data") &&
+      event.target.options[event.target.selectedIndex].getAttribute("name") &&
+      event.target.options[event.target.selectedIndex].getAttribute("id")
+    )
+    console.log(
+      projectId
+    )
+
     setProjectId({
       selected_project: JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
@@ -79,15 +89,15 @@ export function CreateWo(props) {
       project_id:
         event.target.options[event.target.selectedIndex].getAttribute("id"),
     });
-    setInput({
-      project_id:
-        event.target.options[event.target.selectedIndex].getAttribute("id"),
-      action: "get_task",
-    });
-    console.log(input);
   };
 
   const catChangeHandler = (event) => {
+
+    console.log (
+      event.target.options[event.target.selectedIndex].getAttribute("data"),
+      event.target.options[event.target.selectedIndex].getAttribute("id"),
+      event.target.options[event.target.selectedIndex].getAttribute("name")
+    )
     setCategory({
       selected_category: [JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
@@ -105,6 +115,9 @@ export function CreateWo(props) {
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
 
+    console.log(master)
+    
+    if (masterName && masterId && masterObj) {
     setMaster((prevInput) => {
       if (isChecked) {
         return {
@@ -117,18 +130,17 @@ export function CreateWo(props) {
         return {
           ...prevInput,
           selected_master: prevInput.selected_master.filter(
-            (master) => master !== masterObj
+            (data) => data.id !== masterObj.id
           ),
           master_name: prevInput.master_name.filter(
-            (master) => master !== masterName
+            (name) => name !== masterName
           ),
           master_id: prevInput.master_id.filter(
-            (master) => master !== masterId
+            (id) => id !== masterId
           ),
         };
       }
-    });
-    console.log(masterObj);
+    })}
   };
 
   const processChangeHandler = (event) => {
@@ -137,35 +149,41 @@ export function CreateWo(props) {
     const process = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
 
-    setProcess((prevInput) => {
-      if (isChecked) {
-        return {
-          ...prevInput,
-          selected_process: [...prevInput.selected_process, process],
-          process_name: [...prevInput.process_name, processName],
-          process_id: [...prevInput.process_id, processId],
-          action: "preview",
-        };
-      } else {
-        return {
-          ...prevInput,
-          selected_process: prevInput.selected_process.filter(
-            (process) => process !== process
-          ),
-          process_name: prevInput.process_name.filter(
-            (process) => process !== processName
-          ),
-          process_id: prevInput.process_id.filter(
-            (process) => process !== processId
-          ),
-          action: "preview",
-        };
-      }
-    });
-    console.log(process);
+    if (processName && processId && process) {
+      setProcess((prevInput) => {
+        if (isChecked) {
+          return {
+            ...prevInput,
+            selected_process: [...prevInput.selected_process, process],
+            process_name: [...prevInput.process_name, processName],
+            process_id: [...prevInput.process_id, processId],
+          };
+        } else {
+          return {
+            ...prevInput,
+            selected_process: prevInput.selected_process.filter(
+              (data) => data.id !== process
+            ),
+            process_name: prevInput.process_name.filter(
+              (name) => name !== processName
+            ),
+            process_id: prevInput.process_id.filter(
+              (id) => id !== processId
+            ),
+          };
+        }
+      });
+    }
   };
 
   const subChangeHandler = (event) => {
+
+    if (
+      event.target.options[event.target.selectedIndex].getAttribute("data") &&
+      event.target.options[event.target.selectedIndex].getAttribute("id") &&
+      event.target.options[event.target.selectedIndex].getAttribute("name")
+    )
+    console.log(subId)
     setSubId({
       selected_sub: JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
@@ -175,7 +193,6 @@ export function CreateWo(props) {
       sub_name:
         event.target.options[event.target.selectedIndex].getAttribute("name"),
     });
-    console.log(subId);
   };
 
   const handleSubmit = async (event) => {
@@ -185,8 +202,6 @@ export function CreateWo(props) {
     if (input.id !== null ) {
       try {
         let result;
-
-        // Check conditions to determine what to submit
         if (submitCounter == 0) {
           result = await props.enviarDatos(
             {
@@ -196,7 +211,7 @@ export function CreateWo(props) {
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
-          console.log(category.category_id);
+          console.log(input);
           result = await props.enviarDatos(
             {
               action: "get_master",
@@ -206,13 +221,14 @@ export function CreateWo(props) {
           );
           setIsCategoryReady(true);
         } else if (submitCounter == 2) {
-          console.log(category.category_id);
+          console.log(input);
           result = await props.enviarDatos(
             { action: "get_process", category_id: category.category_id },
             "generate_wo"
           );
           setIsMitemsReady(true);
         } else if (submitCounter == 3) {
+          console.log(input)
           result = await props.enviarDatos(
             { action: "get_subcontractor" },
             "generate_wo"
@@ -220,7 +236,7 @@ export function CreateWo(props) {
           setIsProcessReady(true); 
 
         } else if (submitCounter == 4) {
-          console.log([projectId, subId]);
+          console.log(input);
           result = await props.enviarDatos(
             {
               project_id: projectId.project_id,
@@ -232,7 +248,7 @@ export function CreateWo(props) {
           setIsWoReady(true);
         }
         setSubmitcounter(submitCounter + 1);
-        console.log(submitCounter);
+        console.log(input);
         if (result) {
           console.log(result);
           setWorders(result);
@@ -297,6 +313,9 @@ export function CreateWo(props) {
                                     worders={worders}
                                     subChangeHandler={subChangeHandler}
                                     handleSubmit={handleSubmit}
+                                    sub={subId}
+                                    process={process}
+                                    master={master}
                                    />
                                   )}
                                 </div>
@@ -305,6 +324,9 @@ export function CreateWo(props) {
                             worders={worders}
                             handleSubmit={handleSubmit}
                             processChangeHandler={processChangeHandler}
+                            submitCounter={submitCounter}
+                            setSubmitcounter={setSubmitcounter}
+                            isMitemsReady={isMitemsReady}
                             />
                           )}
                         </div>
@@ -313,6 +335,7 @@ export function CreateWo(props) {
                         worders={worders}
                         masterChangeHandler={masterChangeHandler}
                         handleSubmit={handleSubmit}
+                        master={master}
                         />
                       )}
                     </div>
@@ -321,6 +344,7 @@ export function CreateWo(props) {
                     worders={worders}
                     handleSubmit={handleSubmit}
                     catChangeHandler={catChangeHandler}
+                    category={category}
                     />
                   )}
                 </div>
@@ -329,6 +353,7 @@ export function CreateWo(props) {
                 worders={worders}
                 changeHandler={changeHandler}
                 handleSubmit={handleSubmit}
+                project={projectId}
                 />
               )}
             </div>

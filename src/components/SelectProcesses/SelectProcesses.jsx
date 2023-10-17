@@ -1,4 +1,10 @@
+import { BiXCircle } from "react-icons/bi";
+import styles from "./Processes.module.css"
+
+
+
 export function SelectProcesses(props) {
+
   return (
     <div>
       <form>
@@ -44,17 +50,14 @@ export function SelectProcesses(props) {
               ))}
             </div>
           ))}
-
-          <div>
-            <button
-              type="submit"
-              className="global-button"
-              onClick={props.handleSubmit}
-            >
-              Select Processes
-            </button>
-          </div>
         </div>
+          <button
+            type="submit"
+            className="global-button"
+            onClick={props.handleSubmit}
+          >
+            Select Processes
+          </button>
       </form>
     </div>
   );
