@@ -19,7 +19,6 @@ export function SelectProcesses(props) {
         >
           {props.worders.map((processes, index) => (
             <div>
-              <label>Process</label>
               {processes.map((process) => (
                 <div
                   key={process.id}

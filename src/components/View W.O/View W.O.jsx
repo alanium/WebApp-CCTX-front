@@ -42,7 +42,6 @@ export default function ViewWorkOrder(props) {
                     id={workOrder["iD"]}
                     email={workOrder["pm_email"]}
                     fullname={workOrder["pm_fullname"]}
-                    scope={workOrder["scoupe of work"]}
                     subcontratist={workOrder["subcontratist"]}
                     task={workOrder["task_name"]}
                     price={workOrder["total negotiated price"]}

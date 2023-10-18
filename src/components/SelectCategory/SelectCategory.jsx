@@ -39,9 +39,7 @@ export function SelectCategory(props) {
             Select Category
           </button>
         ) : (
-          <p style={{ color: "red" }}>
-            <BiXCircle /> Select a category before submitting
-          </p>
+          <p></p>
         )}
       </form>
     </div>

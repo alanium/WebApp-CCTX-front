@@ -7,7 +7,6 @@ export default function WorkOrder (props) {
         <p>{props.id}</p>
         <p>{props.email}</p>
         <p>{props.fullname}</p>
-        <p>{props.scope}</p>
         <p>{props.subontratist}</p>
         <h3>Task Name</h3>
         {props.task.map((task, index) => (

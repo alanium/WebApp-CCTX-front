@@ -36,9 +36,8 @@ export function SelectProject(props) {
            Submit
           </button>
         ) : (
-          <p style={{ color: "red" }} ><BiXCircle/> Select a Project before submitting</p>
+          <p></p>
         )}
-       
       </form>
     </div>
   );

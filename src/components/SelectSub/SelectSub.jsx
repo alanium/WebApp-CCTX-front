@@ -57,9 +57,7 @@ export function SelectSub(props) {
             Submit
           </button>
         ) : (
-          <p style={{ color: "red" }}>
-            <BiXCircle /> Select a subcontractor before submitting
-          </p>
+          <p></p>
         )}
       </form>
       ) : (
