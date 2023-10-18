@@ -1,22 +1,88 @@
-import React from 'react'
+import React from "react";
+import styles from "./WorkOrder.module.css";
 
-export default function WorkOrder (props) {
-    return (
-    <div>
-        <h2>{props.name}</h2>
-        <p>{props.id}</p>
-        <p>{props.email}</p>
-        <p>{props.fullname}</p>
-        <p>{props.subontratist}</p>
-        <h3>Task Name</h3>
-        {props.task.map((task, index) => (
-            <div key={index}>
-            <p>Task: {task.task_name}</p>
-            <p>Start Date: {task.start_date}</p>
-            <p>End Date: {task.end_date}</p>
-            <p>Negotiated Price: {task.negotiated}</p>
-            </div>
-            ))}
-        <p>Total Negotiatied Price: {props.price}</p>
-    </div>)
+export default function WorkOrder(props) {
+  return (
+    <div style={{ margin: "20px" }}>
+      <div style={{ margin: "12px" }}>
+        <div>
+          <label>PROJECT:</label>
+        </div>
+        <div
+          style={{
+            margin: "5px",
+          }}
+        >
+          <label>{props.worder["Project name"]}</label>
+        </div>
+      </div>
+      <div style={{ margin: "12px" }}>
+        <div>
+          <label>SUBCONTRACTOR:</label>
+        </div>
+
+        <div
+          style={{
+            margin: "5px",
+          }}
+        >
+          <label>{props.worder.subcontratist}</label>
+        </div>
+      </div>
+      <div style={{ margin: "12px" }}>
+        <div>
+          <label>CATEGORY:</label>
+        </div>
+
+        <div
+          style={{
+            margin: "5px",
+          }}
+        >
+          <label>{props.worder.task_name[0].category}</label>
+        </div>
+      </div>
+      <div style={{ margin: "12px" }}>
+        <div>
+          <label>WO.ID</label>
+        </div>
+
+        <div
+          style={{
+            margin: "5px",
+          }}
+        >
+          <label>{props.worder.iD}</label>
+        </div>
+      </div>
+      <div style={{ margin: "12px" }}>
+        <div>
+          <label>P.M NAME</label>
+        </div>
+
+        <div
+          style={{
+            margin: "5px",
+          }}
+        >
+          <label>{props.worder.pm_fullname}</label>
+        </div>
+      </div>
+      <div
+        className={styles.selectedTasks}
+        style={{
+          marginTop: "10px",
+          justifyContent: "center",
+          maxHeight: "100px",
+          overflowY: "auto",
+        }}
+      >
+        {props.worder.task_name.map((task) => (
+          <div>
+            <p style={{ marginLeft: "5px" }}>•{task.task_name}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

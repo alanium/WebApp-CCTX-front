@@ -6,7 +6,15 @@ import { useSelector } from "react-redux";
 import { BiNoEntry } from "react-icons/bi";
 
 export default function ViewWorkOrder(props) {
+  const [input, setInput] = useState({
+    wo_id: null,
+    action: "get_wo"
+  })
   const [data, setData] = useState([]);
+  const [worders, setWorders] = useState({
+    wo_id: null,
+    action: "get_wo",
+  });
   const [loading, setLoading] = useState(true);
   const role = useSelector((state) => state.user.role);
 
@@ -16,40 +24,80 @@ export default function ViewWorkOrder(props) {
       .obtenerJSON("view_wo")
       .then((responseData) => {
         // Update the local state with the fetched data
+        console.log(responseData);
         setData(responseData);
-        setLoading(false); // Establecer el estado de carga en false cuando se complete la carga
+        console.log(worders);
+        setLoading(false);
+        // Establecer el estado de carga en false cuando se complete la carga
       })
       .catch((error) => {
         console.error("Error:", error);
         setLoading(false); // En caso de error, también establecer el estado de carga en false
       });
-  }, [props]);
+  }, []);
+
+  const wordersHandler = (event) => {
+
+    setInput(
+      {
+        wo_id:
+          event.target.options[event.target.selectedIndex].getAttribute("id"),
+        action: "get_wo",
+      }
+    )
+    console.log(input);
+
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setLoading(true);
+      props.enviarDatos(input, "view_wo")
+      .then((result) => {
+        setWorders(result);
+        console.log(worders)
+        setLoading(false); // Set loading to false after the request is complete
+      })
+      .catch((error) => {
+        console.error("Error fetching work order:", error);
+        setLoading(false); // Handle errors and set loading to false
+      })
+  }
 
   return (
-    <div className={styles.centeredContainer}>
+    <div className="global-container" style={{ color: "white" }}>
       {role !== "member" ? (
         <div>
-          {loading ? (
-            <div className={styles.loadingIcon}>
-              <ImSpinner8 className={styles.spin} />
-            </div>
-          ) : (
-            <div className={styles.workOrderGrid}>
-              {data.map((workOrder) => (
-                <div key={workOrder["iD"]} className={styles.workOrderCard}>
-                  <WorkOrder
-                    name={workOrder["Project name"]}
-                    id={workOrder["iD"]}
-                    email={workOrder["pm_email"]}
-                    fullname={workOrder["pm_fullname"]}
-                    subcontratist={workOrder["subcontratist"]}
-                    task={workOrder["task_name"]}
-                    price={workOrder["total negotiated price"]}
-                  />
+         {loading ? (
+        <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
+          <div className={styles.spinContainer}>
+            <ImSpinner8 className={styles.spin} />
+          </div>
+        </div>
+      ) : null}
+            <div>
+              <form>
+                <div>
+                  <select
+                    name="workOrders"
+                    id="workOrders"
+                    className="global-input-1"
+                    onChange={wordersHandler}
+                    style={{ color: "white" }}
+                  >
+                    <option>Select a Work Order</option>
+                    {data.map((workOder) => (
+                      <option key={workOder} id={workOder} name={workOder}>
+                        {workOder}
+                      </option>
+                    ))}
+                  </select>
+                  <button className="global-button" type="submit" onClick={handleSubmit}>View Selected</button>
                 </div>
-              ))}
+                {worders.wo_id !== null ? <WorkOrder worder={worders} /> : null}
+              </form>
             </div>
-          )}
+
         </div>
       ) : (
         <div className="global-container">
