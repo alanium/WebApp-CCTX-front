@@ -1,0 +1,6 @@
+.contenedor {
+    width: 100%; /* Puedes ajustar este valor según tus necesidades */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto que sobresale del contenedor */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al final del texto truncado */
+}

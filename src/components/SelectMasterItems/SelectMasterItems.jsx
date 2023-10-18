@@ -1,5 +1,6 @@
 import React from "react";
 import { BiXCircle } from "react-icons/bi";
+import styles from "./SelectMasterItems.module.css" 
 
 export function SelectMasterItems(props) {
   return (
@@ -8,7 +9,7 @@ export function SelectMasterItems(props) {
         <label className="form-label" style={{ color: "white" }}>
           Select Master Items
         </label>
-        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+        <div className={styles.contenedor} style={{ maxHeight: "300px", overflowY: "auto" }}>
           {props.worders.map((masters, index) => (
             <div>
               {masters.map((master) => (
@@ -34,6 +35,7 @@ export function SelectMasterItems(props) {
                       textJustify: "inter-word",
                       flex: "1",
                     }}
+                    title={master.description} 
                   >
                     {master.description}
                   </label>
