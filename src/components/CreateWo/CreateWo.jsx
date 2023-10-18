@@ -274,7 +274,7 @@ export function CreateWo(props) {
         </div>
       ) : null}
       <div className={styles.titleDiv}>
-        <label className="global-card-title" style={{ marginBottom: "20px" }}>
+        <label className="global-card-title" >
           Generate Work Order
         </label>
       </div>
