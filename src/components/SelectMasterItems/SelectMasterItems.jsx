@@ -18,11 +18,10 @@ export function SelectMasterItems(props) {
           </label>
         </div>
         <div className={styles.selectedTasks} onClick={toggleExpansion} style={{ maxHeight: "300px", overflowY: "auto" }}>
-          {props.worders.map((masters, index) => (
+          {props.worders.map((masters) => (
             <div>
-              {masters.map((master) => (
                 <div
-                  key={master.id}
+                  key={masters.decription}
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -31,9 +30,9 @@ export function SelectMasterItems(props) {
                 >
                   <input
                     type="checkbox"
-                    id={master.id}
-                    name={master.description}
-                    data={JSON.stringify(master)}
+                    id={masters.description}
+                    name={masters.description}
+                    data={JSON.stringify(masters)}
                     onChange={props.masterChangeHandler}
                     defaultChecked={true}
                   />
@@ -44,12 +43,12 @@ export function SelectMasterItems(props) {
                       textJustify: "inter-word",
                       flex: "1",
                     }}
-                    title={master.description} 
+                    title={masters.description} 
                   >
-                    {master.description}
+                    {masters.description}
                   </label>
                 </div>
-              ))}
+              
             </div>
           ))}
         </div>
