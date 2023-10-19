@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 import styles from "./SelectMasterItems.module.css" 
 
 export function SelectMasterItems(props) {
+  const [isExpanded, setExpanded] = useState(false);
+
+  const toggleExpansion = () => {
+    setExpanded(!isExpanded);
+  };
+
   return (
-    <div>
+    <div className={isExpanded ? `${styles.contenedor} ${styles.expanded}` : styles.contenedor}>
       <form>
         <label className="form-label" style={{ color: "white" }}>
           Select Master Items
         </label>
-        <div className={styles.contenedor} style={{ maxHeight: "300px", overflowY: "auto" }}>
+        <div onClick={toggleExpansion} style={{ maxHeight: "300px", overflowY: "auto" }}>
           {props.worders.map((masters, index) => (
             <div>
               {masters.map((master) => (
@@ -27,6 +33,7 @@ export function SelectMasterItems(props) {
                     name={master.description}
                     data={JSON.stringify(master)}
                     onChange={props.masterChangeHandler}
+                    defaultChecked={true}
                   />
                   <label
                     style={{

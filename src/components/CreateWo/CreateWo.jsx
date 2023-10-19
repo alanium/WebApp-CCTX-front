@@ -265,7 +265,7 @@ export function CreateWo(props) {
   };
 
   return (
-    <div className="global-container">
+    <div className="global-container" style={{maxWidth: "450px"}}>
       {isSubmitting ? (
         <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
           <div className={styles.spinContainer}>

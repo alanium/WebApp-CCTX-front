@@ -4,3 +4,8 @@
     overflow: hidden; /* Oculta el texto que sobresale del contenedor */
     text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al final del texto truncado */
 }
+
+.expanded {
+    width: 100%;
+    transition: width 0.3s ease;
+}

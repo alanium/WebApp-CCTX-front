@@ -75,6 +75,9 @@ export default function ViewWorkOrder(props) {
           </div>
         </div>
       ) : null}
+          <div style={{ textAlign: "center", margin:"10px"}}>
+            <label className="global-card-title">View Wo</label>
+          </div>
             <div>
               <form>
                 <div>
