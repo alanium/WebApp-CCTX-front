@@ -132,7 +132,6 @@ export function CreateWo(props) {
           ...prevInput,
           selected_master: [...prevInput.selected_master, masterObj],
           master_name: [...prevInput.master_name, masterName],
-          master_id: [...prevInput.master_id, masterId],
         };
       } else {
         return {
@@ -142,9 +141,6 @@ export function CreateWo(props) {
           ),
           master_name: prevInput.master_name.filter(
             (name) => name !== masterName
-          ),
-          master_id: prevInput.master_id.filter(
-            (id) => id !== masterId
           ),
         };
       }

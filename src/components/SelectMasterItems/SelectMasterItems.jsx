@@ -6,10 +6,14 @@ export function SelectMasterItems(props) {
   const [isExpanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    props.setMasters({
-      ...props.masters,
-      selected_master:[props.worders]
-    })
+    props.setMaster((prevMaster) => ({
+      ...prevMaster,
+      selected_master:[...prevMaster.selected_master, ...props.worders],
+      master_name: [
+        ...prevMaster.master_name,
+        ...props.worders.map((element) => element.description),
+      ],
+    }));
   },[])
 
   const toggleExpansion = () => {
