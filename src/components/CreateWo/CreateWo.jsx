@@ -344,6 +344,7 @@ export function CreateWo(props) {
                         masterChangeHandler={masterChangeHandler}
                         handleSubmit={handleSubmit}
                         master={master}
+                        setMaster={setMaster}
                         />
                       )}
                     </div>

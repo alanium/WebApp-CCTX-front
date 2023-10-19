@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 import styles from "./SelectMasterItems.module.css" 
 
 export function SelectMasterItems(props) {
   const [isExpanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    props.setMasters({
+      ...props.masters,
+      selected_master:[props.worders]
+    })
+  },[])
 
   const toggleExpansion = () => {
     setExpanded(!isExpanded);
