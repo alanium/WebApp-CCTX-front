@@ -25,7 +25,7 @@ export function WoPreview(props) {
     setClick(1);
     try {
       const response = await fetch(
-        "https://alanium.pythonanywhere.com/generate_wo",
+        "http://127.0.0.1:5000/generate_wo",
         {
           method: "POST",
           headers: {

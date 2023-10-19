@@ -38,6 +38,10 @@ export function CreateWo(props) {
     process_name: [],
     process_id: [],
   });
+
+  const [lead, setLead] = useState({
+    lead_id: null
+  })
   const [subId, setSubId] = useState({
     selected_sub: null,
     sub_name: null,
@@ -77,7 +81,7 @@ export function CreateWo(props) {
       event.target.options[event.target.selectedIndex].getAttribute("id")
     )
     console.log(
-      projectId
+      lead
     )
 
     setProjectId({
@@ -89,6 +93,10 @@ export function CreateWo(props) {
       project_id:
         event.target.options[event.target.selectedIndex].getAttribute("id"),
     });
+
+    setLead({
+      lead_id: event.target.options[event.target.selectedIndex].getAttribute("lead")
+    })
   };
 
   const catChangeHandler = (event) => {
@@ -215,7 +223,7 @@ export function CreateWo(props) {
           result = await props.enviarDatos(
             {
               action: "get_master",
-              category_id: category.category_id,
+              lead_id: lead.lead_id,
             },
             "generate_wo"
           );

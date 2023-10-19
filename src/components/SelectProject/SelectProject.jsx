@@ -7,13 +7,13 @@ export function SelectProject(props) {
     <div>
       <form>
         <label className="form-label" style={{ color: "white" }}>
-          Select Project
         </label>
         <select
           name="projects"
           id="projects"
           className="global-input-1"
           onChange={props.changeHandler}
+          style={{marginTop: "20px"}}
         >
           <option>Select a Project</option>
           {props.worders.map((project) => (
@@ -22,6 +22,7 @@ export function SelectProject(props) {
               id={project.id}
               name={project.name}
               data={JSON.stringify(project)}
+              lead={project.lead_id}
             >
               {project.name}
             </option>

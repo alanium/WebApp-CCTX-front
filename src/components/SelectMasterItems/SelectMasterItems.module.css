@@ -5,6 +5,11 @@
     text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al final del texto truncado */
 }
 
+.selectedTasks {
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+}
+
 .expanded {
     width: 100%;
     transition: width 0.3s ease;

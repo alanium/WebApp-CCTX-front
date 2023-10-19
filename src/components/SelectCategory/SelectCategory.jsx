@@ -4,15 +4,17 @@ export function SelectCategory(props) {
   return (
     <div>
       <form>
-        <label className="form-label" style={{ color: "white" }}>
-          Select Category
-        </label>
+        <div style={{margin:"10px"}}>       
+          <label className="form-label" style={{ color: "white" }}>
+
+          </label>
+        </div>
         <select
           name="categories"
           id="categories"
           className="global-input-1"
           onChange={props.catChangeHandler}
-          style={{ color: "white" }}
+          style={{ color: "white", marginTop:"10px" }}
         >
           <option>Select a Category</option>
           {props.worders.map((category) => (

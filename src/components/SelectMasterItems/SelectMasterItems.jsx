@@ -12,10 +12,12 @@ export function SelectMasterItems(props) {
   return (
     <div className={isExpanded ? `${styles.contenedor} ${styles.expanded}` : styles.contenedor}>
       <form>
-        <label className="form-label" style={{ color: "white" }}>
-          Select Master Items
-        </label>
-        <div onClick={toggleExpansion} style={{ maxHeight: "300px", overflowY: "auto" }}>
+        <div style={{marginBottom: "10px", marginTop:"10px"}}>        
+          <label className="form-label" style={{ color: "white", fontSize: "25px" }}>
+            Select Master Items
+          </label>
+        </div>
+        <div className={styles.selectedTasks} onClick={toggleExpansion} style={{ maxHeight: "300px", overflowY: "auto" }}>
           {props.worders.map((masters, index) => (
             <div>
               {masters.map((master) => (
