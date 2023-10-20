@@ -120,6 +120,7 @@ export function CreateWo(props) {
   const masterChangeHandler = (event) => {
     const masterName = event.target.name;
     const masterId = event.target.id;
+    const catName = event.target.category;
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
 
@@ -144,7 +145,25 @@ export function CreateWo(props) {
           ),
         };
       }
-    })}
+    
+
+      })
+      setCategory((prevInput) => {
+        if(isChecked) {
+          return {
+            ...prevInput,
+            category_name: [...prevInput.category_name, catName]
+          }
+        } else {
+          return {
+            ...prevInput,
+            category_name: prevInput.category_name.filter(
+              (name) => name !== catName
+            )
+          }
+        }
+      })
+    }
   };
 
   const processChangeHandler = (event) => {
@@ -209,29 +228,21 @@ export function CreateWo(props) {
         if (submitCounter == 0) {
           result = await props.enviarDatos(
             {
-              action: "get_category",
-            },
-            "generate_wo"
-          );
-          setIsProjectReady(true);
-        } else if (submitCounter == 1) {
-          console.log(input);
-          result = await props.enviarDatos(
-            {
               action: "get_master",
               lead_id: lead.lead_id,
             },
             "generate_wo"
           );
-          setIsCategoryReady(true);
-        } else if (submitCounter == 2) {
+          setIsProjectReady(true);
+
+        } else if (submitCounter == 1) {
           console.log(input);
           result = await props.enviarDatos(
-            { action: "get_process", category_id: category.category_id },
+            { action: "get_process", category: category.category_name },
             "generate_wo"
           );
           setIsMitemsReady(true);
-        } else if (submitCounter == 3) {
+        } else if (submitCounter == 2) {
           console.log(input)
           result = await props.enviarDatos(
             { action: "get_subcontractor" },
@@ -239,7 +250,7 @@ export function CreateWo(props) {
           );
           setIsProcessReady(true); 
 
-        } else if (submitCounter == 4) {
+        } else if (submitCounter == 3) {
           console.log(input);
           result = await props.enviarDatos(
             {
@@ -291,8 +302,6 @@ export function CreateWo(props) {
           ) : (
             <div>
               {isProjectReady ? (
-                <div>
-                  {isCategoryReady ? (
                     <div>
                       {isMitemsReady ? (
                         <div>
@@ -341,18 +350,11 @@ export function CreateWo(props) {
                         handleSubmit={handleSubmit}
                         master={master}
                         setMaster={setMaster}
+                        setCategory={setCategory}
+                        category={category}
                         />
                       )}
                     </div>
-                  ) : (
-                    <SelectCategory 
-                    worders={worders}
-                    handleSubmit={handleSubmit}
-                    catChangeHandler={catChangeHandler}
-                    category={category}
-                    />
-                  )}
-                </div>
               ) : (
                 <SelectProject 
                 worders={worders}
