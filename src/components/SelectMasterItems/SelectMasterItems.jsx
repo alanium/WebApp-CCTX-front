@@ -16,10 +16,9 @@ export function SelectMasterItems(props) {
 
     
     }));
-    props.setCategory((prevCategory) => ({
-      ...prevCategory,
+    props.setCategory({
       category_name:props.worders.map((element) => element.category)
-    }))
+    })
   },[])
 
   const toggleExpansion = () => {
