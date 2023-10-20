@@ -23,7 +23,7 @@ export function SelectMasterItems(props) {
 
     
     }));
-    console.log(master)
+    console.log(props.master)
   },[])
 
   const toggleExpansion = () => {
