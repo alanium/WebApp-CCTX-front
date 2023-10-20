@@ -134,7 +134,7 @@ export function CreateWo(props) {
         
             return {
               ...prevInput,
-              category_name: [...prevInput.category_name, event.target.category],
+              category_name: [...prevInput.category_name, masterObj.category],
             };
       });
     } else {
