@@ -143,7 +143,7 @@ export function WoPreview(props) {
             margin: "5px",
           }}
         >
-          <label style={{ color: "white" }}>{props.category.category_name}</label>
+          <label style={{ color: "white" }}>{Set(props.category.category_name)}</label>
         </div>
       </div>
       </div>
