@@ -24,23 +24,20 @@ export function WoPreview(props) {
     setIsSubmitting(true);
     setClick(1);
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/generate_wo",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "download",
-            user: props.user,
-            selected_project: props.selected_project,
-            selected_master: props.selected_master,
-            selected_sub: props.selected_sub,
-            selected_processes: props.selected_processes,
-          }),
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5000/generate_wo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "download",
+          user: props.user,
+          selected_project: props.selected_project,
+          selected_master: props.selected_master,
+          selected_sub: props.selected_sub,
+          selected_processes: props.selected_processes,
+        }),
+      });
 
       if (response.ok) {
         const blob = await response.blob();
@@ -97,23 +94,62 @@ export function WoPreview(props) {
         </div>
       ) : null}
       <div
-              style={{
-                marginTop: "25px",
-                marginBottom: "30px",
-              }}
-      >
-      <div
         style={{
-          margin: "12px",
+          marginTop: "25px",
+          marginBottom: "30px",
         }}
       >
-        <label style={{ fontSize: "18px", color: "white" }}>PROJECT:</label>
         <div
           style={{
-            margin: "5px",
+            margin: "12px",
           }}
         >
-          <label style={{ color: "white" }}>{props.project.project_name}</label>
+          <label style={{ fontSize: "18px", color: "white" }}>PROJECT:</label>
+          <div
+            style={{
+              margin: "5px",
+            }}
+          >
+            <label style={{ color: "white" }}>
+              {props.project.project_name}
+            </label>
+          </div>
+        </div>
+        <div
+          style={{
+            margin: "12px",
+          }}
+        >
+          <label style={{ fontSize: "18px", color: "white" }}>
+            SUBCONTRACTOR:
+          </label>
+          <div
+            style={{
+              margin: "5px",
+            }}
+          >
+            <label style={{ color: "white" }}>{props.sub.sub_name}</label>
+          </div>
+        </div>
+        <div
+          style={{
+            margin: "12px",
+          }}
+        >
+          <label style={{ fontSize: "18px", color: "white" }}>CATEGORY:</label>
+          <div
+            style={{
+              margin: "5px",
+            }}
+          >
+            {Array.from(new Set(props.category.category_name)).map(
+              (element) => (
+                <div>
+                  <label style={{color: "white"}}>{element}</label>
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
       <div
@@ -121,38 +157,6 @@ export function WoPreview(props) {
           margin: "12px",
         }}
       >
-        <label style={{ fontSize: "18px", color: "white" }}>
-          SUBCONTRACTOR:
-        </label>
-        <div
-          style={{
-            margin: "5px",
-          }}
-        >
-          <label style={{ color: "white" }}>{props.sub.sub_name}</label>
-        </div>
-      </div>
-      <div
-      style={{
-        margin: "12px",
-      }}
-      >
-        <label style={{ fontSize: "18px", color: "white" }}>CATEGORY:</label>
-        <div
-          style={{
-            margin: "5px",
-          }}
-        >
-          <label style={{ color: "white" }}>{new Set(props.category.category_name)}</label>
-        </div>
-      </div>
-      </div>
-      <div
-        style={{
-          margin: "12px",
-        }}
-      >
-        
         <label style={{ fontSize: "18px", color: "white" }}>
           SELECTED TASKS:
         </label>

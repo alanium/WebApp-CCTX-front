@@ -10,7 +10,7 @@ export function SelectMasterItems(props) {
 
     props.setCategory((prevCategory) => ({
       ...prevCategory,
-      category_name: new Set(initialCategories),
+      category_name: Array.from(new Set(initialCategories)),
     }));
 
     props.setMaster((prevMaster) => ({

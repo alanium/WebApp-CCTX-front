@@ -24,9 +24,7 @@ export function CreateWo(props) {
     project_id: "",
   });
   const [category, setCategory] = useState({
-    selected_category: [null],
     category_name: [null],
-    category_id: [null],
   });
   const [master, setMaster] = useState({
     selected_master: [],
@@ -99,23 +97,6 @@ export function CreateWo(props) {
     })
   };
 
-  const catChangeHandler = (event) => {
-
-    console.log (
-      event.target.options[event.target.selectedIndex].getAttribute("data"),
-      event.target.options[event.target.selectedIndex].getAttribute("id"),
-      event.target.options[event.target.selectedIndex].getAttribute("name")
-    )
-    setCategory({
-      selected_category: [JSON.parse(
-        event.target.options[event.target.selectedIndex].getAttribute("data")
-      )],
-      category_id:
-        [event.target.options[event.target.selectedIndex].getAttribute("id")],
-      category_name:
-        [event.target.options[event.target.selectedIndex].getAttribute("name")],
-    });
-  };
 
   const masterChangeHandler = (event) => {
     const masterName = event.target.name;
