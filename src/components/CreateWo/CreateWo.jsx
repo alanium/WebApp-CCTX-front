@@ -144,6 +144,7 @@ export function CreateWo(props) {
         }
       });
     }
+    console.log(category)
   };
 
   const processChangeHandler = (event) => {
