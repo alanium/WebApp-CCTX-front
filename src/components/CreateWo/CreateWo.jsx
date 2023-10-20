@@ -16,8 +16,7 @@ export function CreateWo(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(false);
-  const [input, setInput] = useState({
-  });
+  const [input, setInput] = useState({});
   const [projectId, setProjectId] = useState({
     selected_project: null,
     project_name: "",
@@ -38,14 +37,14 @@ export function CreateWo(props) {
   });
 
   const [lead, setLead] = useState({
-    lead_id: null
-  })
+    lead_id: null,
+  });
   const [subId, setSubId] = useState({
     selected_sub: null,
     sub_name: null,
     sub_id: null,
   });
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
   const [isCategoryReady, setIsCategoryReady] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
@@ -78,9 +77,7 @@ export function CreateWo(props) {
       event.target.options[event.target.selectedIndex].getAttribute("name") &&
       event.target.options[event.target.selectedIndex].getAttribute("id")
     )
-    console.log(
-      lead
-    )
+      console.log(lead);
 
     setProjectId({
       selected_project: JSON.parse(
@@ -93,54 +90,59 @@ export function CreateWo(props) {
     });
 
     setLead({
-      lead_id: event.target.options[event.target.selectedIndex].getAttribute("lead")
-    })
+      lead_id:
+        event.target.options[event.target.selectedIndex].getAttribute("lead"),
+    });
   };
-
 
   const masterChangeHandler = (event) => {
     const masterName = event.target.name;
     const masterId = event.target.id;
-    const catName = event.target.category;
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
-    const index = event.target.index
+    const selectedCategories = worders
+      .filter((masters) => masters.category === masterObj.category)
+      .map((masters) => masters.category);
 
-    
     if (masterName && masterId && masterObj) {
-    setMaster((prevInput) => {
-      if (isChecked) {
-        return {
-          ...prevInput,
-          selected_master: [...prevInput.selected_master, masterObj],
-          master_name: [...prevInput.master_name, masterName],
-        };
-      } else {
-        return {
-          ...prevInput,
-          selected_master: prevInput.selected_master.filter(
-            (data) => data.id !== masterObj.id
-          ),
-          master_name: prevInput.master_name.filter(
-            (name) => name !== masterName
-          ),
-        };
-      }
-    
-      })
-      if (isChecked) {
-        setCategory((prevInput) => {
-        
-            return {
-              ...prevInput,
-              category_name: [...prevInput.category_name, masterObj.category],
-            };
+      setMaster((prevInput) => {
+        if (isChecked) {
+          return {
+            ...prevInput,
+            selected_master: [...prevInput.selected_master, masterObj],
+            master_name: [...prevInput.master_name, masterName],
+          };
+        } else {
+          return {
+            ...prevInput,
+            selected_master: prevInput.selected_master.filter(
+              (data) => data.id !== masterObj.id
+            ),
+            master_name: prevInput.master_name.filter(
+              (name) => name !== masterName
+            ),
+          };
+        }
       });
-    } else {
-      category.category_name.splice(index)
-    }}
+      setCategory((prevInput) => {
+        if (isChecked) {
+          return {
+            ...prevInput,
+            category_name: [...prevInput.category_name, ...selectedCategories],
+          };
+        } else {
+          return {
+            ...prevInput,
+            category_name: prevInput.category_name.filter(
+              (category) => category !== masterObj.category
+            ),
+          };
+        }
+        
+      });
+    }
+    console.log(cate)
   };
-
   const processChangeHandler = (event) => {
     const processName = event.target.name;
     const processId = event.target.id;
@@ -165,9 +167,7 @@ export function CreateWo(props) {
             process_name: prevInput.process_name.filter(
               (name) => name !== processName
             ),
-            process_id: prevInput.process_id.filter(
-              (id) => id !== processId
-            ),
+            process_id: prevInput.process_id.filter((id) => id !== processId),
           };
         }
       });
@@ -175,13 +175,12 @@ export function CreateWo(props) {
   };
 
   const subChangeHandler = (event) => {
-
     if (
       event.target.options[event.target.selectedIndex].getAttribute("data") &&
       event.target.options[event.target.selectedIndex].getAttribute("id") &&
       event.target.options[event.target.selectedIndex].getAttribute("name")
     )
-    console.log(subId)
+      console.log(subId);
     setSubId({
       selected_sub: JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
@@ -197,7 +196,7 @@ export function CreateWo(props) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (input.id !== null ) {
+    if (input.id !== null) {
       try {
         let result;
         if (submitCounter == 0) {
@@ -209,7 +208,6 @@ export function CreateWo(props) {
             "generate_wo"
           );
           setIsProjectReady(true);
-
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
             { action: "get_process", category: category.category_name },
@@ -221,8 +219,7 @@ export function CreateWo(props) {
             { action: "get_subcontractor" },
             "generate_wo"
           );
-          setIsProcessReady(true); 
-
+          setIsProcessReady(true);
         } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
@@ -250,7 +247,7 @@ export function CreateWo(props) {
   };
 
   return (
-    <div className="global-container" style={{maxWidth: "450px"}}>
+    <div className="global-container" style={{ maxWidth: "450px" }}>
       {isSubmitting ? (
         <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
           <div className={styles.spinContainer}>
@@ -259,9 +256,7 @@ export function CreateWo(props) {
         </div>
       ) : null}
       <div className={styles.titleDiv}>
-        <label className="global-card-title" >
-          Generate Work Order
-        </label>
+        <label className="global-card-title">Generate Work Order</label>
       </div>
       {role !== "member" ? (
         <div>
@@ -272,65 +267,65 @@ export function CreateWo(props) {
           ) : (
             <div>
               {isProjectReady ? (
+                <div>
+                  {isMitemsReady ? (
                     <div>
-                      {isMitemsReady ? (
+                      {isProcessReady ? (
                         <div>
-                          {isProcessReady ? (
-                                <div>
-                                  {isWoReady ? (
-                                    <WoPreview
-                                      project={projectId}
-                                      sub={subId}
-                                      master={master}
-                                      process={process}
-                                      category={category}
-                                      user={user}
-                                      enviarDatos={props.enviarDatos}
-                                      selected_project={projectId.selected_project}
-                                      selected_master={master.selected_master}
-                                      selected_sub={subId.selected_sub}
-                                      selected_processes={process.selected_process}
-                                    />
-                                  ) : (
-                                   <SelectSub
-                                    worders={worders}
-                                    subChangeHandler={subChangeHandler}
-                                    handleSubmit={handleSubmit}
-                                    sub={subId}
-                                    process={process}
-                                    master={master}
-                                   />
-                                  )}
-                                </div>
+                          {isWoReady ? (
+                            <WoPreview
+                              project={projectId}
+                              sub={subId}
+                              master={master}
+                              process={process}
+                              category={category}
+                              user={user}
+                              enviarDatos={props.enviarDatos}
+                              selected_project={projectId.selected_project}
+                              selected_master={master.selected_master}
+                              selected_sub={subId.selected_sub}
+                              selected_processes={process.selected_process}
+                            />
                           ) : (
-                            <SelectProcesses
-                            worders={worders}
-                            handleSubmit={handleSubmit}
-                            processChangeHandler={processChangeHandler}
-                            submitCounter={submitCounter}
-                            setSubmitcounter={setSubmitcounter}
-                            isMitemsReady={isMitemsReady}
+                            <SelectSub
+                              worders={worders}
+                              subChangeHandler={subChangeHandler}
+                              handleSubmit={handleSubmit}
+                              sub={subId}
+                              process={process}
+                              master={master}
                             />
                           )}
                         </div>
                       ) : (
-                        <SelectMasterItems
-                        worders={worders}
-                        masterChangeHandler={masterChangeHandler}
-                        handleSubmit={handleSubmit}
-                        master={master}
-                        setMaster={setMaster}
-                        setCategory={setCategory}
-                        category={category}
+                        <SelectProcesses
+                          worders={worders}
+                          handleSubmit={handleSubmit}
+                          processChangeHandler={processChangeHandler}
+                          submitCounter={submitCounter}
+                          setSubmitcounter={setSubmitcounter}
+                          isMitemsReady={isMitemsReady}
                         />
                       )}
                     </div>
+                  ) : (
+                    <SelectMasterItems
+                      worders={worders}
+                      masterChangeHandler={masterChangeHandler}
+                      handleSubmit={handleSubmit}
+                      master={master}
+                      setMaster={setMaster}
+                      setCategory={setCategory}
+                      category={category}
+                    />
+                  )}
+                </div>
               ) : (
-                <SelectProject 
-                worders={worders}
-                changeHandler={changeHandler}
-                handleSubmit={handleSubmit}
-                project={projectId}
+                <SelectProject
+                  worders={worders}
+                  changeHandler={changeHandler}
+                  handleSubmit={handleSubmit}
+                  project={projectId}
                 />
               )}
             </div>
