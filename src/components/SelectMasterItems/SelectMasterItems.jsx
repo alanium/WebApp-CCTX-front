@@ -10,7 +10,7 @@ export function SelectMasterItems(props) {
 
     props.setCategory((prevCategory) => ({
       ...prevCategory,
-      category_name: Set(initialCategories),
+      category_name: new Set(initialCategories),
     }));
 
     props.setMaster((prevMaster) => ({
@@ -21,8 +21,9 @@ export function SelectMasterItems(props) {
         ...props.worders.map((element) => element.description),
       ],
 
+    
     }));
-
+    console.log(master)
   },[])
 
   const toggleExpansion = () => {
