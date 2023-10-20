@@ -6,6 +6,13 @@ export function SelectMasterItems(props) {
   const [isExpanded, setExpanded] = useState(false);
 
   useEffect(() => {
+    const initialCategories = props.worders.map((masters) => masters.category);
+
+    props.setCategory((prevCategory) => ({
+      ...prevCategory,
+      category_name: initialCategories,
+    }));
+
     props.setMaster((prevMaster) => ({
       ...prevMaster,
       selected_master:[...prevMaster.selected_master, ...props.worders],
@@ -14,11 +21,8 @@ export function SelectMasterItems(props) {
         ...props.worders.map((element) => element.description),
       ],
 
-    
     }));
-    props.setCategory({
-      category_name:props.worders.map((element) => element.category)
-    })
+
   },[])
 
   const toggleExpansion = () => {
