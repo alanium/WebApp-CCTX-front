@@ -39,7 +39,7 @@ export function SelectMasterItems(props) {
           </label>
         </div>
         <div className={styles.selectedTasks} onClick={toggleExpansion} style={{ maxHeight: "300px", overflowY: "auto" }}>
-          {props.worders.map((masters) => (
+          {props.worders.map((masters, index) => (
             <div>
                 <div
                   key={masters.decription}
@@ -54,6 +54,7 @@ export function SelectMasterItems(props) {
                     id={masters.description}
                     name={masters.description}
                     data={JSON.stringify(masters)}
+                    key={index}
                     category={masters.category}
                     onChange={props.masterChangeHandler}
                     defaultChecked={true}

@@ -132,19 +132,18 @@ export function CreateWo(props) {
         if (isChecked) {
           return {
             ...prevInput,
-            category_name: [...prevInput.category_name, masterObj.category],
+            category_name: [...prevInput.category_name, event.target.category],
           };
         } else {
           return {
             ...prevInput,
             category_name: prevInput.category_name.filter(
-              (category) => category !== masterObj.category
+              (category) => category !== event.target.category
             ),
           };
         }
       });
     }
-    console.log(category)
   };
 
   const processChangeHandler = (event) => {
