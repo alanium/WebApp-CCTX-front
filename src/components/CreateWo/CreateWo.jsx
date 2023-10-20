@@ -124,7 +124,6 @@ export function CreateWo(props) {
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
 
-    console.log(master)
     
     if (masterName && masterId && masterObj) {
     setMaster((prevInput) => {
@@ -236,14 +235,12 @@ export function CreateWo(props) {
           setIsProjectReady(true);
 
         } else if (submitCounter == 1) {
-          console.log(input);
           result = await props.enviarDatos(
             { action: "get_process", category: category.category_name },
             "generate_wo"
           );
           setIsMitemsReady(true);
         } else if (submitCounter == 2) {
-          console.log(input)
           result = await props.enviarDatos(
             { action: "get_subcontractor" },
             "generate_wo"
@@ -251,7 +248,6 @@ export function CreateWo(props) {
           setIsProcessReady(true); 
 
         } else if (submitCounter == 3) {
-          console.log(input);
           result = await props.enviarDatos(
             {
               project_id: projectId.project_id,
@@ -263,9 +259,7 @@ export function CreateWo(props) {
           setIsWoReady(true);
         }
         setSubmitcounter(submitCounter + 1);
-        console.log(input);
         if (result) {
-          console.log(result);
           setWorders(result);
         }
       } catch (error) {
