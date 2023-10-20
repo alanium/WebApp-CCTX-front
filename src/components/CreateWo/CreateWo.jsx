@@ -104,6 +104,7 @@ export function CreateWo(props) {
     const catName = event.target.category;
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
+    const index = event.target.index
 
     
     if (masterName && masterId && masterObj) {
@@ -128,21 +129,16 @@ export function CreateWo(props) {
     
 
       })
-      setCategory((prevInput) => {
-        if (isChecked) {
-          return {
-            ...prevInput,
-            category_name: [...prevInput.category_name, event.target.category],
-          };
-        } else {
-          return {
-            ...prevInput,
-            category_name: prevInput.category_name.filter(
-              (category) => category !== event.target.category
-            ),
-          };
-        }
+      if (isChecked) {
+        setCategory((prevInput) => {
+        
+            return {
+              ...prevInput,
+              category_name: [...prevInput.category_name, event.target.category],
+            };
       });
+    } else {
+      category.category_name.splice(index)
     }
   };
 
