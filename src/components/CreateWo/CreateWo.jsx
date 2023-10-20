@@ -100,9 +100,6 @@ export function CreateWo(props) {
     const masterId = event.target.id;
     const masterObj = JSON.parse(event.target.getAttribute("data"));
     const isChecked = event.target.checked;
-    const selectedCategories = worders
-      .filter((masters) => masters.category === masterObj.category)
-      .map((masters) => masters.category);
 
     if (masterName && masterId && masterObj) {
       setMaster((prevInput) => {
@@ -124,25 +121,10 @@ export function CreateWo(props) {
           };
         }
       });
-      setCategory((prevInput) => {
-        if (isChecked) {
-          return {
-            ...prevInput,
-            category_name: [...prevInput.category_name, ...selectedCategories],
-          };
-        } else {
-          return {
-            ...prevInput,
-            category_name: prevInput.category_name.filter(
-              (category) => category !== masterObj.category
-            ),
-          };
-        }
-        
-      });
-    }
-    console.log(cate)
-  };
+    console.log(category)
+  }};
+
+
   const processChangeHandler = (event) => {
     const processName = event.target.name;
     const processId = event.target.id;
@@ -195,6 +177,9 @@ export function CreateWo(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
+    let categories = master.selected_master.map((master) => {
+      return master.category
+    })
 
     if (input.id !== null) {
       try {
@@ -209,8 +194,9 @@ export function CreateWo(props) {
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
+          console.log(master, categories)
           result = await props.enviarDatos(
-            { action: "get_process", category: category.category_name },
+            { action: "get_process", category: categories },
             "generate_wo"
           );
           setIsMitemsReady(true);
@@ -234,6 +220,7 @@ export function CreateWo(props) {
         setSubmitcounter(submitCounter + 1);
         if (result) {
           setWorders(result);
+          console.log(result)
         }
       } catch (error) {
         console.error("Error: ", error);

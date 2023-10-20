@@ -6,22 +6,12 @@ export function SelectMasterItems(props) {
   const [isExpanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    const initialCategories = props.worders.map((masters) => masters.category);
 
-    props.setCategory((prevCategory) => ({
-      ...prevCategory,
-      category_name: initialCategories,
-    }));
 
     props.setMaster((prevMaster) => ({
       ...prevMaster,
-      selected_master:[...prevMaster.selected_master, ...props.worders],
-      master_name: [
-        ...prevMaster.master_name,
-        ...props.worders.map((element) => element.description),
-      ],
-
-    
+      selected_master:props.worders,
+      master_name: props.worders.map((element) => element.description),
     }));
     console.log(props.master)
   },[])
@@ -51,7 +41,7 @@ export function SelectMasterItems(props) {
                 >
                   <input
                     type="checkbox"
-                    id={masters.description}
+                    id={masters.id}
                     name={masters.description}
                     data={JSON.stringify(masters)}
                     key={index}
