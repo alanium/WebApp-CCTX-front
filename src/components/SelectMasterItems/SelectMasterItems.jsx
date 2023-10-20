@@ -16,7 +16,7 @@ export function SelectMasterItems(props) {
 
     
     }));
-    props.setCagegory((prevCategory) => ({
+    props.setCategory((prevCategory) => ({
       ...prevCategory,
       category_name:props.worders.map((element) => element.category)
     }))
