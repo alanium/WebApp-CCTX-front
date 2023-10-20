@@ -13,7 +13,13 @@ export function SelectMasterItems(props) {
         ...prevMaster.master_name,
         ...props.worders.map((element) => element.description),
       ],
+
+    
     }));
+    props.setCagegory((prevCategory) => ({
+      ...prevCategory,
+      category_name:props.worders.map((element) => element.category)
+    }))
   },[])
 
   const toggleExpansion = () => {
@@ -44,6 +50,7 @@ export function SelectMasterItems(props) {
                     id={masters.description}
                     name={masters.description}
                     data={JSON.stringify(masters)}
+                    category={masters.category}
                     onChange={props.masterChangeHandler}
                     defaultChecked={true}
                   />
