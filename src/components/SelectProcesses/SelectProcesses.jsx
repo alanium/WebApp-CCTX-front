@@ -17,9 +17,8 @@ export function SelectProcesses(props) {
             overflowY: "auto",
           }}
         >
-          {props.worders.map((processes, index) => (
             <div>
-              {processes.map((process) => (
+              {props.worders.map((process) => (
                 <div
                   key={process.id}
                   style={{
@@ -48,7 +47,6 @@ export function SelectProcesses(props) {
                 </div>
               ))}
             </div>
-          ))}
         </div>
           <button
             type="submit"
