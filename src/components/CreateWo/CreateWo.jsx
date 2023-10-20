@@ -127,7 +127,6 @@ export function CreateWo(props) {
         };
       }
     
-
       })
       if (isChecked) {
         setCategory((prevInput) => {
@@ -139,7 +138,7 @@ export function CreateWo(props) {
       });
     } else {
       category.category_name.splice(index)
-    }
+    }}
   };
 
   const processChangeHandler = (event) => {
