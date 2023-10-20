@@ -149,20 +149,20 @@ export function CreateWo(props) {
 
       })
       setCategory((prevInput) => {
-        if(isChecked) {
+        if (isChecked) {
           return {
             ...prevInput,
-            category_name: [...prevInput.category_name, catName]
-          }
+            category_name: [...prevInput.category_name, masterObj.category],
+          };
         } else {
           return {
             ...prevInput,
             category_name: prevInput.category_name.filter(
-              (name) => name !== catName
-            )
-          }
+              (category) => category !== masterObj.category
+            ),
+          };
         }
-      })
+      });
     }
   };
 
