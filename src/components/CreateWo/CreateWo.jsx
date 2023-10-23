@@ -121,7 +121,7 @@ export function CreateWo(props) {
           };
         }
       });
-    console.log(category)
+    console.log(master)
   }};
 
 
@@ -194,7 +194,7 @@ export function CreateWo(props) {
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
-          console.log(master, categories)
+          console.log(categories)
           result = await props.enviarDatos(
             { action: "get_process", category: categories },
             "generate_wo"
