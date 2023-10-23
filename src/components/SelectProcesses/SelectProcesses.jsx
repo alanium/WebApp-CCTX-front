@@ -1,3 +1,4 @@
+import React from "react";
 import { BiXCircle } from "react-icons/bi";
 import styles from "./Processes.module.css"
 

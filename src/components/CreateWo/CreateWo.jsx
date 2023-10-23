@@ -180,6 +180,11 @@ export function CreateWo(props) {
     let categories = master.selected_master.map((master) => {
       return master.category
     })
+    setCategory(
+      {
+        category_name: categories
+      }
+    )
 
     if (input.id !== null) {
       try {

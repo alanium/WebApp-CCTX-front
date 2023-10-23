@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import React, { useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 
 export function SelectProject(props) {

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { setAccess, setUser } from "../../redux/actions";
 import styles from "./ManageProjects.module.css";
 import {
   BiSolidUserCircle,

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, setSuccess } from "../../redux/actions";
+import { setSuccess } from "../../redux/actions";
 import { setAccess, setUser } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import styles from "../Login/Login.module.css";
-import { FaUser, FaKey, FaUserTag} from 'react-icons/fa6'
+import { FaUser, FaKey} from 'react-icons/fa6'
 import { BiXCircle } from "react-icons/bi";
 import "../../index.css";
 

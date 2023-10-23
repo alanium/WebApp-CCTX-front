@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import React, { useState } from "react";
 import styles from "./WoPreview.module.css";
 import { ImSpinner8 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
@@ -170,8 +171,8 @@ export function WoPreview(props) {
           }}
         >
           <p style={{ marginLeft: "5px", color: "white" }}>MASTER ITEMS</p>
-          {props.master.master_name.map((t, index) => (
-            <p style={{ marginLeft: "10px", color: "white" }}>•{t}</p>
+          {props.master.selected_master.map((t, index) => (
+            <p style={{ marginLeft: "10px", color: "white" }}>•{t.description}</p>
           ))}
           <p style={{ marginLeft: "5px", color: "white" }}>PROCESSES</p>
           {props.process.process_name.map((n) => (
