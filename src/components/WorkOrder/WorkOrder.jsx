@@ -33,13 +33,16 @@ export default function WorkOrder(props) {
         <div>
           <label>CATEGORY:</label>
         </div>
-
         <div
           style={{
             margin: "5px",
           }}
         >
-          <label>{props.worder.task_name[0].category}</label>
+          {props.worder.task_name.map((task) => (
+            <div>
+              <label>{task.category}</label>
+            </div>
+          ))}
         </div>
       </div>
       <div style={{ margin: "12px" }}>
