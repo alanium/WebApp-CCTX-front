@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: "build",
   },
   server: {
-    port: 5173, // Asegúrate de que el puerto sea correcto
+    port: 3000, // Asegúrate de que el puerto sea correcto
   },
   plugins: [
     reactRefresh(),
