@@ -50,12 +50,12 @@ export default function ManageWo(props) {
         </div>
         <div className={styles.btnDiv}>
           <button
-          name="create_wo"
+          name="create_project"
           onClick={handleOnClick} 
           className={styles.homeButton}>
             <BiSolidCheckboxChecked className={styles.icon} />
           </button>
-          <label>Create WO</label>
+          <label>Create Project</label>
         </div>
         <div className={styles.btnDiv}>
           <button

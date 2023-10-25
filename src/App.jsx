@@ -96,7 +96,7 @@ function App() {
             path="/home/manage_tasks/assign_task"
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
             <Route
-            path="/home/manage_wo/create_wo"
+            path="/home/manage_wo/create_project"
             element={<CreateWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
             <Route
             path="/home/manage_projects/view_projects"

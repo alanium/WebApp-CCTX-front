@@ -16,24 +16,24 @@ export function SelectProject(props) {
           onChange={props.changeHandler}
           style={{marginTop: "20px"}}
         >
-          <option>Select a Project</option>
-          {props.worders.map((project) => (
+          <option>Select a Customer</option>
+          {props.worders.map((customer) => (
             <option
-              key={project.id}
-              id={project.id}
-              name={project.name}
-              data={JSON.stringify(project)}
-              lead={project.lead_id}
+              key={customer.id}
+              id={customer.id}
+              name={customer.name}
+              data={JSON.stringify(customer)}
+              lead={customer.lead_id}
             >
-              {project.name}
+              {customer.name}
             </option>
           ))}
         </select>
         <br />
         {
-        props.project.selected_project !== null && 
-        props.project.project_name !== null &&
-        props.project.project_id !== null ? (
+        props.customer.selected_customer !== null && 
+        props.customer.customer_name !== null &&
+        props.customer.customer_id !== null ? (
            <button className="global-button" type="submit" onClick={props.handleSubmit}>
            Submit
           </button>

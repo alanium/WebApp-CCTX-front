@@ -4,12 +4,10 @@ import { useSelector } from "react-redux";
 import { WoPreview } from "../WoPreview/WoPreview";
 import { ImSpinner8 } from "react-icons/im";
 import styles from "./CreateWo.module.css";
-import { EditTask } from "../EditTask/EditTask";
 import { SelectSub } from "../SelectSub/SelectSub";
 import { SelectProcesses } from "../SelectProcesses/SelectProcesses";
 import { SelectMasterItems } from "../SelectMasterItems/SelectMasterItems";
-import { SelectCategory } from "../SelectCategory/SelectCategory";
-import { SelectProject } from "../SelectProject/SelectProject";
+import { SelectCustomer } from "../SelectCustomer/SelectCustomer";
 
 export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
@@ -17,10 +15,10 @@ export function CreateWo(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const [input, setInput] = useState({});
-  const [projectId, setProjectId] = useState({
-    selected_project: null,
-    project_name: "",
-    project_id: "",
+  const [customer, setCustomer] = useState({
+    selected_customer: null,
+    customer_name: "",
+    customer_id: "",
   });
   const [category, setCategory] = useState({
     category_name: [null],
@@ -46,7 +44,6 @@ export function CreateWo(props) {
   });
   const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
-  const [isCategoryReady, setIsCategoryReady] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isMitemsReady, setIsMitemsReady] = useState(false);
   const [isProcessReady, setIsProcessReady] = useState(false);
@@ -56,7 +53,7 @@ export function CreateWo(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const result = await props.obtenerJSON("generate_wo");
+        const result = await props.obtenerJSON("create_project");
         if (result) {
           console.log(result);
           setWorders(result);
@@ -79,7 +76,7 @@ export function CreateWo(props) {
     )
       console.log(lead);
 
-    setProjectId({
+    setCustomer({
       selected_project: JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
       ),
@@ -193,7 +190,7 @@ export function CreateWo(props) {
           result = await props.enviarDatos(
             {
               action: "get_master",
-              lead_id: lead.lead_id,
+              lead_id: customer.selected_customer,
             },
             "generate_wo"
           );
@@ -214,7 +211,7 @@ export function CreateWo(props) {
         } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
-              project_id: projectId.project_id,
+              customer_id: customer.customer_id,
               sub_id: subId.sub_id,
               action: "preview",
             },
@@ -248,7 +245,7 @@ export function CreateWo(props) {
         </div>
       ) : null}
       <div className={styles.titleDiv}>
-        <label className="global-card-title">Generate Work Order</label>
+        <label className="global-card-title">Create Project</label>
       </div>
       {role !== "member" ? (
         <div>
@@ -266,7 +263,7 @@ export function CreateWo(props) {
                         <div>
                           {isWoReady ? (
                             <WoPreview
-                              project={projectId}
+                              customer={customer}
                               sub={subId}
                               master={master}
                               process={process}
@@ -307,17 +304,14 @@ export function CreateWo(props) {
                       handleSubmit={handleSubmit}
                       master={master}
                       setMaster={setMaster}
-                      setCategory={setCategory}
-                      category={category}
                     />
                   )}
                 </div>
               ) : (
-                <SelectProject
+                <SelectCustomer
                   worders={worders}
                   changeHandler={changeHandler}
                   handleSubmit={handleSubmit}
-                  project={projectId}
                 />
               )}
             </div>

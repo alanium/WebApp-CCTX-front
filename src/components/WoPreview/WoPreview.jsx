@@ -33,7 +33,7 @@ export function WoPreview(props) {
         body: JSON.stringify({
           action: "download",
           user: props.user,
-          selected_project: props.selected_project,
+          selected_customer: props.selected_customer,
           selected_master: props.selected_master,
           selected_sub: props.selected_sub,
           selected_processes: props.selected_processes,
@@ -105,14 +105,14 @@ export function WoPreview(props) {
             margin: "12px",
           }}
         >
-          <label style={{ fontSize: "18px", color: "white" }}>PROJECT:</label>
+          <label style={{ fontSize: "18px", color: "white" }}>CUSTOMER:</label>
           <div
             style={{
               margin: "5px",
             }}
           >
             <label style={{ color: "white" }}>
-              {props.project.project_name}
+              {props.customer.customer_name}
             </label>
           </div>
         </div>

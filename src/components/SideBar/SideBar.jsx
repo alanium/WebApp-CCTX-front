@@ -33,8 +33,8 @@ export default function NavBar(props) {
               <NavLink to="/home/manage_wo/" className={styles.navLink} >
                 {isSidebarOpen ? <label>Manage Work Orders</label> : <BiSolidStar />}
               </NavLink>
-              <NavLink to="/home/manage_wo/create_wo" className={styles.navLink} >
-                {isSidebarOpen ? <label>Create Work Order</label> : <BiSolidStar />}
+              <NavLink to="/home/manage_wo/create_project" className={styles.navLink} >
+                {isSidebarOpen ? <label>Create Project</label> : <BiSolidStar />}
               </NavLink>
               <NavLink to="/home/manage_wo/view_wo" className={styles.navLink}>
                 {isSidebarOpen ? <label>View Work Orders</label> : <BiSolidFileFind />}
