@@ -118,9 +118,9 @@ export function CreateWo(props) {
           };
         }
       });
-    console.log(master)
-  }};
-
+      console.log(master);
+    }
+  };
 
   const processChangeHandler = (event) => {
     const processName = event.target.name;
@@ -175,13 +175,11 @@ export function CreateWo(props) {
     event.preventDefault();
     setIsSubmitting(true);
     let categories = master.selected_master.map((master) => {
-      return master.category
-    })
-    setCategory(
-      {
-        category_name: categories
-      }
-    )
+      return master.category;
+    });
+    setCategory({
+      category_name: categories,
+    });
 
     if (input.id !== null) {
       try {
@@ -196,7 +194,7 @@ export function CreateWo(props) {
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
-          console.log(categories)
+          console.log(categories);
           result = await props.enviarDatos(
             { action: "get_process", category: categories },
             "generate_wo"
@@ -222,7 +220,7 @@ export function CreateWo(props) {
         setSubmitcounter(submitCounter + 1);
         if (result) {
           setWorders(result);
-          console.log(result)
+          console.log(result);
         }
       } catch (error) {
         console.error("Error: ", error);
@@ -259,41 +257,28 @@ export function CreateWo(props) {
                 <div>
                   {isMitemsReady ? (
                     <div>
-                      {isProcessReady ? (
-                        <div>
-                          {isWoReady ? (
-                            <WoPreview
-                              customer={customer}
-                              sub={subId}
-                              master={master}
-                              process={process}
-                              category={category}
-                              user={user}
-                              enviarDatos={props.enviarDatos}
-                              selected_project={projectId.selected_project}
-                              selected_master={master.selected_master}
-                              selected_sub={subId.selected_sub}
-                              selected_processes={process.selected_process}
-                            />
-                          ) : (
-                            <SelectSub
-                              worders={worders}
-                              subChangeHandler={subChangeHandler}
-                              handleSubmit={handleSubmit}
-                              sub={subId}
-                              process={process}
-                              master={master}
-                            />
-                          )}
-                        </div>
+                      {isWoReady ? (
+                        <WoPreview
+                          customer={customer}
+                          sub={subId}
+                          master={master}
+                          process={process}
+                          category={category}
+                          user={user}
+                          enviarDatos={props.enviarDatos}
+                          selected_project={projectId.selected_project}
+                          selected_master={master.selected_master}
+                          selected_sub={subId.selected_sub}
+                          selected_processes={process.selected_process}
+                        />
                       ) : (
-                        <SelectProcesses
+                        <SelectSub
                           worders={worders}
+                          subChangeHandler={subChangeHandler}
                           handleSubmit={handleSubmit}
-                          processChangeHandler={processChangeHandler}
-                          submitCounter={submitCounter}
-                          setSubmitcounter={setSubmitcounter}
-                          isMitemsReady={isMitemsReady}
+                          sub={subId}
+                          process={process}
+                          master={master}
                         />
                       )}
                     </div>
@@ -304,6 +289,7 @@ export function CreateWo(props) {
                       handleSubmit={handleSubmit}
                       master={master}
                       setMaster={setMaster}
+                      processChangeHandler={processChangeHandler}
                     />
                   )}
                 </div>
