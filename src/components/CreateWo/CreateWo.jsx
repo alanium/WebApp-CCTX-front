@@ -312,6 +312,7 @@ export function CreateWo(props) {
                   worders={worders}
                   changeHandler={changeHandler}
                   handleSubmit={handleSubmit}
+                  customer={customer}
                 />
               )}
             </div>
