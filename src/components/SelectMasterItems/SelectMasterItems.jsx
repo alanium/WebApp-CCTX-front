@@ -3,28 +3,33 @@ import { BiXCircle } from "react-icons/bi";
 import styles from "./SelectMasterItems.module.css";
 
 export function SelectMasterItems(props) {
-  const [isExpanded, setExpanded] = useState(false);
+  
 
   useEffect(() => {
     props.setMaster((prevMaster) => ({
       ...prevMaster,
       selected_master: props.worders,
-      master_name: props.worders.map((element) => element.description),
     }));
     console.log(props.master);
   }, []);
 
-  const toggleExpansion = () => {
-    setExpanded(!isExpanded);
+  const [selectedTasks, setSelectedTasks] = useState([]);
+
+
+  const categories = Object.keys(props.worders)
+
+  const toggleTask = (taskName) => {
+    if (selectedTasks.includes(taskName)) {
+      setSelectedTasks(selectedTasks.filter((item) => item !== taskName));
+    } else {
+      setSelectedTasks([...selectedTasks, taskName]);
+    }
   };
+
 
   return (
     <div
-      className={
-        isExpanded
-          ? `${styles.contenedor} ${styles.expanded}`
-          : styles.contenedor
-      }
+  
     >
       <form>
         <div style={{ marginBottom: "10px", marginTop: "10px" }}>
@@ -37,69 +42,48 @@ export function SelectMasterItems(props) {
         </div>
         <div
           className={styles.selectedTasks}
-          onClick={toggleExpansion}
           style={{ maxHeight: "300px", overflowY: "auto" }}
         >
-          {props.worders.map((masters, index) => (
+        {categories.map((category) => (
+          <div>
             <div>
-              <div
-                key={masters.decription}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  id={masters.id}
-                  name={masters.description}
-                  data={JSON.stringify(masters)}
-                  key={index}
-                  category={masters.category}
-                  onChange={props.masterChangeHandler}
-                  defaultChecked={true}
-                />
-                <label
-                  style={{
-                    color: "white",
-                    textAlign: "justify",
-                    textJustify: "inter-word",
-                    flex: "1",
-                  }}
-                  title={masters.description}
-                >
-                  {masters.description}
-                </label>
-              </div>
-              {props.master.master_name.includes(masters.description) ? (
-                <div>
-                  {masters.processes.map((process, index) => (
-                    <div>
-                      <input
-                        type="checkbox"
-                        id={process.id}
-                        name={process.name}
-                        key={index}
-                        onChange={props.processChangeHandler}
-                        defaultChecked={true}
-                      />
-                      <label
-                        style={{
-                          color: "white",
-                          textAlign: "justify",
-                          textJustify: "inter-word",
-                          flex: "1",
-                        }}
-                      >
-                        {process.name}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+              <label>
+                {category}
+              </label>
             </div>
-          ))}
+            <div>
+              <form>
+                {props.worders[category].map((task, index) => (
+                  <div style={{
+                    marginLeft: "5px"
+                  }}>
+                    <input
+                      type="checkbox"
+                      onChange={() => toggleTask(task.name)}
+                    />
+                    <label>
+                      {task.name}
+                    </label>
+                    <div>
+                      {task.master_items.map((master, index) => (
+                        <div style={{
+                          marginLeft: "15px"
+                        }}>
+                          {selectedTasks.includes(task.name) && (
+                              <input type="checkbox" />
+                            )}
+                            {selectedTasks.includes(task.name) && (
+                              <label>{master.description}</label>
+                            )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </form>
+            </div>
+          </div>
+        ))}
         </div>
         <button
           type="submit"

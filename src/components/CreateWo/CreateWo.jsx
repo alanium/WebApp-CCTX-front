@@ -44,6 +44,9 @@ export function CreateWo(props) {
   });
   const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
+  const [isExpanded, setExpanded] = useState({
+
+  });
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isMitemsReady, setIsMitemsReady] = useState(false);
   const [isProcessReady, setIsProcessReady] = useState(false);
@@ -77,12 +80,12 @@ export function CreateWo(props) {
       console.log(lead);
 
     setCustomer({
-      selected_project: JSON.parse(
+      selected_customer: JSON.parse(
         event.target.options[event.target.selectedIndex].getAttribute("data")
       ),
-      project_name:
+      customer_name:
         event.target.options[event.target.selectedIndex].getAttribute("name"),
-      project_id:
+      customer_id:
         event.target.options[event.target.selectedIndex].getAttribute("id"),
     });
 
@@ -185,25 +188,26 @@ export function CreateWo(props) {
       try {
         let result;
         if (submitCounter == 0) {
+          console.log(customer)
           result = await props.enviarDatos(
             {
               action: "get_master",
-              lead_id: customer.selected_customer,
+              selected_customer: customer.selected_customer,
             },
-            "generate_wo"
+            "create_project"
           );
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           console.log(categories);
           result = await props.enviarDatos(
             { action: "get_process", category: categories },
-            "generate_wo"
+            "create_project"
           );
           setIsMitemsReady(true);
         } else if (submitCounter == 2) {
           result = await props.enviarDatos(
             { action: "get_subcontractor" },
-            "generate_wo"
+            "create_project"
           );
           setIsProcessReady(true);
         } else if (submitCounter == 3) {
@@ -213,7 +217,7 @@ export function CreateWo(props) {
               sub_id: subId.sub_id,
               action: "preview",
             },
-            "generate_wo"
+            "create_project"
           );
           setIsWoReady(true);
         }

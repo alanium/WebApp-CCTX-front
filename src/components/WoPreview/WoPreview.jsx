@@ -19,13 +19,13 @@ export function WoPreview(props) {
       {
         action: "get_wo_id",
       },
-      "generate_wo"
+      "create_project"
     );
     console.log(nombre);
     setIsSubmitting(true);
     setClick(1);
     try {
-      const response = await fetch("http://3.144.138.238:5000/generate_wo", {
+      const response = await fetch("http://3.144.138.238:5000/create_project", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
