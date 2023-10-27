@@ -25,7 +25,7 @@ export function WoPreview(props) {
     setIsSubmitting(true);
     setClick(1);
     try {
-      const response = await fetch("http://3.144.138.238:5000/create_project", {
+      const response = await fetch("http://3.145.79.50:5000/create_project", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

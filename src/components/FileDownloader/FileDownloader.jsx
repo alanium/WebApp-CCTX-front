@@ -57,7 +57,7 @@ export function FileDownloader(props) {
       return; // Exit the function early
     } else {
       try {
-        const response = await fetch("http://3.144.138.238:5000/wo", {
+        const response = await fetch("http://3.145.79.50:5000/wo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
