@@ -51,7 +51,7 @@ export function SelectMasterItems(props) {
                     aux++;
                   }
                 })
-               if (!aux === 0) {
+               if (aux === 0) {
                 unselectedMasters.push(masterWithoutId)
                }
             }
