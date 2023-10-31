@@ -48,6 +48,15 @@ export function ManageProjects(props) {
           </button>
           <label>View Projects</label>
         </div>
+        <div className={styles.btnDiv}>
+          <button
+          name="create_project"
+          onClick={handleOnClick} 
+          className={styles.homeButton}>
+            <BiSolidCheckboxChecked className={styles.icon} />
+          </button>
+          <label>Create Project</label>
+        </div>
         </div>
       </div>
   );

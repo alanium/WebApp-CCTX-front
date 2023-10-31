@@ -4,15 +4,6 @@ import styles from "./SelectMasterItems.module.css";
 
 export function SelectMasterItems(props) {
   const ref = useRef(null);
-
-  useEffect(() => {
-    props.setMaster((prevMaster) => ({
-      ...prevMaster,
-      selected_master: Object.create(props.worders),
-    }));
-    console.log(props.master);
-  }, []);
-
   const [selectedMasterDescriptions, setSelectedMasterDescriptions] = useState(
     []
   );
@@ -20,56 +11,110 @@ export function SelectMasterItems(props) {
   const [selectedMasterIDs, setSelectedMasterIDs] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState([]);
   const categories = Object.keys(props.worders);
+  const [master, setMaster] = useState({});
 
-  const toggleTask = (taskName) => {
-    if (selectedTasks.includes(taskName)) {
-      setSelectedTasks(selectedTasks.filter((item) => item !== taskName));
+  useEffect(() => {
+    console.log(master);
+  }, [master]);
+
+  const toggleTask = (task) => {
+    if (selectedTasks.includes(task)) {
+      let updatedSelectedMasterIDs = [...selectedMasterIDs];
+      let updatedSelectedMasterDescriptions = [...selectedMasterDescriptions];
+  
+      // Iterate through the master items of the task
+      task.master_items.forEach((master) => {
+        const masterID = master.id;
+        const masterDescription = master.description;
+  
+        if (selectedMasterIDs.includes(masterID)) {
+          // Remove the master item's ID from selectedMasterIDs
+          updatedSelectedMasterIDs = updatedSelectedMasterIDs.filter(
+            (id) => id !== masterID
+          );
+  
+          // Remove the master item's description from selectedMasterDescriptions
+          updatedSelectedMasterDescriptions = updatedSelectedMasterDescriptions.filter(
+            (desc) => desc !== masterDescription
+          );
+        }
+      });
+  
+      // Update selectedMasterIDs and selectedMasterDescriptions
+      setSelectedMasterIDs(updatedSelectedMasterIDs);
+      setSelectedMasterDescriptions(updatedSelectedMasterDescriptions);
+  
+      // Uncheck the task
+      setSelectedTasks(selectedTasks.filter((item) => item !== task));
     } else {
-      setSelectedTasks([...selectedTasks, taskName]);
+      // Checking the task, add it to selectedTasks
+      setSelectedTasks([...selectedTasks, task]);
     }
   };
 
   const gatherUnselectedCheckboxes = () => {
+    const updatedMaster = { ...master };
+
+      categories.forEach((category) => {
+        if (category !== "OTHERS") {
+          updatedMaster[category] = [];
+          props.worders[category].forEach((task) => {
+            if (selectedTasks.includes(task)) {
+              const updatedTask = { ...task };
+              updatedTask.master_items = task.master_items.filter((master) =>
+                selectedMasterIDs.includes(master.id)
+              );
+              updatedMaster[category].push(updatedTask);
+            }
+          });
+        }
+      });
+      // Update the master state
+      setMaster(updatedMaster)
+
     const unselectedMasters = [];
-  
-    // Collect all unselected master objects
-    categories.forEach((category) => {
-      if (category !== "OTHERS") {
-        props.worders[category].forEach((task) => {
-          task.master_items.forEach((master) => {
-            if (
-              selectedTasks.includes(task.name) &&
-              !selectedMasterDescriptions.includes(master.description) &&
-              !selectedMasterIDs.includes(master.id)
-            ) {
+
+      // Collect all unselected master objects
+      categories.forEach((category) => {
+        if (category !== "OTHERS") {
+          props.worders[category].forEach((task) => {
+            task.master_items.forEach((master) => {
+              if (
+                !selectedMasterDescriptions.includes(master.description) &&
+                !selectedMasterIDs.includes(master.id)
+              ) {
                 // Create a new object without the 'id' property
                 const masterWithoutId = { ...master };
-                let aux = 0
-                delete masterWithoutId.id
+                let aux = 0;
+                delete masterWithoutId.id;
                 unselectedMasters.forEach((item) => {
                   if (item.description === masterWithoutId.description) {
                     aux++;
                   }
-                })
-               if (aux === 0) {
-                unselectedMasters.push(masterWithoutId)
-               }
-            }
+                });
+                if (aux === 0) {
+                  unselectedMasters.push(masterWithoutId);
+                }
+              }
+            });
           });
-        });
-      }
-    });
-  
-    // Push unselected masters to the "OTHERS" category
-    props.worders["OTHERS"][0].master_items.push(...unselectedMasters);
-  
-    console.log(props.worders["OTHERS"][0].master_items);
+        }
+      });
+
+      // Push unselected masters to the "OTHERS" category
+      props.worders["OTHERS"][0].master_items.push(...unselectedMasters);
+      setMaster((prevMaster) => ({
+        ...prevMaster,
+        ["OTHERS"]: [...props.worders["OTHERS"]],
+      }));
+      console.log(master)
   };
+
+  
 
   const descriptionHandler = (event, id) => {
     const description = event.target.name;
     const checked = event.target.checked;
-
     if (checked) {
       setSelectedMasterDescriptions([
         ...selectedMasterDescriptions,
@@ -84,10 +129,49 @@ export function SelectMasterItems(props) {
         selectedMasterIDs.filter((masterId) => masterId !== id)
       );
     }
+    console.log(selectedMasterIDs);
+  };
+
+  const handleSubmit = (event) => {
+    let allMasterItems = [];
+
+    for (const category of categories) {
+      props.worders[category].map((task) => {
+        task.master_items.map((master) => {
+          if (!allMasterItems.includes(master.description)) {
+            allMasterItems.push(master.description);
+          }
+        });
+      });
+    }
+
+    if (allMasterItems.every(item => selectedMasterDescriptions.includes(item))) {
+      const updatedMaster = { ...master };
+
+      categories.forEach((category) => {
+        if (category !== "OTHERS") {
+          updatedMaster[category] = [];
+          props.worders[category].forEach((task) => {
+            if (selectedTasks.includes(task)) {
+              const updatedTask = { ...task };
+              updatedTask.master_items = task.master_items.filter((master) =>
+                selectedMasterIDs.includes(master.id)
+              );
+              updatedMaster[category].push(updatedTask);
+            }
+          });
+        }
+      });
+      // Update the master state
+      setMaster(updatedMaster)
+      console.log(master)
+    } else {
+        setUnselectedItems(true)
+    }
   };
 
   return (
-    <div>
+      <div>
       {unselectedItems ? (
         <div className={styles.popupContainer}>
           <div className="global-container">
@@ -106,14 +190,17 @@ export function SelectMasterItems(props) {
                   backgroundColor: "rgba(255, 255, 255, 0.300)",
                   color: "white",
                   height: "45px",
-                  marginRight: "5px"
+                  marginRight: "5px",
                 }}
               >
                 NO
               </button>
 
               <button
-                onClick={gatherUnselectedCheckboxes}
+                onClick={() => {
+                  event.preventDefault();
+                  gatherUnselectedCheckboxes();
+                }}
                 className="global-button"
                 style={{
                   width: "calc(50% - 10px)",
@@ -152,13 +239,13 @@ export function SelectMasterItems(props) {
                     <div style={{ marginLeft: "5px" }} key={task.name}>
                       <input
                         type="checkbox"
-                        onChange={() => toggleTask(task.name)}
+                        onChange={() => toggleTask(task)}
                       />
                       <label>{task.name}</label>
                       <div>
                         {task.master_items.map((master, index) => (
                           <div style={{ marginLeft: "15px" }} key={master.id}>
-                            {selectedTasks.includes(task.name) && (
+                            {selectedTasks.includes(task) && (
                               <input
                                 ref={ref}
                                 master={master}
@@ -175,7 +262,7 @@ export function SelectMasterItems(props) {
                                 }
                               />
                             )}
-                            {selectedTasks.includes(task.name) && (
+                            {selectedTasks.includes(task) && (
                               <label>{master.description}</label>
                             )}
                           </div>
@@ -191,9 +278,10 @@ export function SelectMasterItems(props) {
         <button
           type="submit"
           className="global-button"
+          // onClick={(event) => {event.preventDefault(); handleSubmit()}}
           onClick={(e) => {
             e.preventDefault();
-            setUnselectedItems(true);
+            handleSubmit(e);
           }}
         >
           Select Master Items
