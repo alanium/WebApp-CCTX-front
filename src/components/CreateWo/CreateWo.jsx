@@ -1,331 +1,137 @@
 import React, { useEffect, useState } from "react";
-import { BiNoEntry, BiXCircle } from "react-icons/bi";
-import { useSelector } from "react-redux";
-import { WoPreview } from "../WoPreview/WoPreview";
-import { ImSpinner8 } from "react-icons/im";
 import styles from "./CreateWo.module.css";
-import { SelectSub } from "../SelectSub/SelectSub";
-import { SelectProcesses } from "../SelectProcesses/SelectProcesses";
-import { SelectMasterItems } from "../SelectMasterItems/SelectMasterItems";
-import { SelectCustomer } from "../SelectCustomer/SelectCustomer";
 
 export function CreateWo(props) {
+  const initialMaster = props.master || {};
+  const [editedMaster, setEditedMaster] = useState(initialMaster);
   const [worders, setWorders] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(false);
-  const [input, setInput] = useState({});
-  const [customer, setCustomer] = useState({
-    selected_customer: null,
-    customer_name: "",
-    customer_id: "",
-  });
-  const [category, setCategory] = useState({
-    category_name: [null],
-  });
-  const [master, setMaster] = useState({
-    selected_master: [],
-    master_name: [],
-    master_id: [],
-  });
-  const [process, setProcess] = useState({
-    selected_process: [],
-    process_name: [],
-    process_id: [],
-  });
-
-  const [lead, setLead] = useState({
-    lead_id: null,
-  });
-  const [subId, setSubId] = useState({
-    selected_sub: null,
-    sub_name: null,
-    sub_id: null,
-  });
-  const user = useSelector((state) => state.user);
-  const role = useSelector((state) => state.user.role);
-  const [isExpanded, setExpanded] = useState({
-
-  });
-  const [isProjectReady, setIsProjectReady] = useState(false);
-  const [isMitemsReady, setIsMitemsReady] = useState(false);
-  const [isProcessReady, setIsProcessReady] = useState(false);
-  const [isWoReady, setIsWoReady] = useState(false);
-  const [submitCounter, setSubmitcounter] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const result = await props.obtenerJSON("create_project");
-        if (result) {
-          console.log(result);
-          setWorders(result);
-        } else {
-          console.log("No funcionó");
-        }
-      } catch (error) {
-        console.error("Error: ", error);
-      }
-    }
+    const allWorders = categories.reduce((allWorders, category) => {
+      return allWorders.concat(props.master[category].map((task) => task.wo));
+    }, []);
 
-    fetchData();
+    const uniqueWorders = Array.from(new Set(allWorders));
+    setWorders(uniqueWorders);
   }, []);
 
+  const categories = Object.keys(editedMaster);
+
   const changeHandler = (event) => {
-    if (
-      event.target.options[event.target.selectedIndex].getAttribute("data") &&
-      event.target.options[event.target.selectedIndex].getAttribute("name") &&
-      event.target.options[event.target.selectedIndex].getAttribute("id")
-    )
-      console.log(lead);
+    const { category, task, name } = event.target.dataset;
+    const value = event.target.value;
 
-    setCustomer({
-      selected_customer: JSON.parse(
-        event.target.options[event.target.selectedIndex].getAttribute("data")
-      ),
-      customer_name:
-        event.target.options[event.target.selectedIndex].getAttribute("name"),
-      customer_id:
-        event.target.options[event.target.selectedIndex].getAttribute("id"),
-    });
-
-    setLead({
-      lead_id:
-        event.target.options[event.target.selectedIndex].getAttribute("lead"),
-    });
-  };
-
-  const masterChangeHandler = (event) => {
-    const masterName = event.target.name;
-    const masterId = event.target.id;
-    const masterObj = JSON.parse(event.target.getAttribute("data"));
-    const isChecked = event.target.checked;
-
-    if (masterName && masterId && masterObj) {
-      setMaster((prevInput) => {
-        if (isChecked) {
-          return {
-            ...prevInput,
-            selected_master: [...prevInput.selected_master, masterObj],
-            master_name: [...prevInput.master_name, masterName],
-          };
-        } else {
-          return {
-            ...prevInput,
-            selected_master: prevInput.selected_master.filter(
-              (data) => data.id !== masterObj.id
-            ),
-            master_name: prevInput.master_name.filter(
-              (name) => name !== masterName
-            ),
-          };
-        }
-      });
-      console.log(master);
-    }
-  };
-
-  const processChangeHandler = (event) => {
-    const processName = event.target.name;
-    const processId = event.target.id;
-    const process = JSON.parse(event.target.getAttribute("data"));
-    const isChecked = event.target.checked;
-
-    if (processName && processId && process) {
-      setProcess((prevInput) => {
-        if (isChecked) {
-          return {
-            ...prevInput,
-            selected_process: [...prevInput.selected_process, process],
-            process_name: [...prevInput.process_name, processName],
-            process_id: [...prevInput.process_id, processId],
-          };
-        } else {
-          return {
-            ...prevInput,
-            selected_process: prevInput.selected_process.filter(
-              (data) => data.id !== process
-            ),
-            process_name: prevInput.process_name.filter(
-              (name) => name !== processName
-            ),
-            process_id: prevInput.process_id.filter((id) => id !== processId),
-          };
-        }
-      });
-    }
-  };
-
-  const subChangeHandler = (event) => {
-    if (
-      event.target.options[event.target.selectedIndex].getAttribute("data") &&
-      event.target.options[event.target.selectedIndex].getAttribute("id") &&
-      event.target.options[event.target.selectedIndex].getAttribute("name")
-    )
-      console.log(subId);
-    setSubId({
-      selected_sub: JSON.parse(
-        event.target.options[event.target.selectedIndex].getAttribute("data")
-      ),
-      sub_id:
-        event.target.options[event.target.selectedIndex].getAttribute("id"),
-      sub_name:
-        event.target.options[event.target.selectedIndex].getAttribute("name"),
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    let categories = master.selected_master.map((master) => {
-      return master.category;
-    });
-    setCategory({
-      category_name: categories,
-    });
-
-    if (input.id !== null) {
-      try {
-        let result;
-        if (submitCounter == 0) {
-          console.log(customer)
-          result = await props.enviarDatos(
-            {
-              action: "get_master",
-              selected_customer: customer.selected_customer,
-            },
-            "create_project"
-          );
-          setIsProjectReady(true);
-        } else if (submitCounter == 1) {
-          console.log(categories);
-          result = await props.enviarDatos(
-            { action: "get_process", category: categories },
-            "create_project"
-          );
-          setIsMitemsReady(true);
-        } else if (submitCounter == 2) {
-          result = await props.enviarDatos(
-            { action: "get_subcontractor" },
-            "create_project"
-          );
-          setIsProcessReady(true);
-        } else if (submitCounter == 3) {
-          result = await props.enviarDatos(
-            {
-              customer_id: customer.customer_id,
-              sub_id: subId.sub_id,
-              action: "preview",
-            },
-            "create_project"
-          );
-          setIsWoReady(true);
-        }
-        setSubmitcounter(submitCounter + 1);
-        if (result) {
-          setWorders(result);
-          console.log(result);
-        }
-      } catch (error) {
-        console.error("Error: ", error);
-      } finally {
-        setIsSubmitting(false);
+    setEditedMaster((prevMaster) => {
+      if (prevMaster[category] && /^\d*$/.test(value)) {
+        const newValue = Math.min(Number(value), 51); // Ensure the value is not greater than 51
+        return {
+          ...prevMaster,
+          [category]: prevMaster[category].map((item) =>
+            item.name === task ? { ...item, [name]: newValue } : item
+          ),
+        };
+      } else {
+        return prevMaster;
       }
-    } else {
-      console.log("Please fill in the form before submitting");
-      setIsSubmitting(false);
-    }
+    });
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    for (const category of categories) {
+      for (const task of props.master[category]) {
+        if (task.week === "") {
+          setIsCorrect(false);
+          setErrorMessage("Cant leave WEEK empty before submitting");
+        }
+      }
+    } // Use functional form of setState
+
+    if (isCorrect) {
+      props.setMaster(editedMaster);
+      console.log(props.master);
+      props.handleSubmit()
+  };
+  }
 
   return (
-    <div className="global-container" style={{ maxWidth: "450px" }}>
-      {isSubmitting ? (
-        <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
-          <div className={styles.spinContainer}>
-            <ImSpinner8 className={styles.spin} />
-          </div>
-        </div>
-      ) : null}
-      <div className={styles.titleDiv}>
-        <label className="global-card-title">Create Project</label>
-      </div>
-      {role !== "member" ? (
-        <div>
-          {isLoading ? (
+    <div>
+      {isCorrect ? null : (
+        <div className={styles.popupContainer}>
+          <div className="global-container">
             <div>
-              <p style={{ color: "white" }}>Loading data...</p>
+              <label style={{ color: "white" }}>{errorMessage}</label>{" "}
             </div>
-          ) : (
             <div>
-              {isProjectReady ? (
-                <div>
-                  {isMitemsReady ? (
-                    <div>
-                      {isWoReady ? (
-                        <WoPreview
-                          customer={customer}
-                          sub={subId}
-                          master={master}
-                          process={process}
-                          category={category}
-                          user={user}
-                          enviarDatos={props.enviarDatos}
-                          selected_project={projectId.selected_project}
-                          selected_master={master.selected_master}
-                          selected_sub={subId.selected_sub}
-                          selected_processes={process.selected_process}
-                        />
-                      ) : (
-                        <SelectSub
-                          worders={worders}
-                          subChangeHandler={subChangeHandler}
-                          handleSubmit={handleSubmit}
-                          sub={subId}
-                          process={process}
-                          master={master}
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <SelectMasterItems
-                      worders={worders}
-                      masterChangeHandler={masterChangeHandler}
-                      handleSubmit={handleSubmit}
-                      master={master}
-                      setMaster={setMaster}
-                      processChangeHandler={processChangeHandler}
-                    />
-                  )}
-                </div>
-              ) : (
-                <SelectCustomer
-                  worders={worders}
-                  changeHandler={changeHandler}
-                  handleSubmit={handleSubmit}
-                  customer={customer}
-                />
-              )}
+              <button
+                className="global-button"
+                onClick={() => setIsCorrect(true)}
+              >
+                Back
+              </button>
             </div>
-          )}
-        </div>
-      ) : (
-        <div className={styles.titleDiv}>
-          <div>
-            <label className="global-card-title">You Don't Have Access</label>
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "20px",
-              marginBottom: "0px",
-            }}
-          >
-            <label className="global-card-title" style={{ fontSize: "70px" }}>
-              <BiNoEntry />
-            </label>
           </div>
         </div>
       )}
+      <form
+        className={styles.selectedTasks}
+        style={{ maxHeight: "300px", overflowY: "auto" }}
+      >
+        {categories.map((category) => (
+          <div
+            key={category}
+            style={{ marginBottom: "10px", marginTop: "10px" }}
+          >
+            <label
+              className="form-label"
+              style={{ color: "white", fontSize: "25px" }}
+            >
+              {editedMaster[category][0].category_name}
+            </label>
+            <div>
+              {editedMaster[category].map((task) => (
+                <div key={task.name}>
+                  <label>{task.name}</label>
+                  <div>
+                    <div>
+                      <label>WEEK:</label>
+                      {task.week === null ? (task.week = "") : null}
+                      <input
+                        onChange={changeHandler}
+                        type="number"
+                        data-category={category}
+                        data-task={task.name}
+                        data-name="week"
+                        value={task.week}
+                        max="51"
+                      />
+                    </div>
+                    <div>
+                      <label>WO:</label>
+                      <select
+                        onChange={changeHandler}
+                        data-category={category}
+                        data-task={task.name}
+                        data-name="wo"
+                        value={task.wo}
+                      >
+                        {worders.map((worder) => (
+                          <option key={worder} value={worder}>
+                            {worder}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <button onClick={(event) => handleSubmit(event)}>Submit</button>
+      </form>
     </div>
   );
 }

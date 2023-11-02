@@ -15,7 +15,7 @@ import "./SourceSansPro.css";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
 import { FileDownloader } from "./components/FileDownloader/FileDownloader";
 import { NewTask } from "./components/NewTask/NewTask";
-import { CreateWo } from "./components/CreateWo/CreateWo";
+import { CreateProject } from "./components/CreateProject/CreateProject";
 import { ViewProjects } from "./components/ViewProjects/ViewProjects";
 import ManageWo from "./components/ManageWo/ManageWo";
 import { ManageRoles } from "./components/ManageRoles/ManageRoles";
@@ -97,7 +97,7 @@ function App() {
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
             <Route
             path="/home/manage_projects/create_project"
-            element={<CreateWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
+            element={<CreateProject obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
             <Route
             path="/home/manage_projects/view_projects"
             element={<ViewProjects obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} /> } />

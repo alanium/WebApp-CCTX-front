@@ -71,6 +71,7 @@ export function SelectMasterItems(props) {
       });
       // Update the master state
       setMaster(updatedMaster)
+      props.setMaster(updatedMaster)
 
     const unselectedMasters = [];
 
@@ -107,7 +108,13 @@ export function SelectMasterItems(props) {
         ...prevMaster,
         ["OTHERS"]: [...props.worders["OTHERS"]],
       }));
-      console.log(master)
+      console.log(master);
+      props.setMaster((prevMaster) => ({
+        ...prevMaster,
+        ["OTHERS"]: [...props.worders["OTHERS"]],
+      }));
+      console.log("master", master);
+      props.setIsMitemsReady(true)
   };
 
   
@@ -164,7 +171,10 @@ export function SelectMasterItems(props) {
       });
       // Update the master state
       setMaster(updatedMaster)
-      console.log(master)
+      console.log(master);
+      props.setMaster(updatedMaster);
+      console.log("master", master);
+      () => props.setIsMitemsReady(true)
     } else {
         setUnselectedItems(true)
     }
@@ -199,6 +209,7 @@ export function SelectMasterItems(props) {
               <button
                 onClick={() => {
                   event.preventDefault();
+                  () => props.setIsMitemsReady(true);
                   gatherUnselectedCheckboxes();
                 }}
                 className="global-button"
