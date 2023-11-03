@@ -153,7 +153,7 @@ export function CreateProject(props) {
   };
 
   return (
-    <div className="global-container" style={{ maxWidth: "450px" }}>
+    <div className="global-container">
       {isSubmitting ? (
         <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
           <div className={styles.spinContainer}>

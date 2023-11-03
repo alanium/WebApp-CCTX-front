@@ -9,7 +9,7 @@ body {
 
 .global-container {
   width: 100%;
-  max-width: 350px;
+  max-width: 600px;
 
   display: flex;
   flex-direction: column;
@@ -96,10 +96,10 @@ body {
   color: white;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 820px) {
   .global-container {
     width: 100%;
-    max-width: 70%;
+    max-width: 550px;
     padding-left: 15%;
     padding: 40px;
   }

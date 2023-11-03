@@ -184,7 +184,7 @@ export function SelectMasterItems(props) {
       <div>
       {unselectedItems ? (
         <div className={styles.popupContainer}>
-          <div className="global-container">
+          <div style={{maxWidth: "70%"}} className="global-container">
             <div>
               <label className="form-label" style={{ color: "white" }}>
                 You have unselected master items, do you wish to add them to the
@@ -242,12 +242,12 @@ export function SelectMasterItems(props) {
           {categories.map((category) =>
             category !== "OTHERS" ? (
               <div key={category}>
-                <div>
-                  <label>{category}</label>
+                <div style={{marginTop: "20px", marginBottom:"10px"}}>
+                  <label style={{ fontWeight:"bold"}}>{category}</label>
                 </div>
                 <div>
                   {props.worders[category].map((task, index) => (
-                    <div style={{ marginLeft: "5px" }} key={task.name}>
+                    <div style={{ marginLeft: "5px", marginTop: "5px", marginBottom:"5px" }} key={task.name}>
                       <input
                         type="checkbox"
                         onChange={() => toggleTask(task)}

@@ -81,27 +81,46 @@ export function CreateWo(props) {
         {categories.map((category) => (
           <div
             key={category}
-            style={{ marginBottom: "10px", marginTop: "10px" }}
+            style={{ marginBottom: "10px", marginTop: "20px" }}
           >
             {editedMaster[category] &&
             editedMaster[category][0] &&
             editedMaster[category][0].category_name ? (
               <label
                 className="form-label"
-                style={{ color: "white", fontSize: "25px" }}
+                style={{ fontWeight: "bold", color: "white", fontSize: "25px" }}
               >
                 {editedMaster[category][0].category_name}
               </label>
             ) : null}
             <div>
               {editedMaster[category].map((task) => (
-                <div key={task.name}>
-                  <label>{task.name}</label>
+                <div style={{ margin: "10px" }} key={task.name}>
+                  <div
+                    style={{
+                      fontSize: "20px",
+                      marginBottom: "10px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <label style={{fontWeight:"bold", fontSize: "20px",}}>{task.name}</label>
+                    </div>
+                  </div>
+
                   <div>
                     <div>
-                      <label>WEEK:</label>
+                      <div style={{ fontSize: "15px", marginBottom: "10px" }}>
+                        <label style={{ fontSize: "15px"}}>Week:</label>
+                      </div>
                       {task.week === null ? (task.week = "") : null}
                       <input
+                        className="global-input-1"
                         onChange={changeHandler}
                         type="number"
                         data-category={category}
@@ -112,8 +131,12 @@ export function CreateWo(props) {
                       />
                     </div>
                     <div>
-                      <label>WO:</label>
+                      <div style={{ marginBottom: "5px" }}>
+                        <label style={{ fontSize: "15px"}}>Work Order Number:</label>
+                      </div>
+
                       <select
+                        className="global-input-1"
                         onChange={changeHandler}
                         data-category={category}
                         data-task={task.name}
@@ -133,8 +156,10 @@ export function CreateWo(props) {
             </div>
           </div>
         ))}
-        <button onClick={handleSubmit}>Submit</button>
       </form>
+      <button className="global-button" onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 }
