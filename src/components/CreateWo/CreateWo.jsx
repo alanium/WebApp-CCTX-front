@@ -39,7 +39,6 @@ export function CreateWo(props) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {
@@ -52,9 +51,9 @@ export function CreateWo(props) {
     if (isCorrect) {
       props.setMaster(editedMaster);
       console.log(props.master);
-      props.handleSubmit()
+      props.handleSubmit(event);
+    }
   };
-  }
 
   return (
     <div>
@@ -84,12 +83,16 @@ export function CreateWo(props) {
             key={category}
             style={{ marginBottom: "10px", marginTop: "10px" }}
           >
-            <label
-              className="form-label"
-              style={{ color: "white", fontSize: "25px" }}
-            >
-              {editedMaster[category][0].category_name}
-            </label>
+            {editedMaster[category] &&
+            editedMaster[category][0] &&
+            editedMaster[category][0].category_name ? (
+              <label
+                className="form-label"
+                style={{ color: "white", fontSize: "25px" }}
+              >
+                {editedMaster[category][0].category_name}
+              </label>
+            ) : null}
             <div>
               {editedMaster[category].map((task) => (
                 <div key={task.name}>
@@ -130,7 +133,7 @@ export function CreateWo(props) {
             </div>
           </div>
         ))}
-        <button onClick={(event) => handleSubmit(event)}>Submit</button>
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );

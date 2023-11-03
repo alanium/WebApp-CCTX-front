@@ -124,7 +124,8 @@ export function CreateProject(props) {
           setIsMitemsReady(true);
         } else if (submitCounter == 2) {
           result = await props.enviarDatos(
-            { action: "get_subcontractor" },
+            { data: master,
+              action: "work_order" },
             "create_project"
           );
         } else if (submitCounter == 3) {
