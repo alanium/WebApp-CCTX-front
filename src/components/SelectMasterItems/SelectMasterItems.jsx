@@ -174,7 +174,7 @@ export function SelectMasterItems(props) {
       console.log(master);
       props.setMaster(updatedMaster);
       console.log("master", master);
-      () => props.setIsMitemsReady(true)
+      props.setIsMitemsReady(true)
     } else {
         setUnselectedItems(true)
     }

@@ -118,16 +118,13 @@ export function CreateProject(props) {
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
-            { action: "get_week" },
-            "create_project"
-          );
-          setIsMitemsReady(true);
-        } else if (submitCounter == 2) {
-          result = await props.enviarDatos(
             { data: master,
               action: "work_order" },
             "create_project"
           );
+          setIsMitemsReady(true);
+        } else if (submitCounter == 2) {
+          
         } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
