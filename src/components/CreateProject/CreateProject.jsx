@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { WoPreview } from "../WoPreview/WoPreview";
 import { ImSpinner8 } from "react-icons/im";
 import styles from "./CreateProject.module.css";
 import { SelectSub } from "../SelectSub/SelectSub";
-import { SelectProcesses } from "../SelectProcesses/SelectProcesses";
 import { SelectMasterItems } from "../SelectMasterItems/SelectMasterItems";
 import { SelectCustomer } from "../SelectCustomer/SelectCustomer";
 import { CreateWo } from "../CreateWo/CreateWo";
+import { useNavigate } from "react-router-dom";
+import { setSuccess } from "../../redux/actions";
 
 export function CreateProject(props) {
   const [worders, setWorders] = useState([]);
@@ -24,8 +25,7 @@ export function CreateProject(props) {
   const [category, setCategory] = useState({
     category_name: [null],
   });
-  const [master, setMaster] = useState({
-  });
+  const [master, setMaster] = useState({});
   const [process, setProcess] = useState({
     selected_process: [],
     process_name: [],
@@ -35,22 +35,17 @@ export function CreateProject(props) {
   const [lead, setLead] = useState({
     lead_id: null,
   });
-  const [subId, setSubId] = useState({
-    selected_sub: null,
-    sub_name: null,
-    sub_id: null,
-  });
+  const [sub, setSub] = useState({});
   const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
-  const [isExpanded, setExpanded] = useState({
-
-  });
+  const [isExpanded, setExpanded] = useState({});
+  const [isSubReady, setIsSubReady] = useState(false)
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isMitemsReady, setIsMitemsReady] = useState(false);
   const [isWoReady, setIsWoReady] = useState(false);
   const [submitCounter, setSubmitcounter] = useState(0);
-
-
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function fetchData() {
@@ -98,7 +93,6 @@ export function CreateProject(props) {
     });
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -107,7 +101,7 @@ export function CreateProject(props) {
       try {
         let result;
         if (submitCounter == 0) {
-          console.log(customer)
+          console.log(customer);
           result = await props.enviarDatos(
             {
               action: "get_master",
@@ -118,23 +112,22 @@ export function CreateProject(props) {
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
-            { data: master,
-              action: "work_order" },
+            { data: master, action: "work_order" },
             "create_project"
           );
-          setIsMitemsReady(true);
-        } else if (submitCounter == 2) {
+          setIsWoReady(true)
           
+        } else if (submitCounter == 2) {
         } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
-              customer_id: customer.customer_id,
-              sub_id: subId.sub_id,
-              action: "preview",
+              data: sub,
+              action: "set_sub",
             },
             "create_project"
           );
-          setIsWoReady(true);
+          navigate("/home")
+          dispatch(setSuccess(true))
         }
         setSubmitcounter(submitCounter + 1);
         if (result) {
@@ -177,19 +170,30 @@ export function CreateProject(props) {
                   {isMitemsReady ? (
                     <div>
                       {isWoReady ? (
-                        <WoPreview
-                          customer={customer}
-                          sub={subId}
-                          master={master}
-                          process={process}
-                          category={category}
-                          user={user}
-                          enviarDatos={props.enviarDatos}
-                          selected_project={projectId.selected_project}
-                          selected_master={master.selected_master}
-                          selected_sub={subId.selected_sub}
-                          selected_processes={process.selected_process}
-                        />
+                        <div>
+                          {isSubReady ? (
+                            <WoPreview
+                              customer={customer}
+                              sub={sub}
+                              master={master}
+                              process={process}
+                              category={category}
+                              user={user}
+                              enviarDatos={props.enviarDatos}
+                              selected_project={projectId.selected_project}
+                              selected_master={master.selected_master}
+                              selected_sub={sub.selected_sub}
+                              selected_processes={process.selected_process}
+                            />
+                          ) : (
+                            <SelectSub
+                              sub={sub}
+                              setSub={setSub}
+                              handleSubmit={handleSubmit}
+                              worders={worders}
+                            />
+                          )}
+                        </div>
                       ) : (
                         <CreateWo
                           setMaster={updateMaster}

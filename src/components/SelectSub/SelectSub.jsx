@@ -1,75 +1,146 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import styles from "./SelectSub.module.css"
+import styles from "./SelectSub.module.css";
 
 export function SelectSub(props) {
-  const navigate = useNavigate()
-  const validSelection = () => {
-    if (props.master.selected_master.length === 0 && props.process.selected_process.length === 0) {
-      return false; // Both arrays are empty.
-    } else {
-      return true; // At least one of the arrays is not empty.
-    }
-  
-    // If no property is null in both master and process, it's valid.
+  const navigate = useNavigate();
+  const [showMaster, setShowMaster] = useState(false);
+  const [worders, setWorders] = useState(props.worders);
 
-    }
-  
-    useEffect(() => {
-      console.log (props.master, props.process)
-    }, [])
-  
+  useEffect(() => {
+    let aux = [];
+    worders.work_orders.forEach((wo) =>
+      aux.push({ id: wo.id, sub_id: wo.subcontractor_id })
+    );
+    props.setSub(aux);
+  }, []);
+
+  const changeHandler = (event, wo_id) => {
+    const sub_id = event.target.value;
+
+    props.setSub((prevSub) =>
+      prevSub.map((obj) => (obj.id === wo_id ? { ...obj, sub_id } : obj))
+    );
+  };
+
   return (
     <div>
-      {validSelection() ? (
-        <form>
-        <label className="form-label" style={{ color: "white" }}>
-          Select Subcontractor
-        </label>
-        <select
-          name="contractors"
-          id="contractors"
-          className="global-input-1"
-          onChange={props.subChangeHandler}
-        >
-          <option>Select a subcontractor</option>
-          {props.worders.map((contractor) => (
-            <option
-              key={contractor.id}
-              id={contractor.id}
-              name={contractor.name}
-              data={JSON.stringify(contractor)}
-            >
-              {contractor.name}
-            </option>
-          ))}
-        </select>
-        <br />
-        {props.sub.sub_name !== null &&
-        props.sub.sub_id !== null &&
-        props.sub.selected_sub !== null ? (
-          <button
-            className="global-button"
-            type="submit"
-            onClick={props.handleSubmit}
+      <form
+        className={styles.selectedTasks}
+        style={{ maxHeight: "300px", overflowY: "auto" }}
+      >
+        <div style={{ marginBottom: "10px" }}>
+          <label
+            className="form-label"
+            style={{
+              marginBottom: "10px",
+              fontWeight: "bold",
+              color: "white",
+              fontSize: "25px",
+            }}
           >
-            Submit
-          </button>
-        ) : (
-          <p></p>
-        )}
-      </form>
-      ) : (
-        <div className={styles.popupContainer}>
-        <div className="global-container">
-        <label className="form-label" style={{color: "white"}}>
-          You have to select at least one master item or one process to continue
-        </label>
-        <button className="global-button" onClick={() => navigate("/home")}>Back to home</button>
+            Select Subcontractor
+          </label>
         </div>
-      </div>
-      )}
+        <div style={{ marginBottom: "10px" }}>
+          <label
+            className="form-label"
+            style={{
+              marginBottom: "10px",
+              fontWeight: "bold",
+              color: "white",
+              fontSize: "18px",
+            }}
+          >
+            {worders.work_orders[0].project_name}
+          </label>
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <label
+            className="form-label"
+            style={{
+              marginBottom: "10px",
+              fontWeight: "bold",
+              color: "white",
+              fontSize: "18px",
+            }}
+          >
+            {worders.work_orders[0].costumer_name}
+          </label>
+        </div>
+        <div>
+          <label
+            style={{ fontWeight: "bold", color: "white", fontSize: "18px" }}
+            onClick={
+              showMaster
+                ? () => setShowMaster(false)
+                : () => setShowMaster(true)
+            }
+          >
+            Toggle Master Items
+          </label>
+        </div>
+
+        <br />
+        {worders.work_orders.map((wo) => (
+          <div
+            style={{
+              fontWeight: "bold",
+              marginBottom: "10px",
+              marginTop: "20px",
+            }}
+          >
+            <label className="form-label">{wo.wo_id}</label>
+            <div>
+              {wo.tasks.map((task) => (
+                <div style={{ margin: "10px" }} key={wo.id}>
+                  <div>
+                    <label
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "15px",
+                        marginBottom: "10px",
+                      }}
+                      className="form-label"
+                    >
+                      {task.task_name}
+                    </label>
+                  </div>
+                  {showMaster ? (
+                    <div>
+                      {task.master_items.map((master) => (
+                        <div>
+                          <label style={{
+                        fontWeight: "normal",}} className="form-label">-{master.name}</label>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <select
+              onChange={(event) => changeHandler(event, wo.id)}
+              className="global-input-1"
+            >
+              <option value="">Select Subcontractor</option>
+              {worders.subcontractors.map((sub) => (
+                <option key={sub.id} value={sub.id}>
+                  {sub.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
+      </form>
+      <button
+        className="global-button"
+        type="submit"
+        onClick={props.handleSubmit}
+      >
+        Submit
+      </button>
     </div>
   );
 }

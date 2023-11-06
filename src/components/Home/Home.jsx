@@ -17,8 +17,8 @@ import "../../index.css";
 export default function Home(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch()
-  const success = useSelector((state) => state.success)
+  const dispatch = useDispatch();
+  const success = useSelector((state) => state.success);
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
@@ -55,10 +55,10 @@ export default function Home(props) {
           <label>Manage WO</label>
         </div>
         <div className={styles.btnDiv}>
-          <button 
-          name="manage_tasks"
-          className={styles.homeButton}
-          onClick={handleOnClick}
+          <button
+            name="manage_tasks"
+            className={styles.homeButton}
+            onClick={handleOnClick}
           >
             <BiSolidStar className={styles.icon} />
           </button>
@@ -66,9 +66,10 @@ export default function Home(props) {
         </div>
         <div className={styles.btnDiv}>
           <button
-          name="manage_projects"
-          onClick={handleOnClick} 
-          className={styles.homeButton}>
+            name="manage_projects"
+            onClick={handleOnClick}
+            className={styles.homeButton}
+          >
             <BiSolidCheckboxChecked className={styles.icon} />
           </button>
           <label>Manage Projects</label>
@@ -88,10 +89,7 @@ export default function Home(props) {
           <label>Control Panel</label>
         </div>
         <div className={styles.btnDiv}>
-          <button
-            className={styles.homeButton}
-            onClick={handleOnClick}
-          >
+          <button className={styles.homeButton} onClick={handleOnClick}>
             <BiDownload
               className={styles.icon}
               name="download_wo"
@@ -107,16 +105,21 @@ export default function Home(props) {
           <label>Logout</label>
         </div>
       </div>
-      {success ? 
-      <div className={styles.popupContainer}>
-        <div className="global-container">
-        <label className="form-label" style={{color: "white"}}>
-          Operation Successful
-        </label>
-        <button className="global-button" onClick={() => dispatch(setSuccess(false))}>Close</button>
+      {success ? (
+        <div className={styles.popupContainer}>
+          <div style={{maxWidth: "70%"}} className="global-container">
+            <label className="form-label" style={{ color: "white" }}>
+              Operation Successful
+            </label>
+            <button
+              className="global-button"
+              onClick={() => dispatch(setSuccess(false))}
+            >
+              Close
+            </button>
+          </div>
         </div>
-      </div>  : null
-    }
+      ) : null}
     </div>
   );
 }
