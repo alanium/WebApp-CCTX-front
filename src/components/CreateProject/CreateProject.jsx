@@ -116,9 +116,8 @@ export function CreateProject(props) {
             "create_project"
           );
           setIsWoReady(true)
-          
+
         } else if (submitCounter == 2) {
-        } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
               data: sub,
@@ -126,8 +125,8 @@ export function CreateProject(props) {
             },
             "create_project"
           );
-          navigate("/home")
-          dispatch(setSuccess(true))
+          navigate("/home");
+          dispatch(setSuccess(true));
         }
         setSubmitcounter(submitCounter + 1);
         if (result) {

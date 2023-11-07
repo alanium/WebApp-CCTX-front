@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import styles from "./SelectSub.module.css";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 export function SelectSub(props) {
   const navigate = useNavigate();
   const [showMaster, setShowMaster] = useState(false);
   const [worders, setWorders] = useState(props.worders);
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     let aux = [];
@@ -24,8 +26,44 @@ export function SelectSub(props) {
     );
   };
 
+  const toggleShowMaster = () => {
+    setShowMaster(!showMaster);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    let aux = false;
+    const subCopy = props.sub;
+    subCopy.map((obj) => {
+      if (obj.sub_id === "") {
+        aux = true
+      }
+    })
+
+    if (!aux) {
+      props.handleSubmit(event);
+    } else {
+      setPopup(true)
+    }
+  }
+
   return (
     <div>
+      {popup ? (
+        <div className={styles.popupContainer}>
+        <div style={{maxWidth: "70%"}} className="global-container">
+          <label className="form-label" style={{ color: "white" }}>
+            You must select a subcontractor for each work order before submitting
+          </label>
+          <button
+            className="global-button"
+            onClick={() => setPopup(false)}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      ) : null }
       <form
         className={styles.selectedTasks}
         style={{ maxHeight: "300px", overflowY: "auto" }}
@@ -69,17 +107,8 @@ export function SelectSub(props) {
             {worders.work_orders[0].costumer_name}
           </label>
         </div>
-        <div>
-          <label
-            style={{ fontWeight: "bold", color: "white", fontSize: "18px" }}
-            onClick={
-              showMaster
-                ? () => setShowMaster(false)
-                : () => setShowMaster(true)
-            }
-          >
-            Toggle Master Items
-          </label>
+        <div style={{height: "25px", width: "50px"}}>
+          <ToggleSwitch style={{height: "25px", width: "50px"}} showMaster={showMaster} setShowMaster={setShowMaster}/>
         </div>
 
         <br />
@@ -137,7 +166,7 @@ export function SelectSub(props) {
       <button
         className="global-button"
         type="submit"
-        onClick={props.handleSubmit}
+        onClick={handleSubmit}
       >
         Submit
       </button>
