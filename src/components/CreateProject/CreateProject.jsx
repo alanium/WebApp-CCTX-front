@@ -36,6 +36,7 @@ export function CreateProject(props) {
     lead_id: null,
   });
   const [sub, setSub] = useState({});
+  const [popup, setPopup] = useState(false)
   const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
   const [isExpanded, setExpanded] = useState({});
@@ -101,7 +102,6 @@ export function CreateProject(props) {
       try {
         let result;
         if (submitCounter == 0) {
-          console.log(customer);
           result = await props.enviarDatos(
             {
               action: "get_master",
@@ -109,13 +109,18 @@ export function CreateProject(props) {
             },
             "create_project"
           );
-          setIsProjectReady(true);
+
+            setIsProjectReady(true);
+          
+         
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
             { data: master, action: "work_order" },
             "create_project"
           );
+
           setIsWoReady(true)
+          
 
         } else if (submitCounter == 2) {
           result = await props.enviarDatos(
@@ -218,6 +223,8 @@ export function CreateProject(props) {
                   changeHandler={changeHandler}
                   handleSubmit={handleSubmit}
                   customer={customer}
+                  setPopup={setPopup}
+                  popuo={popup}
                 />
               )}
             </div>
