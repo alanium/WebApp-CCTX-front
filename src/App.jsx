@@ -13,7 +13,6 @@ import { UnexpectedError } from "./components/Error/UnexepectedError";
 import "./App.css";
 import "./SourceSansPro.css";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
-import { FileDownloader } from "./components/FileDownloader/FileDownloader";
 import { NewTask } from "./components/NewTask/NewTask";
 import { CreateProject } from "./components/CreateProject/CreateProject";
 import { ViewProjects } from "./components/ViewProjects/ViewProjects";
@@ -92,7 +91,7 @@ function App() {
             element={<ManageRoles obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
             <Route
             path="/home/manage_wo/download_wo"
-            element={<DownloadWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
+            element={<DownloadWO obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
             <Route
             path="/home/manage_tasks/assign_task"
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />

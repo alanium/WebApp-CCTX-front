@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { BiXCircle } from "react-icons/bi";
-import styles from "../../index.css";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa6";
 

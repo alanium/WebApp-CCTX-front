@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { SelectCustomer } from "./SelectCustomer";
+import { SelectProject } from "./SelectProject";
 import { SelectWO } from "./SelectWO";
 import { DetailsWO } from "./DetailsWO";
 
@@ -10,7 +10,7 @@ export function DownloadWo(props) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const result = await props.obtenerJSON("/wo")
+                const result = await props.obtenerJSON("get_wo")
                 if (result) {
                     setData(result);
                 } else {
