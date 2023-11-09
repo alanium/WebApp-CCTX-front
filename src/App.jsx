@@ -21,6 +21,7 @@ import ManageWo from "./components/ManageWo/ManageWo";
 import { ManageRoles } from "./components/ManageRoles/ManageRoles";
 import { ManageTasks } from "./components/MangeTasks/ManageTasks";
 import { ManageProjects } from "./components/ManageProjects/ManageProjects";
+import { DownloadWo } from "./components/DownloadWO/DownloadWO";
 
 function App() {
   const access = useSelector((state) => state.access);
@@ -91,7 +92,7 @@ function App() {
             element={<ManageRoles obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
             <Route
             path="/home/manage_wo/download_wo"
-            element={<FileDownloader obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
+            element={<DownloadWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
             <Route
             path="/home/manage_tasks/assign_task"
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />

@@ -11,13 +11,14 @@ export function SelectMasterItems(props) {
   const [unselectedItems, setUnselectedItems] = useState(false);
   const [selectedMasterIDs, setSelectedMasterIDs] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState([]);
-  let categories;
+  const categories = Object.keys(props.worders);
   const [master, setMaster] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     if (props.worders) {
-      categories = Object.keys(props.worders);
+      
+      console.log(categories)
     }
 
     console.log(props.worders);
@@ -249,7 +250,7 @@ export function SelectMasterItems(props) {
               className={styles.selectedTasks}
               style={{ maxHeight: "300px", overflowY: "auto" }}
             >
-              {categories.map((category) =>
+              {categories && categories.map((category) =>
                 category !== "OTHERS" ? (
                   <div key={category}>
                     <div style={{ marginTop: "20px", marginBottom: "10px" }}>
