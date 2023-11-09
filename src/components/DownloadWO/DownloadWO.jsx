@@ -10,9 +10,10 @@ export function DownloadWo(props) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const result = await props.obtenerJSON("get_wo")
+                const result = await props.obtenerJSON("/download_wo")
                 if (result) {
                     setData(result);
+                    console.log(data)
                 } else {
                     console.log("No funcionó")
                 }
@@ -29,13 +30,15 @@ export function DownloadWo(props) {
 
 
     return (
-        <div>
-            <label>Download WO</label>
-                <SelectCustomer data={data} />
-                <SelectWO data={data} />
-                <DetailsWO data={data} />
-                
-
+        <div className="global-container">
+            <label className="global-card-title">Download WO</label>
+            {isLoading ? (
+                <SelectProject setData={setData} enviarDatos={props.enviarDatos} data={data} />
+            ) : (
+                <label>
+                    LOADING DATA...
+                </label>
+            )}
         </div>
     )
 }

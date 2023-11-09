@@ -1,37 +1,71 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { SelectWO } from "./SelectWO";
 
-export function SelectProject() {
-  const [projects, setProjects] = useState({});
+export function SelectProject(props) {
+  const [projects, setProjects] = useState(props.data);
   const [project, setProject] = useState({});
-  const [render, setRender] = useState(false)
+  const [render, setRender] = useState(false);
+  const [isProjectReady, setIsProjectReady] = useState(false);
+  const [worders, setWorders] = useState([]);
 
   useEffect(() => {
-    setCustomers(props.data);
-  }, []);
+    setProjects(props.data);
+    console.log(projects);
+  }, [projects]);
 
   const handleChange = (event) => {
-    setProject(event.target.value);
+    setProject({ id: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    props.setData(props.enviarDatos(project, "wo"));
-  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const result = await props.enviarDatos(
+        { id: project.id, action: "get_wo" },
+        "/download_wo"
+      );
+      if (result) {
+        setWorders(result);
+        console.log(result);
+      } else {
+        console.log("No funcionó");
+      }
+    } catch (error) {
+      console.error("Error, ", error);
+    } finally {
+      setIsProjectReady(true);
+    }
+  }
 
   return (
     <div>
-      {render ? (
+      {isProjectReady ? (
+        <SelectWO
+          enviarDatos={props.enviarDatos}
+          worders={worders}
+          setData={props.setData}
+        />
+      ) : (
         <div>
-          <select onChange={handleChange}>
-            <option>Select a Project</option>
-            {projects.map((customer) => {
-              <option value={{ id: customer.id}}>
-                {customer.name}
-              </option>;
-            })}
-          </select>
-          <button onClick={handleSubmit}></button>
+          <form onSubmit={handleSubmit}>
+            <select
+              className="global-input-1"
+              
+              onChange={handleChange}
+            >
+              <option>Select a Project</option>
+              {projects.map((customer) => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name}
+                </option>
+              ))}
+            </select>
+            <button className="global-button" type="submit">
+              Submit
+            </button>
+          </form>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

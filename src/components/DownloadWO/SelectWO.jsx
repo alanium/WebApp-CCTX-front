@@ -1,33 +1,66 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { DetailsWO } from "./DetailsWO";
 
-export function SelectWO() {
-  const [worders, setWorders] = useState({});
+export function SelectWO(props) {
+  const [worders, setWorders] = useState(props.worders);
 
-  const [render, setRender] = useState(false)
+  const [details, setDetails] = useState({})
 
-  const [titles, setTitles] = useState([])
+  const [worder, setWorder] = useState({});
 
-  useEffect(() => {
-    setWorders(props.data);
-    setTitles(Object.keys(props.data))
-    setRender(true)
-  }, []);
+  const [titles, setTitles] = useState([]);
+
+  const [isWoReady, setIsWoReady] = useState(false);
+
+  useEffect(() => {}, []);
+
+  const changeHandler = (event) => {
+    setWorder(event.target.value);
+  };
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const result = await props.enviarDatos(
+        { id: worder, action: "get_wo_details" },
+        "/download_wo"
+      );
+      if (result) {
+        setDetails(result);
+        console.log(details);
+      } else {
+        console.log("No funcionó");
+      }
+    } catch (error) {
+      console.error("Error, ", error);
+    } finally {
+      setIsWoReady(true);
+    }
+  }
 
   return (
     <div>
-      {render ? (
+      {isWoReady ? (
+        <DetailsWO enviarDatos={props.enviarDatos} worder={worder} details={details}/>
+      ) : (
         <div>
-          <select>
-            <option>Select a Work Order</option>
-            {worders.map((worder) => {
-              <option value={{ id: worder.wo_id, name: worder.name }}>
-                {worder.name}
-              </option>;
-            })}
-          </select>
-          <button onClick={handleSubmit}></button>
+          <form>
+            <select className="global-input-1" onChange={changeHandler}>
+              <option>Select a Work Order</option>
+              {worders &&
+                worders.map((worder) => (
+                  <option key={worder.id} value={worder.id}>
+                    {worder.id_title}
+                  </option>
+                ))}
+            </select>
+          </form>
+
+          <button className="global-button" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
