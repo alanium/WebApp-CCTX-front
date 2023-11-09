@@ -91,7 +91,7 @@ function App() {
             element={<ManageRoles obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>}/>
             <Route
             path="/home/manage_wo/download_wo"
-            element={<DownloadWO obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
+            element={<DownloadWo obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>} />
             <Route
             path="/home/manage_tasks/assign_task"
             element={<NewTask obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
