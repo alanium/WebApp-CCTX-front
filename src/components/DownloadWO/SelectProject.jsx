@@ -3,7 +3,7 @@ import { SelectWO } from "./SelectWO";
 
 export function SelectProject(props) {
   const [projects, setProjects] = useState(props.data);
-  const [project, setProject] = useState({});
+  const [project, setProject] = useState(null);
   const [render, setRender] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [worders, setWorders] = useState([]);
@@ -14,33 +14,43 @@ export function SelectProject(props) {
   }, [projects]);
 
   const handleChange = (event) => {
-    setProject({ id: event.target.value });
+    if (event.target.value !== null) {
+      setProject({ id: event.target.value });
+    }
+    
   };
 
   async function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const result = await props.enviarDatos(
-        { id: project.id, action: "get_wo" },
-        "/download_wo"
-      );
-      if (result) {
-        setWorders(result);
-        console.log(result);
-      } else {
-        console.log("No funcionó");
+    props.setIsLoading(true)
+    if (project !== null) {
+      try {
+        const result = await props.enviarDatos(
+          { id: project.id, action: "get_wo" },
+          "/download_wo"
+        );
+        if (result) {
+          setWorders(result);
+          console.log(result);
+        } else {
+          console.log("No funcionó");
+        }
+      } catch (error) {
+        console.error("Error, ", error);
+      } finally {
+        props.setIsLoading(false)
+        setIsProjectReady(true);
       }
-    } catch (error) {
-      console.error("Error, ", error);
-    } finally {
-      setIsProjectReady(true);
     }
+    
+    
   }
 
   return (
     <div>
       {isProjectReady ? (
         <SelectWO
+          setIsLoading={props.setIsLoading}
           enviarDatos={props.enviarDatos}
           worders={worders}
           setData={props.setData}
@@ -53,7 +63,7 @@ export function SelectProject(props) {
               
               onChange={handleChange}
             >
-              <option>Select a Project</option>
+              <option value={null}>Select a Project</option>
               {projects.map((customer) => (
                 <option key={customer.id} value={customer.id}>
                   {customer.name}

@@ -6,7 +6,7 @@ export function SelectWO(props) {
 
   const [details, setDetails] = useState({})
 
-  const [worder, setWorder] = useState({});
+  const [worder, setWorder] = useState(null);
 
   const [titles, setTitles] = useState([]);
 
@@ -15,38 +15,51 @@ export function SelectWO(props) {
   useEffect(() => {}, []);
 
   const changeHandler = (event) => {
-    setWorder(event.target.value);
+    if (event.target.value !== null) {
+      setWorder(event.target.value);
+    }
+    
   };
 
   async function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const result = await props.enviarDatos(
-        { id: worder, action: "get_wo_details" },
-        "/download_wo"
-      );
-      if (result) {
-        setDetails(result);
-        console.log(details);
-      } else {
-        console.log("No funcionó");
+    props.setIsLoading(true)
+    if (worder !== null) {
+      try {
+        const result = await props.enviarDatos(
+          { id: worder, action: "get_wo_details" },
+          "/download_wo"
+        );
+        if (result) {
+          setDetails(result);
+          console.log(details);
+        } else {
+          console.log("No funcionó");
+        }
+      } catch (error) {
+        console.error("Error, ", error);
+      } finally {
+        props.setIsLoading(false)
+        setIsWoReady(true);
       }
-    } catch (error) {
-      console.error("Error, ", error);
-    } finally {
-      setIsWoReady(true);
     }
+    
   }
 
   return (
     <div>
+      <div>
       {isWoReady ? (
-        <DetailsWO enviarDatos={props.enviarDatos} worder={worder} details={details}/>
+        <DetailsWO 
+        setIsLoading={props.setIsLoading}
+        enviarDatos={props.enviarDatos} 
+        worder={worder} 
+        details={details}/>
       ) : (
         <div>
           <form>
             <select className="global-input-1" onChange={changeHandler}>
-              <option>Select a Work Order</option>
+              <option value={null}>Select a Work Order</option>
               {worders &&
                 worders.map((worder) => (
                   <option key={worder.id} value={worder.id}>
@@ -62,5 +75,7 @@ export function SelectWO(props) {
         </div>
       )}
     </div>
+    </div>
+    
   );
 }
