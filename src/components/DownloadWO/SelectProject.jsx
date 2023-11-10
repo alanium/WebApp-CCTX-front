@@ -22,8 +22,9 @@ export function SelectProject(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    props.setIsLoading(true)
+    
     if (project !== null) {
+      props.setIsLoading(true)
       try {
         const result = await props.enviarDatos(
           { id: project.id, action: "get_wo" },
@@ -60,12 +61,13 @@ export function SelectProject(props) {
           <form onSubmit={handleSubmit}>
             <select
               className="global-input-1"
-              
+              style={{maxWidth: "600px"}}
               onChange={handleChange}
+              
             >
-              <option value={null}>Select a Project</option>
+              <option  value={null}>Select a Project</option>
               {projects.map((customer) => (
-                <option key={customer.id} value={customer.id}>
+                <option style={{maxWidth: "600px"}} title={customer.name} key={customer.id} value={customer.id}>
                   {customer.name}
                 </option>
               ))}

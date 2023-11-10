@@ -106,29 +106,29 @@ const handleSubmit = async (event, action) => {
 
   return (
     <div>
-      <div style={{marginBottom: "12px"}}>
+      <div style={{marginBottom: "15px"}}>
         <label style={{width:"120px", color: "white"}}>WO ID:</label>
-        <label className={styles.bgLabel }>{props.details.project_name}</label>
+        <label className={styles.bgLabel}>{props.details.project_name}</label>
       </div>
 
-      <div style={{marginBottom: "10px"}}>
+      <div style={{marginBottom: "15px"}}>
         <label style={{width:"120px",  color: "white"}}>Project:</label>
         <label className={styles.bgLabel }>{props.details.wo_id}</label>
       </div>
 
-      <div style={{marginBottom: "10px"}}>
+      <div style={{marginBottom: "15px"}}>
         <label style={{width:"120px", color: "white"}}>Subcontractor:</label>
-        <label className={styles.bgLabel }>{props.details.subcontractor_name}</label>
+        <label title={props.details.subcontractor_name} className={styles.bgLabel }>{props.details.subcontractor_name}</label>
       </div>
       {more ? 
-      <div style={{marginTop: "15px"}} className={styles.tasksCointainer}>
+      <div style={{marginTop: "15px", maxHeight: "300px", overflowY: "auto"}} className={styles.tasksCointainer}>
         {extra.tasks.map((task) => (
             <div >
-                <label style={{marginTop: "15px", marginLeft:"10px", color: "white", fontWeight: "bold"}}>{task.task_name}</label>
+                <label title={task.task_name} style={{marginTop: "15px", marginLeft:"10px", color: "white", fontWeight: "bold"}}>{task.task_name}</label>
                 <div style={{marginBottom: "15px"}}>
                     {task.master_items.map((master_item) => (
                         <div>
-                            <label style={{marginLeft:"20px", color: "white"}}>{master_item.name}</label>
+                            <label title={master_item.name} style={{marginLeft:"20px", color: "white"}}>{master_item.name}</label>
                         </div>
                     ))}
                 </div>

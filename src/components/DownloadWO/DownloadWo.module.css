@@ -11,6 +11,10 @@
     align-items: center;
     border: 0.1px solid rgba(255, 255, 255, 0.103);
     border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding:5px
 }
 
 .spin {
@@ -25,12 +29,17 @@
 .bgLabel {
     background-color: #2c29298f;
     font-weight: bold;
-    height: 25px;
-    width: 440px;
+    height: 28px;
+    width: 73%;
+    padding-left: 10px;
+    padding-right: 10px;
     text-align: right;
     float: right;
     color: white;
     border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
   }
 
 .sbIcon {

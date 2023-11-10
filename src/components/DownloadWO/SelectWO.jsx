@@ -23,8 +23,9 @@ export function SelectWO(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    props.setIsLoading(true)
+    
     if (worder !== null) {
+      props.setIsLoading(true)
       try {
         const result = await props.enviarDatos(
           { id: worder, action: "get_wo_details" },
@@ -59,10 +60,10 @@ export function SelectWO(props) {
         <div>
           <form>
             <select className="global-input-1" onChange={changeHandler}>
-              <option value={null}>Select a Work Order</option>
+              <option style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} value={null}>Select a Work Order</option>
               {worders &&
                 worders.map((worder) => (
-                  <option key={worder.id} value={worder.id}>
+                  <option style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} key={worder.id} value={worder.id}>
                     {worder.id_title}
                   </option>
                 ))}

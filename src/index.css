@@ -31,6 +31,7 @@ body {
 
 .global-input-1 {
   width: 100%;
+  max-width: 600px;
   margin-bottom: 16px;
   background-color: rgba(0, 0, 0, 0.308);
   color: white;
@@ -41,6 +42,9 @@ body {
   outline: transparent;
   box-shadow: none;
   border: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
 }
 .global-input-1::placeholder {
   font-weight: bold;
