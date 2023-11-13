@@ -9,7 +9,7 @@ import { SelectMasterItems } from "../SelectMasterItems/SelectMasterItems";
 import { SelectCustomer } from "../SelectCustomer/SelectCustomer";
 import { CreateWo } from "../CreateWo/CreateWo";
 import { useNavigate } from "react-router-dom";
-import { setSuccess } from "../../redux/actions";
+import { setSuccess, setBar } from "../../redux/actions";
 
 export function CreateProject(props) {
   const [worders, setWorders] = useState([]);
@@ -97,7 +97,7 @@ export function CreateProject(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-
+    dispatch(setBar(true))
     if (input.id !== null) {
       try {
         let result;
@@ -132,6 +132,7 @@ export function CreateProject(props) {
           );
           navigate("/home");
           dispatch(setSuccess(true));
+          dispatch(setBar(false))
         }
         setSubmitcounter(submitCounter + 1);
         if (result) {
@@ -142,10 +143,12 @@ export function CreateProject(props) {
         console.error("Error: ", error);
       } finally {
         setIsSubmitting(false);
+        dispatch(setBar(false))
       }
     } else {
       console.log("Please fill in the form before submitting");
       setIsSubmitting(false);
+      dispatch(setBar(false))
     }
   };
 

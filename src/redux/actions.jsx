@@ -12,3 +12,8 @@ export const setSuccess = (success) => ({
   type: "SET_SUCCESS",
   payload: success
 })
+
+export const setBar = (blocked) => ({
+  type: "SET_BAR",
+  payload: blocked
+})

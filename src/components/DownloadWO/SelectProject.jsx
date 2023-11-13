@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SelectWO } from "./SelectWO";
+import { useDispatch } from "react-redux";
+import { setBar } from "../../redux/actions";
 
 export function SelectProject(props) {
   const [projects, setProjects] = useState(props.data);
@@ -7,6 +9,8 @@ export function SelectProject(props) {
   const [render, setRender] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [worders, setWorders] = useState([]);
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     setProjects(props.data);
@@ -25,6 +29,7 @@ export function SelectProject(props) {
     
     if (project !== null) {
       props.setIsLoading(true)
+      dispatch(setBar(true))
       try {
         const result = await props.enviarDatos(
           { id: project.id, action: "get_wo" },
@@ -40,6 +45,7 @@ export function SelectProject(props) {
         console.error("Error, ", error);
       } finally {
         props.setIsLoading(false)
+        dispatch(setBar(false))
         setIsProjectReady(true);
       }
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSuccess } from "../../redux/actions";
+import { setSuccess, setBar } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import styles from "./DownloadWo.module.css"
 
@@ -23,6 +23,7 @@ export function DetailsWO(props) {
  async function moreDetails(event) {
     event.preventDefault()
     props.setIsLoading(true)
+    dispatch(setBar(true))
     try {
         const result = await  props.enviarDatos(
             { id: props.worder, action: "get_more_details" },
@@ -38,6 +39,7 @@ export function DetailsWO(props) {
         console.error("Error, ", error)
     } finally {
       props.setIsLoading(false)
+      dispatch(setBar(false))
         setMore(true);
     }
 }
@@ -46,10 +48,12 @@ export function DetailsWO(props) {
 const handleSubmit = async (event, action) => {
   event.preventDefault();
   props.setIsLoading(true)
+  dispatch(setBar(true))
   if (
     !props.details.wo_id
   ) {
     props.setIsLoading(false)
+    dispatch(setBar(false))
     return; // Exit the function early
   } else {
     try {
@@ -79,13 +83,32 @@ const handleSubmit = async (event, action) => {
           a.click();
           window.URL.revokeObjectURL(url);
           props.setIsLoading(false)
+          dispatch(setBar(false))
           dispatch(setSuccess(true))
           navigate("/home")
           console.log("Llegué 1");
+
+        } else if (contentType.includes("application/zip")) {
+          // Si la respuesta es un archivo ZIP, descárgalo
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "all_pdfs.zip";
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          setIsSubmitting(false);
+          dispatch(setBar(false))
+          dispatch(setSuccess(true))
+          navigate("/home")
+          console.log("Llegué 2");
+        
         
         } else {
           console.error("Tipo de archivo no compatible.");
           props.setIsLoading(false)
+          dispatch(setBar(false))
      
         }
       } else {
@@ -95,11 +118,13 @@ const handleSubmit = async (event, action) => {
           errorResponse.error
         );
         props.setIsLoading(false)
+        dispatch(setBar(false))
       
       }
     } catch (error) {
       console.error("Error: ", error);
       props.setIsLoading(false)
+      dispatch(setBar(false))
     }
   }
 };

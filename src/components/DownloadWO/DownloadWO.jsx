@@ -4,13 +4,17 @@ import { SelectWO } from "./SelectWO";
 import { DetailsWO } from "./DetailsWO";
 import styles from "./DownloadWo.module.css"
 import { ImSpinner8 } from "react-icons/im";
+import { useDispatch } from "react-redux";
+import { setBar } from "../../redux/actions";
 
 export function DownloadWo(props) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [ready, setReady] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(setBar(true))
     async function fetchData() {
       try {
         const result = await props.obtenerJSON("/download_wo");
@@ -24,6 +28,7 @@ export function DownloadWo(props) {
         console.error("Error, ", error);
       } finally {
         setIsLoading(false);
+        dispatch(setBar(false))
         setReady(true)
       }
     }

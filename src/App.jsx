@@ -7,7 +7,6 @@ import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
 import Recovery from "./components/Recovery/Recovery";
 import Login from "./components/Login/Login";
-import ViewWorkOrder from "./components/View W.O/View W.O";
 import SideBar from "./components/SideBar/SideBar";
 import { UnexpectedError } from "./components/Error/UnexepectedError";
 import "./App.css";
@@ -79,10 +78,6 @@ function App() {
       <Routes>
         <Route element={<PrivateRoutes />}>
             <Route path="/home" exact element={<Home />} />
-            <Route
-              path="/home/manage_wo/view_wo"
-              element={<ViewWorkOrder obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />}
-            />
             <Route
             path="/home/manage_tasks/"
             element={<ManageTasks obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />} />
