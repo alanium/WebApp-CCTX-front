@@ -10,6 +10,7 @@ import { SelectCustomer } from "../SelectCustomer/SelectCustomer";
 import { CreateWo } from "../CreateWo/CreateWo";
 import { useNavigate } from "react-router-dom";
 import { setSuccess, setBar } from "../../redux/actions";
+import Maintenace from "../Maintenance/Maintenance";
 
 export function CreateProject(props) {
   const [worders, setWorders] = useState([]);
@@ -47,8 +48,14 @@ export function CreateProject(props) {
   const [submitCounter, setSubmitcounter] = useState(0);
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const underMaintenance = useSelector((state) => state.underMaintenance);
+  const [isAvaliable, setIsAvaliable] = useState(true)
 
   useEffect(() => {
+    if (underMaintenance.includes("create_project")) {
+      setIsAvaliable(false)
+    }
+
     async function fetchData() {
       try {
         const result = await props.obtenerJSON("create_project");
@@ -166,72 +173,77 @@ export function CreateProject(props) {
       </div>
       {role !== "member" ? (
         <div>
-          {isLoading ? (
+          {isAvaliable ? (
             <div>
-              <p style={{ color: "white" }}>Loading data...</p>
-            </div>
-          ) : (
-            <div>
-              {isProjectReady ? (
-                <div>
-                  {isMitemsReady ? (
-                    <div>
-                      {isWoReady ? (
-                        <div>
-                          {isSubReady ? (
-                            <WoPreview
-                              customer={customer}
-                              sub={sub}
-                              master={master}
-                              process={process}
-                              category={category}
-                              user={user}
-                              enviarDatos={props.enviarDatos}
-                              selected_project={projectId.selected_project}
-                              selected_master={master.selected_master}
-                              selected_sub={sub.selected_sub}
-                              selected_processes={process.selected_process}
-                            />
-                          ) : (
-                            <SelectSub
-                              sub={sub}
-                              setSub={setSub}
-                              handleSubmit={handleSubmit}
-                              worders={worders}
-                            />
-                          )}
-                        </div>
-                      ) : (
-                        <CreateWo
-                          setMaster={updateMaster}
-                          worders={worders}
-                          handleSubmit={handleSubmit}
-                          master={master}
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <SelectMasterItems
-                      worders={worders}
-                      setIsMitemsReady={setIsMitemsReady}
-                      handleSubmit={handleSubmit}
-                      master={master}
-                      setMaster={updateMaster}
-                    />
-                  )}
-                </div>
-              ) : (
-                <SelectCustomer
-                  worders={worders}
-                  changeHandler={changeHandler}
-                  handleSubmit={handleSubmit}
-                  customer={customer}
-                  setPopup={setPopup}
-                  popuo={popup}
-                />
-              )}
-            </div>
-          )}
+            {isLoading ? (
+              <div>
+                <p style={{ color: "white" }}>Loading data...</p>
+              </div>
+            ) : (
+              <div>
+                {isProjectReady ? (
+                  <div>
+                    {isMitemsReady ? (
+                      <div>
+                        {isWoReady ? (
+                          <div>
+                            {isSubReady ? (
+                              <WoPreview
+                                customer={customer}
+                                sub={sub}
+                                master={master}
+                                process={process}
+                                category={category}
+                                user={user}
+                                enviarDatos={props.enviarDatos}
+                                selected_project={projectId.selected_project}
+                                selected_master={master.selected_master}
+                                selected_sub={sub.selected_sub}
+                                selected_processes={process.selected_process}
+                              />
+                            ) : (
+                              <SelectSub
+                                sub={sub}
+                                setSub={setSub}
+                                handleSubmit={handleSubmit}
+                                worders={worders}
+                              />
+                            )}
+                          </div>
+                        ) : (
+                          <CreateWo
+                            setMaster={updateMaster}
+                            worders={worders}
+                            handleSubmit={handleSubmit}
+                            master={master}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <SelectMasterItems
+                        worders={worders}
+                        setIsMitemsReady={setIsMitemsReady}
+                        handleSubmit={handleSubmit}
+                        master={master}
+                        setMaster={updateMaster}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <SelectCustomer
+                    worders={worders}
+                    changeHandler={changeHandler}
+                    handleSubmit={handleSubmit}
+                    customer={customer}
+                    setPopup={setPopup}
+                    popuo={popup}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+          ) : <Maintenace />  }
+        
         </div>
       ) : (
         <div className={styles.titleDiv}>

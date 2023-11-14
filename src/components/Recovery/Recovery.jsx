@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { BiXCircle } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa6";
-
+import Maintenace from "../Maintenance/Maintenance";
 
 export default function Recovery(props) {
-
-const navigate = useNavigate()
-const [validate, setValidate] = useState({})
-const [click, setClick] = useState(0)
-
+  const navigate = useNavigate();
+  const [validate, setValidate] = useState({});
+  const [click, setClick] = useState(0);
+  const isAvaliable = true;
   const [input, setInput] = useState({
     email: "",
     recovery_code: "",
@@ -19,14 +18,18 @@ const [click, setClick] = useState(0)
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.enviarDatos(input, "recover_password")
+    props
+      .enviarDatos(input, "recover_password")
       .then((datos) => {
         if (datos.response === "True") {
-          navigate("/")
+          navigate("/");
         }
-        setValidate(datos.response)})
-      .catch((error) => {console.error("Error: ", error)})
-      setClick(1)
+        setValidate(datos.response);
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+    setClick(1);
   };
 
   const handleChange = (event) => {
@@ -39,81 +42,105 @@ const [click, setClick] = useState(0)
 
   return (
     <div className="global-container">
-      <div className="titleDiv">
-        <label className="global-card-title">Recover</label>
-      </div>
-      <div className="titleDiv" style={{marginBottom: '40px'}}>
-        <label className="global-card-subtitle">your password</label>
-      </div>
+      {isAvaliable ? (
+        <div>
+          <div className="titleDiv">
+            <label className="global-card-title">Recover</label>
+          </div>
+          <div className="titleDiv" style={{ marginBottom: "40px" }}>
+            <label className="global-card-subtitle">your password</label>
+          </div>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            style={{
-              marginTop: "10px",
-              paddingLeft: "30px",}}
-            className="global-input-1"
-            name="email"
-            type="text"
-            placeholder="Email"
-            onChange={handleChange}
-          />
-          <MdEmail className="icon"
-          style={{
-            fontSize: "14px",
-            top: "37%",
-            color: "rgb(156, 156, 156)",
-            position: "absolute",
-            right: "14%",
-            transform: "translateY(-50%)",
-          }}
-          />
+          <form onSubmit={handleSubmit}>
+            <div>
+              <input
+                style={{
+                  marginTop: "10px",
+                  paddingLeft: "30px",
+                }}
+                className="global-input-1"
+                name="email"
+                type="text"
+                placeholder="Email"
+                onChange={handleChange}
+              />
+              <MdEmail
+                className="icon"
+                style={{
+                  fontSize: "14px",
+                  top: "37%",
+                  color: "rgb(156, 156, 156)",
+                  position: "absolute",
+                  right: "14%",
+                  transform: "translateY(-50%)",
+                }}
+              />
+            </div>
+            <div>
+              <input
+                style={{ marginTop: "10px" }}
+                className="global-input-1"
+                name="recovery_code"
+                type="text"
+                placeholder="Recovery code"
+                onChange={handleChange}
+              />
+              <FaKey
+                style={{
+                  fontSize: "14px",
+                  top: "61%",
+                  color: "rgb(156, 156, 156)",
+                  position: "absolute",
+                  right: "14%",
+                  transform: "translateY(-50%)",
+                }}
+              />
+            </div>
+            <div>
+              <input
+                style={{ marginTop: "10px" }}
+                className="global-input-1"
+                name="new_password"
+                type="password"
+                placeholder="New password"
+                onChange={handleChange}
+              />
+              <FaKey
+                style={{
+                  fontSize: "14px",
+                  top: "49%",
+                  color: "rgb(156, 156, 156)",
+                  position: "absolute",
+                  right: "14%",
+                  transform: "translateY(-50%)",
+                }}
+              />
+              {validate === "False" && click > 0 ? (
+                <p style={{ color: "red" }}>
+                  {" "}
+                  <BiXCircle /> Invalid credentials
+                </p>
+              ) : null}
+            </div>
+            <button
+              className="global-button"
+              style={{ margonBottom: "20px" }}
+              onClick={handleSubmit}
+            >
+              Send
+            </button>
+            <button
+              className="global-button"
+              style={{ marginBottom: "20px" }}
+              onClick={() => navigate("/")}
+            >
+              Back
+            </button>
+          </form>
         </div>
-        <div>
-          <input
-            style={{marginTop: "10px"}}
-            className="global-input-1"
-            name="recovery_code"
-            type="text"
-            placeholder="Recovery code"
-            onChange={handleChange}
-          />
-          <FaKey style={{
-            fontSize: "14px",
-            top: "61%",
-            color: "rgb(156, 156, 156)",
-            position: "absolute",
-            right: "14%",
-            transform: "translateY(-50%)",
-          }} />
-        </div>
-        <div>
-          <input
-            style={{marginTop: "10px"}}
-            className="global-input-1"
-            name="new_password"
-            type="password"
-            placeholder="New password"
-            onChange={handleChange}
-          />
-           <FaKey style={{
-            fontSize: "14px",
-            top: "49%",
-            color: "rgb(156, 156, 156)",
-            position: "absolute",
-            right: "14%",
-            transform: "translateY(-50%)",
-          }} />
-          { validate === "False" && click > 0 ? <p style={{ color: "red" }} > <BiXCircle/> Invalid credentials</p>  : null }
-        </div>
-        <button
-        className="global-button"
-        style={{margonBottom: "20px"}}
-        onClick={handleSubmit}>Send</button>
-        <button className="global-button" style={{marginBottom: "20px"}} onClick={() => navigate("/")}>
-          Back
-        </button>
-      </form>
+      ) : (
+        <Maintenace />
+      )}
     </div>
   );
 }

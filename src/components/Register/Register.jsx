@@ -5,13 +5,14 @@ import { MdEmail } from "react-icons/md";
 import { BiXCircle } from "react-icons/bi";
 import styles from "./Register.module.css";
 import "../../index.css";
+import Maintenace from "../Maintenance/Maintenance";
 
 export default function Register(props) {
   const navigate = useNavigate();
   const [validate, setValidate] = useState({});
   const [click, setClick] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const isAvaliable = true;
 
   const [input, setInput] = useState({
     fullname: "",
@@ -61,120 +62,126 @@ export default function Register(props) {
 
   return (
     <div className="global-container">
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "40px",
-        }}
-      >
-        <label className="global-card-title">Register</label>
-      </div>
-
-      <form>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-          }}
-        >
-          <input
-            className="global-input-1"
-            name="fullname"
-            onChange={handleChange}
-            type="text"
-            placeholder="Full Name"
+      {isAvaliable ? (
+        <div>
+          <div
             style={{
-              paddingLeft: "30px",
-              marginTop: "10px",
+              textAlign: "center",
+              marginBottom: "40px",
             }}
-          />
-          <FaUser className="icon" />
-        </div>
+          >
+            <label className="global-card-title">Register</label>
+          </div>
 
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-          }}
-        >
-          <input
-            className="global-input-1"
-            name="username"
-            onChange={handleChange}
-            type="text"
-            placeholder="Username"
-            style={{
-              paddingLeft: "30px",
-              marginTop: "10px",
-            }}
-          />
-          <FaUserTag
-            className="icon"
-            style={{ fontSize: "18px", bottom: "30%", right: "5px" }}
-          />
-        </div>
+          <form>
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <input
+                className="global-input-1"
+                name="fullname"
+                onChange={handleChange}
+                type="text"
+                placeholder="Full Name"
+                style={{
+                  paddingLeft: "30px",
+                  marginTop: "10px",
+                }}
+              />
+              <FaUser className="icon" />
+            </div>
 
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-          }}
-        >
-          <input
-            className="global-input-1"
-            name="email"
-            onChange={handleChange}
-            type="text"
-            placeholder="Email"
-            style={{
-              paddingLeft: "30px",
-              marginTop: "10px",
-            }}
-          />
-          <MdEmail className="icon" />
-        </div>
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <input
+                className="global-input-1"
+                name="username"
+                onChange={handleChange}
+                type="text"
+                placeholder="Username"
+                style={{
+                  paddingLeft: "30px",
+                  marginTop: "10px",
+                }}
+              />
+              <FaUserTag
+                className="icon"
+                style={{ fontSize: "18px", bottom: "30%", right: "5px" }}
+              />
+            </div>
 
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-          }}
-        >
-          <input
-            className="global-input-1"
-            name="password"
-            onChange={handleChange}
-            type="password"
-            placeholder="Password"
-            style={{
-              paddingLeft: "30px",
-              marginTop: "10px",
-            }}
-          />
-          <FaKey className="icon" />
-          {validate === "False" && click > 0 ? (
-            <p style={{ color: "red" }}>
-              {" "}
-              <BiXCircle /> Username or email alredy in use
-            </p>
-          ) : null}
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <input
+                className="global-input-1"
+                name="email"
+                onChange={handleChange}
+                type="text"
+                placeholder="Email"
+                style={{
+                  paddingLeft: "30px",
+                  marginTop: "10px",
+                }}
+              />
+              <MdEmail className="icon" />
+            </div>
+
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+              }}
+            >
+              <input
+                className="global-input-1"
+                name="password"
+                onChange={handleChange}
+                type="password"
+                placeholder="Password"
+                style={{
+                  paddingLeft: "30px",
+                  marginTop: "10px",
+                }}
+              />
+              <FaKey className="icon" />
+              {validate === "False" && click > 0 ? (
+                <p style={{ color: "red" }}>
+                  {" "}
+                  <BiXCircle /> Username or email alredy in use
+                </p>
+              ) : null}
+            </div>
+            <button
+              className="global-button"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              Submit
+            </button>
+            <button
+              className="global-button"
+              disabled={isSubmitting}
+              style={{ marginBottom: "20px" }}
+              onClick={() => navigate("/")}
+            >
+              Back
+            </button>
+          </form>
         </div>
-        <button
-          className="global-button"
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-        >
-          Submit
-        </button>
-        <button 
-        className="global-button" 
-        disabled={isSubmitting} 
-        style={{marginBottom: "20px"}} 
-        onClick={() => navigate("/")}
-        >
-          Back
-        </button>
-      </form>
+      ) : (
+        <Maintenace />
+      )}
     </div>
   );
 }

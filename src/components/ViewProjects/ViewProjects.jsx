@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Maintenace from "../Maintenance/Maintenance";
 
 export function ViewProjects(props) {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const role = useSelector((state) => state.user.role);
+    const isAvaliable = false;
   
     useEffect(() => {
       // Fetch data when the component mounts
@@ -22,5 +24,15 @@ export function ViewProjects(props) {
         });
     }, [props]);
 
-    return <div>View Projects</div>
+    return (
+    <div className="global-container">
+      {isAvaliable ? (
+        <div>
+          <label>View Projects</label>
+        </div>
+      ) :
+        <Maintenace />
+      }
+    </div>
+  )
 }

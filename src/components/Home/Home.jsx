@@ -13,12 +13,14 @@ import {
   BiDownload,
 } from "react-icons/bi";
 import "../../index.css";
+import Maintenace from "../Maintenance/Maintenance";
 
 export default function Home(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const success = useSelector((state) => state.success);
+  const isAvaliable = true
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
@@ -34,7 +36,9 @@ export default function Home(props) {
 
   return (
     <div className={styles.homeContainer}>
-      <div style={{ textAlign: "center" }}>
+      {isAvaliable ? (
+        <div>
+          <div style={{ textAlign: "center" }}>
         <BiSolidUserCircle
           className={styles.icon}
           style={{ color: "white", fontSize: 200 }}
@@ -53,16 +57,6 @@ export default function Home(props) {
             <BiSolidFileFind name="view_wo" className={styles.icon} />
           </button>
           <label>Manage WO</label>
-        </div>
-        <div className={styles.btnDiv}>
-          <button
-            name="manage_tasks"
-            className={styles.homeButton}
-            onClick={handleOnClick}
-          >
-            <BiSolidStar className={styles.icon} />
-          </button>
-          <label>Manage Tasks</label>
         </div>
         <div className={styles.btnDiv}>
           <button
@@ -120,6 +114,8 @@ export default function Home(props) {
           </div>
         </div>
       ) : null}
+        </div>
+      ) : <Maintenace />}
     </div>
   );
 }

@@ -13,11 +13,13 @@ import {
   BiDownload,
 } from "react-icons/bi";
 import "../../index.css";
+import Maintenace from "../Maintenance/Maintenance";
 
 export default function ManageWo(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const state = useSelector((state) => state);
+  const isAvaliable = true;
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 
@@ -29,40 +31,36 @@ export default function ManageWo(props) {
 
   return (
     <div className={styles.homeContainer}>
-      <div style={{ textAlign: "center" }}>
-        <BiSolidUserCircle
-          className={styles.bigIcon}
-        />
-        <div className={styles.titleDiv}>
-          <label className="global-card-subtitle">Hello, {user.fullname}</label>
+      {isAvaliable ? (
+        <div>
+          <div style={{ textAlign: "center" }}>
+            <BiSolidUserCircle className={styles.bigIcon} />
+            <div className={styles.titleDiv}>
+              <label className="global-card-subtitle">
+                Hello, {user.fullname}
+              </label>
+            </div>
+          </div>
+          <div className={styles.buttonsDiv}>
+            <div className={styles.btnDiv}>
+              <button
+                className={styles.homeButton}
+                name="download_wo"
+                onClick={handleOnClick}
+              >
+                <BiDownload
+                  className={styles.icon}
+                  name="download_wo"
+                  onClick={handleOnClick}
+                />
+              </button>
+              <label>Download WO</label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.buttonsDiv}>
-        <div className={styles.btnDiv}>
-          <button
-            className={styles.homeButton}
-            name="view_wo"
-            onClick={handleOnClick}
-          >
-            <BiSolidFileFind name="view_wo" className={styles.icon} />
-          </button>
-          <label>View WO</label>
-        </div>
-        <div className={styles.btnDiv}>
-          <button
-            className={styles.homeButton}
-            name="download_wo"
-            onClick={handleOnClick}
-          >
-            <BiDownload
-              className={styles.icon}
-              name="download_wo"
-              onClick={handleOnClick}
-            />
-          </button>
-          <label>Download WO</label>
-        </div>
-      </div>
+      ) : (
+        <Maintenace />
+      )}
     </div>
   );
 }

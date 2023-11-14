@@ -17,6 +17,7 @@ export function ManageProjects(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const state = useSelector((state) => state);
+  const isAvaliable = true
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
 

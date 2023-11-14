@@ -13,11 +13,13 @@ import {
   BiDownload,
 } from "react-icons/bi";
 import "../../index.css";
+import Maintenace from "../Maintenance/Maintenance";
 
-export  function ManageTasks(props) {
+export function ManageTasks(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const state = useSelector((state) => state);
+  const isAvaliable = true;
   const handleOnClick = (event) => {
     const targetButton = event.target.closest("button");
     if (targetButton) {
@@ -28,26 +30,32 @@ export  function ManageTasks(props) {
 
   return (
     <div className={styles.homeContainer}>
-      <div style={{ textAlign: "center" }}>
-        <BiSolidUserCircle
-          className={styles.bigIcon}
-        />
-        <div className={styles.titleDiv}>
-          <label className="global-card-subtitle">Hello, {user.fullname}</label>
+      {isAvaliable ? (
+        <div>
+          <div style={{ textAlign: "center" }}>
+            <BiSolidUserCircle className={styles.bigIcon} />
+            <div className={styles.titleDiv}>
+              <label className="global-card-subtitle">
+                Hello, {user.fullname}
+              </label>
+            </div>
+          </div>
+          <div className={styles.buttonsDiv}>
+            <div className={styles.btnDiv}>
+              <button
+                name="assign_task"
+                className={styles.homeButton}
+                onClick={handleOnClick}
+              >
+                <BiSolidStar className={styles.icon} />
+              </button>
+              <label>Assign Task</label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.buttonsDiv}>
-        <div className={styles.btnDiv}>
-          <button 
-          name="assign_task"
-          className={styles.homeButton}
-          onClick={handleOnClick}
-          >
-            <BiSolidStar className={styles.icon} />
-          </button>
-          <label>Assign Task</label>
-        </div>
-      </div>
+      ) : (
+        <Maintenace />
+      )}
     </div>
   );
 }

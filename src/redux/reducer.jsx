@@ -1,8 +1,11 @@
+const storedMaintenance = localStorage.getItem("underMaintenance");
+
 const initialState = {
   access: false,
   user: undefined,
   success: false,
   blocked: false,
+  underMaintenance: storedMaintenance ? JSON.parse(storedMaintenance) : [],
 };
 
 const accessReducer = (state = initialState, action) => {
@@ -25,8 +28,13 @@ const accessReducer = (state = initialState, action) => {
     case "SET_BAR":
       return {
         ...state,
-        blocked: action.payload
-      }
+        blocked: action.payload,
+      };
+    case "SET_MAINTENANCE":
+      return {
+        ...state,
+        underMaintenance: action.payload,
+      };
     default:
       return state;
   }

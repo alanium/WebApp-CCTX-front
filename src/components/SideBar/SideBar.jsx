@@ -61,42 +61,19 @@ export default function NavBar(props) {
                   <BiSolidStar />
                 )}
               </NavLink>
-              <NavLink
-                to="/home/manage_wo/create_project"
-                className={styles.navLink}
-              >
+
+
+              <NavLink to="/home/manage_projects/" className={styles.navLink}>
                 {isSidebarOpen ? (
-                  <label>Create Project</label>
+                  <label>Manage Projects</label>
                 ) : (
                   <BiSolidStar />
-                )}
-              </NavLink>
-              <NavLink to="/home/manage_wo/view_wo" className={styles.navLink}>
-                {isSidebarOpen ? (
-                  <label>View Work Orders</label>
-                ) : (
-                  <BiSolidFileFind />
-                )}
-              </NavLink>
-              <NavLink
-                to="/home/manage_wo/download_wo"
-                className={styles.navLink}
-              >
-                {isSidebarOpen ? (
-                  <label>Download Work Orders</label>
-                ) : (
-                  <BiDownload />
                 )}
               </NavLink>
               <NavLink to="/home/manage_tasks/" className={styles.navLink}>
                 {isSidebarOpen ? <label>Manage Tasks</label> : <BiSolidStar />}
               </NavLink>
-              <NavLink
-                to="/home/manage_tasks/assign_task"
-                className={styles.navLink}
-              >
-                {isSidebarOpen ? <label>Assign Tasks</label> : <BiSolidStar />}
-              </NavLink>
+
               <NavLink to="/home/control_panel" className={styles.navLink}>
                 {isSidebarOpen ? (
                   <label>Control Panel</label>

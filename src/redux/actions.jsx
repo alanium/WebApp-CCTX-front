@@ -17,3 +17,8 @@ export const setBar = (blocked) => ({
   type: "SET_BAR",
   payload: blocked
 })
+
+export const setMaintenance = (underMaintenance) => ({
+  type: "SET_MAINTENANCE",
+  payload: underMaintenance
+})

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiXCircle } from "react-icons/bi";
 import styles from "./SelectMasterItems.module.css";
 import { useNavigate } from "react-router-dom";
+import Maintenace from "../Maintenance/Maintenance";
 
 export function SelectMasterItems(props) {
   const ref = useRef(null);
@@ -14,11 +15,11 @@ export function SelectMasterItems(props) {
   const categories = Object.keys(props.worders);
   const [master, setMaster] = useState({});
   const navigate = useNavigate();
+  const isAvaliable = true
 
   useEffect(() => {
     if (props.worders) {
-      
-      console.log(categories)
+      console.log(categories);
     }
 
     console.log(props.worders);
@@ -190,154 +191,167 @@ export function SelectMasterItems(props) {
 
   return (
     <div>
-      {props.worders.response !== false ? (
+      {isAvaliable ? (
         <div>
-          {unselectedItems ? (
-            <div className={styles.popupContainer}>
-              <div style={{ maxWidth: "70%" }} className="global-container">
-                <div>
-                  <label className="form-label" style={{ color: "white" }}>
-                    You have unselected master items, do you wish to add them to
-                    the OTHERS category? If not please select them before
-                    continuing.
+          {props.worders.response !== false ? (
+            <div>
+              {unselectedItems ? (
+                <div className={styles.popupContainer}>
+                  <div style={{ maxWidth: "70%" }} className="global-container">
+                    <div>
+                      <label className="form-label" style={{ color: "white" }}>
+                        You have unselected master items, do you wish to add
+                        them to the OTHERS category? If not please select them
+                        before continuing.
+                      </label>
+                    </div>
+                    <div className={styles.buttonsDiv}>
+                      <button
+                        onClick={() => setUnselectedItems(false)}
+                        className="global-button"
+                        style={{
+                          width: "calc(50% - 10px)",
+                          backgroundColor: "rgba(255, 255, 255, 0.300)",
+                          color: "white",
+                          height: "45px",
+                          marginRight: "5px",
+                        }}
+                      >
+                        NO
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          event.preventDefault();
+                          () => props.setIsMitemsReady(true);
+                          gatherUnselectedCheckboxes();
+                        }}
+                        className="global-button"
+                        style={{
+                          width: "calc(50% - 10px)",
+                          backgroundColor: "rgba(255, 255, 255, 0.300)",
+                          color: "white",
+                          height: "45px",
+                        }}
+                      >
+                        YES
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <form>
+                <div style={{ marginBottom: "10px", marginTop: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ color: "white", fontSize: "25px" }}
+                  >
+                    Select Master Items
                   </label>
                 </div>
-                <div className={styles.buttonsDiv}>
-                  <button
-                    onClick={() => setUnselectedItems(false)}
-                    className="global-button"
-                    style={{
-                      width: "calc(50% - 10px)",
-                      backgroundColor: "rgba(255, 255, 255, 0.300)",
-                      color: "white",
-                      height: "45px",
-                      marginRight: "5px",
-                    }}
-                  >
-                    NO
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      event.preventDefault();
-                      () => props.setIsMitemsReady(true);
-                      gatherUnselectedCheckboxes();
-                    }}
-                    className="global-button"
-                    style={{
-                      width: "calc(50% - 10px)",
-                      backgroundColor: "rgba(255, 255, 255, 0.300)",
-                      color: "white",
-                      height: "45px",
-                    }}
-                  >
-                    YES
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : null}
-          <form>
-            <div style={{ marginBottom: "10px", marginTop: "10px" }}>
-              <label
-                className="form-label"
-                style={{ color: "white", fontSize: "25px" }}
-              >
-                Select Master Items
-              </label>
-            </div>
-            <div
-              className={styles.selectedTasks}
-              style={{ maxHeight: "300px", overflowY: "auto" }}
-            >
-              {categories && categories.map((category) =>
-                category !== "OTHERS" ? (
-                  <div key={category}>
-                    <div style={{ marginTop: "20px", marginBottom: "10px" }}>
-                      <label style={{ fontWeight: "bold" }}>{category}</label>
-                    </div>
-                    <div>
-                      {props.worders[category].map((task, index) => (
-                        <div
-                          style={{
-                            marginLeft: "5px",
-                            marginTop: "5px",
-                            marginBottom: "5px",
-                          }}
-                          key={task.name}
-                        >
-                          <input
-                            type="checkbox"
-                            onChange={() => toggleTask(task)}
-                          />
-                          <label>{task.name}</label>
+                <div
+                  className={styles.selectedTasks}
+                  style={{ maxHeight: "300px", overflowY: "auto" }}
+                >
+                  {categories &&
+                    categories.map((category) =>
+                      category !== "OTHERS" ? (
+                        <div key={category}>
+                          <div
+                            style={{ marginTop: "20px", marginBottom: "10px" }}
+                          >
+                            <label style={{ fontWeight: "bold" }}>
+                              {category}
+                            </label>
+                          </div>
                           <div>
-                            {task.master_items.map((master, index) => (
+                            {props.worders[category].map((task, index) => (
                               <div
-                                style={{ marginLeft: "15px" }}
-                                key={master.id}
+                                style={{
+                                  marginLeft: "5px",
+                                  marginTop: "5px",
+                                  marginBottom: "5px",
+                                }}
+                                key={task.name}
                               >
-                                {selectedTasks.includes(task) && (
-                                  <input
-                                    ref={ref}
-                                    master={master}
-                                    onChange={(event) =>
-                                      descriptionHandler(event, master.id)
-                                    }
-                                    name={master.description}
-                                    type="checkbox"
-                                    id={master.id}
-                                    disabled={
-                                      selectedMasterDescriptions.includes(
-                                        master.description
-                                      ) &&
-                                      !selectedMasterIDs.includes(master.id)
-                                    }
-                                  />
-                                )}
-                                {selectedTasks.includes(task) && (
-                                  <label>{master.description}</label>
-                                )}
+                                <input
+                                  type="checkbox"
+                                  onChange={() => toggleTask(task)}
+                                />
+                                <label>{task.name}</label>
+                                <div>
+                                  {task.master_items.map((master, index) => (
+                                    <div
+                                      style={{ marginLeft: "15px" }}
+                                      key={master.id}
+                                    >
+                                      {selectedTasks.includes(task) && (
+                                        <input
+                                          ref={ref}
+                                          master={master}
+                                          onChange={(event) =>
+                                            descriptionHandler(event, master.id)
+                                          }
+                                          name={master.description}
+                                          type="checkbox"
+                                          id={master.id}
+                                          disabled={
+                                            selectedMasterDescriptions.includes(
+                                              master.description
+                                            ) &&
+                                            !selectedMasterIDs.includes(
+                                              master.id
+                                            )
+                                          }
+                                        />
+                                      )}
+                                      {selectedTasks.includes(task) && (
+                                        <label>{master.description}</label>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null
-              )}
+                      ) : null
+                    )}
+                </div>
+                <button
+                  type="submit"
+                  className="global-button"
+                  // onClick={(event) => {event.preventDefault(); handleSubmit()}}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }}
+                >
+                  Select Master Items
+                </button>
+              </form>
             </div>
-            <button
-              type="submit"
-              className="global-button"
-              // onClick={(event) => {event.preventDefault(); handleSubmit()}}
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit(e);
-              }}
-            >
-              Select Master Items
-            </button>
-          </form>
+          ) : (
+            <div>
+              <div>
+                <label style={{ color: "white", fontSize: "24px" }}>
+                  An estimate has not been created for the requested costumer
+                </label>
+              </div>
+              <div>
+                {" "}
+                <button
+                  className="global-button"
+                  onClick={() => navigate("/home/manage_projects/")}
+                >
+                  Go Back
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
-        <div>
-          <div>
-            <label style={{ color: "white", fontSize: "24px" }}>
-              An estimate has not been created for the requested costumer
-            </label>
-          </div>
-          <div>
-            {" "}
-            <button
-              className="global-button"
-              onClick={() => navigate("/home/manage_projects/")}
-            >
-              Go Back
-            </button>
-          </div>
-        </div>
+        <Maintenace />
       )}
     </div>
   );

@@ -7,6 +7,7 @@ export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const isAvaliable = true
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {

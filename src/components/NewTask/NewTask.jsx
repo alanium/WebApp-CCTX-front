@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
 import { ImSpinner8 } from "react-icons/im";
 import { setSuccess } from "../../redux/actions";
+import Maintenace from "../Maintenance/Maintenance";
 export function NewTask(props) {
   const [processes, setProcesses] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -20,6 +21,9 @@ export function NewTask(props) {
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role);
   const success = useSelector((state) => state.success)
+  const isAvaliable = false
+
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -103,17 +107,16 @@ export function NewTask(props) {
     <div className="global-container" style={{ position: "fixed" }}>
       {role !== "member" ? (
         <div>
-          {}
-          <div>
-          {isSubmitting ? (
+          {isAvaliable ? (
+            <div>
+              {isSubmitting ? (
             <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
               <div className={styles.spinContainer}>
                 <ImSpinner8 className={styles.spin} />
               </div>
             </div>
           ) : null}
-          </div>
-          {isLoading ? (
+              {isLoading ? (
             <div className={styles.titleDiv}>
               <label
                 className="global-card-title"
@@ -210,6 +213,8 @@ export function NewTask(props) {
               </div>
             </div>
           )}
+            </div>
+          ) : <Maintenace />}
         </div>
       ) : (
         <div className={styles.titleDiv}>

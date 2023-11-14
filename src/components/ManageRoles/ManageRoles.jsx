@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiNoEntry, BiXCircle } from "react-icons/bi";
 import { setSuccess } from "../../redux/actions";
 import { ImSpinner8 } from "react-icons/im";
+import Maintenace from "../Maintenance/Maintenance";
 
 export function ManageRoles(props) {
   const [members, setMembers] = useState([]);
@@ -19,8 +20,8 @@ export function ManageRoles(props) {
   });
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.role);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+  const isAvaliable = true;
 
   useEffect(() => {
     async function fetchData() {
@@ -53,7 +54,7 @@ export function ManageRoles(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setError(false)
+    setError(false);
     if (
       input["new_role"] !== "Select a role" &&
       input["selected_user"] !== "Select"
@@ -63,10 +64,11 @@ export function ManageRoles(props) {
         .then((datos) => {
           if (datos) {
             if (datos.response == "False") {
-              setError(true)
+              setError(true);
             } else {
-              dispatch(setSuccess(true))
-              navigate("/home")}
+              dispatch(setSuccess(true));
+              navigate("/home");
+            }
           }
         })
         .catch((error) => {
@@ -74,113 +76,128 @@ export function ManageRoles(props) {
         });
     } else {
       console.log("Please select a user and a role before clicking submit");
-      setError(true)
+      setError(true);
     }
   };
 
   return (
     <div className="global-container">
-      {role === "admin" ? (
+      {isAvaliable ? (
         <div>
-          {isSubmitting ? (
-            <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
-              <div className={styles.spinContainer}>
-                <ImSpinner8 className={styles.spin} />
-              </div>
-            </div>
-          ) : null}
-          <div className={styles.titleDiv}>
-            <label
-              className="global-card-title"
-              style={{ marginBottom: "20px" }}
-            >
-              Manage Roles
-            </label>
-          </div>
-          {roles.length > 0 && members.length > 0 ? ( // Check if datos is not empty
-            <form>
-              <label
-                htmlFor="selected_user"
-                className="form-label"
-                style={{ color: "white" }}
-              >
-                Select user:
-              </label>
-              <select
-                name="selected_user"
-                id="selected_user"
-                className="global-input-1"
-                onChange={handleMemberChange}
-                value={input["selected_user"]}
-              >
-                <option>Select a User</option>
-                {members.map((selected_user) => (
-                  <option key={selected_user} value={selected_user}>
-                    {selected_user}
-                  </option>
-                ))}
-              </select>
-              <br />
-              <label
-                htmlFor="new_role"
-                className="form-label"
-                style={{ color: "white" }}
-              >
-                New role:
-              </label>
-              <select
-                name="new_role"
-                id="new_role"
-                className="global-input-1"
-                onChange={handleRoleChange}
-                value={input["new_role"]}
-              >
-                <option value="">Select a role</option>
-                {roles.map((new_role) => (
-                  <option key={new_role} value={new_role}>
-                    {new_role}
-                  </option>
-                ))}
-              </select>
-              <br />
-              <div>
-                <button
-                  className="global-button"
-                  type="submit"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </button>
-                { error ? 
-                  <p style={{ color: "red" }} > <BiXCircle/> Please select a user and a role before submitting the form</p>  : null
-                }
-              </div>
-            </form>
-          ) : (
+          {role === "admin" ? (
             <div>
+              {isSubmitting ? (
+                <div className={styles.spinContainer} style={{ zIndex: 1000 }}>
+                  <div className={styles.spinContainer}>
+                    <ImSpinner8 className={styles.spin} />
+                  </div>
+                </div>
+              ) : null}
+              <div className={styles.titleDiv}>
+                <label
+                  className="global-card-title"
+                  style={{ marginBottom: "20px" }}
+                >
+                  Manage Roles
+                </label>
+              </div>
+              {roles.length > 0 && members.length > 0 ? ( // Check if datos is not empty
+                <form>
+                  <label
+                    htmlFor="selected_user"
+                    className="form-label"
+                    style={{ color: "white" }}
+                  >
+                    Select user:
+                  </label>
+                  <select
+                    name="selected_user"
+                    id="selected_user"
+                    className="global-input-1"
+                    onChange={handleMemberChange}
+                    value={input["selected_user"]}
+                  >
+                    <option>Select a User</option>
+                    {members.map((selected_user) => (
+                      <option key={selected_user} value={selected_user}>
+                        {selected_user}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                  <label
+                    htmlFor="new_role"
+                    className="form-label"
+                    style={{ color: "white" }}
+                  >
+                    New role:
+                  </label>
+                  <select
+                    name="new_role"
+                    id="new_role"
+                    className="global-input-1"
+                    onChange={handleRoleChange}
+                    value={input["new_role"]}
+                  >
+                    <option value="">Select a role</option>
+                    {roles.map((new_role) => (
+                      <option key={new_role} value={new_role}>
+                        {new_role}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                  <div>
+                    <button
+                      className="global-button"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
+                    {error ? (
+                      <p style={{ color: "red" }}>
+                        {" "}
+                        <BiXCircle /> Please select a user and a role before
+                        submitting the form
+                      </p>
+                    ) : null}
+                  </div>
+                </form>
+              ) : (
+                <div>
+                  <div>
+                    <p style={{ color: "white" }}>Loading data...</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className={styles.titleDiv}>
               <div>
-                <p style={{ color: "white" }}>Loading data...</p>
+                <label className="global-card-title">
+                  You Dont Have Access
+                </label>
+              </div>
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  marginBottom: "0px",
+                }}
+              >
+                <label
+                  className="global-card-title"
+                  style={{ fontSize: "70px" }}
+                >
+                  <BiNoEntry />
+                </label>
               </div>
             </div>
           )}
         </div>
       ) : (
-        <div className={styles.titleDiv}>
-          <div>
-            <label className="global-card-title">You Dont Have Access</label>
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "20px",
-              marginBottom: "0px",
-            }}
-          >
-            <label className="global-card-title" style={{ fontSize: "70px" }}>
-              <BiNoEntry />
-            </label>
-          </div>
-        </div>
+        <Maintenace />
       )}
     </div>
   );
