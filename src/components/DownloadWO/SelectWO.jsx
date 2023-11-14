@@ -41,6 +41,7 @@ export function SelectWO(props) {
         );
         if (result) {
           setDetails(result);
+          setIsWoReady(true)
           console.log(details);
         } else {
           console.log("No funcionó");

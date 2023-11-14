@@ -10,6 +10,7 @@ export function SelectSub(props) {
   const [showMaster, setShowMaster] = useState(false);
   const [worders, setWorders] = useState(props.worders);
   const [popup, setPopup] = useState(false);
+  const [isAvaliable, setIsAvaliable] = useState(true)
 
   useEffect(() => {
     let aux = [];
@@ -50,7 +51,7 @@ export function SelectSub(props) {
 
   return (
     <div>
-      {isAvailiable ? (
+      {isAvaliable ? (
         <div>
           {popup ? (
             <div className={styles.popupContainer}>

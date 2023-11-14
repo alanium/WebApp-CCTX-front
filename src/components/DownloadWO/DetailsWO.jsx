@@ -86,24 +86,7 @@ const handleSubmit = async (event, action) => {
           dispatch(setBar(false))
           dispatch(setSuccess(true))
           navigate("/home")
-          console.log("Llegué 1");
-
-        } else if (contentType.includes("application/zip")) {
-          // Si la respuesta es un archivo ZIP, descárgalo
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "all_pdfs.zip";
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          setIsSubmitting(false);
-          dispatch(setBar(false))
-          dispatch(setSuccess(true))
-          navigate("/home")
-          console.log("Llegué 2");
-        
+          console.log("Llegué 1");  
         
         } else {
           console.error("Tipo de archivo no compatible.");
