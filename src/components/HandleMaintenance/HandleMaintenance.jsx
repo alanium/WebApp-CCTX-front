@@ -1,36 +1,48 @@
 import React, { useEffect } from "react";
 import { setMaintenance } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./HandleMaintenance.module.css"
 
 export default function HandleMaintenance(props) {
-  const dispatch = useDispatch();
-  const maintenance = useSelector((state) => state.underMaintenance);
-
-  useEffect(() => {
-    // Recuperar el estado desde localStorage al montar el componente
-    const storedMaintenance = localStorage.getItem("underMaintenance");
-    if (storedMaintenance) {
-      dispatch(setMaintenance(JSON.parse(storedMaintenance)));
+    const dispatch = useDispatch();
+    const maintenance = useSelector((state) => state.underMaintenance);
+  
+    // State to track the status of each button
+    const [buttonStatus, setButtonStatus] = React.useState({
+      create_project: maintenance.includes("create_project"),
+      download_wo: maintenance.includes("download_wo"),
+    });
+  
+    useEffect(() => {
+      const storedMaintenance = localStorage.getItem("underMaintenance");
+      if (storedMaintenance) {
+        dispatch(setMaintenance(JSON.parse(storedMaintenance)));
+  
+        // Update button status based on the stored maintenance state
+        setButtonStatus({
+          create_project: JSON.parse(storedMaintenance).includes("create_project"),
+          download_wo: JSON.parse(storedMaintenance).includes("download_wo"),
+        });
+      }
+    }, [dispatch]);
+  
+    const buttonHandler = (event) => {
+      const buttonValue = event.target.value;
+  
+      // Update maintenance state and localStorage
+      const updatedMaintenance = buttonStatus[buttonValue]
+        ? maintenance.filter((item) => item !== buttonValue)
+        : [...maintenance, buttonValue];
+  
+      dispatch(setMaintenance(updatedMaintenance));
+      localStorage.setItem("underMaintenance", JSON.stringify(updatedMaintenance));
+  
+      // Update button status after updating maintenance state
+      setButtonStatus((prevStatus) => ({
+        ...prevStatus,
+        [buttonValue]: !prevStatus[buttonValue],
+      }));
     }
-  }, [dispatch]);
-
-  const buttonHandler = (event) => {
-    if (maintenance.includes(event.target.value)) {
-      let aux = maintenance.slice(); // Create a copy of the array
-      aux.splice(maintenance.indexOf(event.target.value), 1); // Remove the element
-      dispatch(setMaintenance(aux));
-      localStorage.setItem("underMaintenance", JSON.stringify(aux));
-      console.log("disabled: ", aux);
-    } else {
-      dispatch(setMaintenance([...maintenance, event.target.value]));
-      console.log("disabled: ", [...maintenance, event.target.value]);
-      localStorage.setItem(
-        "underMaintenance",
-        JSON.stringify([...maintenance, event.target.value])
-      );
-    }
-  };
-
   return (
     <div className="global-container">
       <label
@@ -44,23 +56,34 @@ export default function HandleMaintenance(props) {
       >
         Handle Maintenance
       </label>
-      <div>
-        <div>
+      <div className={styles.buttonsDiv}>
+        <div className={styles.btnDiv}>
           <button
             onClick={buttonHandler}
-            className="global-button"
+            className={styles.maintenanceButton}
             value="create_project"
           >
             Create Project
+            <div
+              className={`${styles.statusIndicator} ${
+                buttonStatus.create_project ? styles.enabled : styles.disabled
+              }`}
+            ></div>
           </button>
+          
         </div>
-        <div>
+        <div className={styles.btnDiv}>
           <button
             onClick={buttonHandler}
             value="download_wo"
-            className="global-button"
+            className={styles.maintenanceButton}
           >
-            Download Work Order
+            Download WO
+            <div
+              className={`${styles.statusIndicator} ${
+                buttonStatus.download_wo ? styles.enabled : styles.disabled
+              }`}
+            ></div>
           </button>
         </div>
       </div>

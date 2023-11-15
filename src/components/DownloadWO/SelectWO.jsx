@@ -8,7 +8,6 @@ export function SelectWO(props) {
   const [worders, setWorders] = useState(props.worders);
   const [details, setDetails] = useState({});
   const [worder, setWorder] = useState(null);
-  const [titles, setTitles] = useState([]);
   const [isWoReady, setIsWoReady] = useState(false);
   const dispatch = useDispatch();
   const [allIds, setAllIds] = useState([])
@@ -57,7 +56,7 @@ export function SelectWO(props) {
       try {
         props.setIsLoading(true);
         dispatch(setBar(true));
-        const response = await fetch("http://18.218.171.20:5000/download_wo", {
+        const response = await fetch("http://3.136.96.0:5000/download_wo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
