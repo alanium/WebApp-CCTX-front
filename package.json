@@ -20,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "vite --port 80 --host 0.0.0.0",
+    "dev": "vite --port 3001 --host 0.0.0.0",
     "start": "vite start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
