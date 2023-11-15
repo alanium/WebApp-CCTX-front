@@ -57,7 +57,7 @@ const handleSubmit = async (event, action) => {
     return; // Exit the function early
   } else {
     try {
-      const response = await fetch("http://3.145.79.50:5000/download_wo", {
+      const response = await fetch("18.218.171.20:5000/download_wo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -46,7 +46,7 @@ function App() {
         datos.action = action;
         bodyData = JSON.stringify(datos);
       }
-      const response = await fetch(`http://3.145.79.50:5000/${ruta}`, {
+      const response = await fetch(`http://18.218.171.20:5000/${ruta}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function App() {
 
   async function obtenerJSON(ruta) {
     try {
-      const response = await fetch(`http://3.145.79.50:5000/${ruta}`);
+      const response = await fetch(`http://18.218.171.20:5000/${ruta}`);
 
       if (!response.ok) {
         throw new Error("La solicitud no fue exitosa");

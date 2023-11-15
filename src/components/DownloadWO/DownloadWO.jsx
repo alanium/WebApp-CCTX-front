@@ -4,7 +4,7 @@ import { SelectWO } from "./SelectWO";
 import { DetailsWO } from "./DetailsWO";
 import styles from "./DownloadWo.module.css";
 import { ImSpinner8 } from "react-icons/im";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBar } from "../../redux/actions";
 import Maintenace from "../Maintenance/Maintenance";
 
@@ -13,9 +13,14 @@ export function DownloadWo(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
-  const isAvaliable = true;
+  const [isAvaliable, setIsAvaliable] = useState(true);
+  const underMaintenance = useSelector((state) => state.underMaintenance);
 
   useEffect(() => {
+    if (underMaintenance.includes("download_wo")) {
+      setIsAvaliable(false);
+    }
+
     dispatch(setBar(true));
     async function fetchData() {
       try {
@@ -42,7 +47,8 @@ export function DownloadWo(props) {
       {isAvaliable ? (
         <div>
           <label
-            style={{ marginBottom: "15px", textAlign: "center" }}
+            style={{ marginBottom: "15px", textAlign: "center", display: "block",
+            margin: "0 auto", }}
             className="global-card-title"
           >
             Download WO

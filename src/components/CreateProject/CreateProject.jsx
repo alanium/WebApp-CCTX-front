@@ -37,23 +37,23 @@ export function CreateProject(props) {
     lead_id: null,
   });
   const [sub, setSub] = useState({});
-  const [popup, setPopup] = useState(false)
+  const [popup, setPopup] = useState(false);
   const user = useSelector((state) => state.user);
   const role = useSelector((state) => state.user.role);
   const [isExpanded, setExpanded] = useState({});
-  const [isSubReady, setIsSubReady] = useState(false)
+  const [isSubReady, setIsSubReady] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
   const [isMitemsReady, setIsMitemsReady] = useState(false);
   const [isWoReady, setIsWoReady] = useState(false);
   const [submitCounter, setSubmitcounter] = useState(0);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const underMaintenance = useSelector((state) => state.underMaintenance);
-  const [isAvaliable, setIsAvaliable] = useState(true)
+  const [isAvaliable, setIsAvaliable] = useState(true);
 
   useEffect(() => {
     if (underMaintenance.includes("create_project")) {
-      setIsAvaliable(false)
+      setIsAvaliable(false);
     }
 
     async function fetchData() {
@@ -104,7 +104,7 @@ export function CreateProject(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-    dispatch(setBar(true))
+    dispatch(setBar(true));
     if (input.id !== null) {
       try {
         let result;
@@ -117,18 +117,14 @@ export function CreateProject(props) {
             "create_project"
           );
 
-            setIsProjectReady(true);
-          
-         
+          setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
             { data: master, action: "work_order" },
             "create_project"
           );
 
-          setIsWoReady(true)
-          
-
+          setIsWoReady(true);
         } else if (submitCounter == 2) {
           result = await props.enviarDatos(
             {
@@ -139,7 +135,7 @@ export function CreateProject(props) {
           );
           navigate("/home");
           dispatch(setSuccess(true));
-          dispatch(setBar(false))
+          dispatch(setBar(false));
         }
         setSubmitcounter(submitCounter + 1);
         if (result) {
@@ -150,12 +146,12 @@ export function CreateProject(props) {
         console.error("Error: ", error);
       } finally {
         setIsSubmitting(false);
-        dispatch(setBar(false))
+        dispatch(setBar(false));
       }
     } else {
       console.log("Please fill in the form before submitting");
       setIsSubmitting(false);
-      dispatch(setBar(false))
+      dispatch(setBar(false));
     }
   };
 
@@ -168,82 +164,84 @@ export function CreateProject(props) {
           </div>
         </div>
       ) : null}
-      <div className={styles.titleDiv}>
-        <label className="global-card-title">Create Project</label>
-      </div>
+
       {role !== "member" ? (
         <div>
+          <div className={styles.titleDiv}>
+            <label className="global-card-title">Create Project</label>
+          </div>
           {isAvaliable ? (
             <div>
-            {isLoading ? (
-              <div>
-                <p style={{ color: "white" }}>Loading data...</p>
-              </div>
-            ) : (
-              <div>
-                {isProjectReady ? (
-                  <div>
-                    {isMitemsReady ? (
-                      <div>
-                        {isWoReady ? (
-                          <div>
-                            {isSubReady ? (
-                              <WoPreview
-                                customer={customer}
-                                sub={sub}
-                                master={master}
-                                process={process}
-                                category={category}
-                                user={user}
-                                enviarDatos={props.enviarDatos}
-                                selected_project={projectId.selected_project}
-                                selected_master={master.selected_master}
-                                selected_sub={sub.selected_sub}
-                                selected_processes={process.selected_process}
-                              />
-                            ) : (
-                              <SelectSub
-                                sub={sub}
-                                setSub={setSub}
-                                handleSubmit={handleSubmit}
-                                worders={worders}
-                              />
-                            )}
-                          </div>
-                        ) : (
-                          <CreateWo
-                            setMaster={updateMaster}
-                            worders={worders}
-                            handleSubmit={handleSubmit}
-                            master={master}
-                          />
-                        )}
-                      </div>
-                    ) : (
-                      <SelectMasterItems
-                        worders={worders}
-                        setIsMitemsReady={setIsMitemsReady}
-                        handleSubmit={handleSubmit}
-                        master={master}
-                        setMaster={updateMaster}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <SelectCustomer
-                    worders={worders}
-                    changeHandler={changeHandler}
-                    handleSubmit={handleSubmit}
-                    customer={customer}
-                    setPopup={setPopup}
-                    popuo={popup}
-                  />
-                )}
-              </div>
-            )}
-          </div>
-          ) : <Maintenace />  }
-        
+              {isLoading ? (
+                <div>
+                  <p style={{ color: "white" }}>Loading data...</p>
+                </div>
+              ) : (
+                <div>
+                  {isProjectReady ? (
+                    <div>
+                      {isMitemsReady ? (
+                        <div>
+                          {isWoReady ? (
+                            <div>
+                              {isSubReady ? (
+                                <WoPreview
+                                  customer={customer}
+                                  sub={sub}
+                                  master={master}
+                                  process={process}
+                                  category={category}
+                                  user={user}
+                                  enviarDatos={props.enviarDatos}
+                                  selected_project={projectId.selected_project}
+                                  selected_master={master.selected_master}
+                                  selected_sub={sub.selected_sub}
+                                  selected_processes={process.selected_process}
+                                />
+                              ) : (
+                                <SelectSub
+                                  sub={sub}
+                                  setSub={setSub}
+                                  handleSubmit={handleSubmit}
+                                  worders={worders}
+                                />
+                              )}
+                            </div>
+                          ) : (
+                            <CreateWo
+                              setMaster={updateMaster}
+                              worders={worders}
+                              handleSubmit={handleSubmit}
+                              master={master}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <SelectMasterItems
+                          worders={worders}
+                          setIsMitemsReady={setIsMitemsReady}
+                          handleSubmit={handleSubmit}
+                          master={master}
+                          setMaster={updateMaster}
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <SelectCustomer
+                      worders={worders}
+                      changeHandler={changeHandler}
+                      handleSubmit={handleSubmit}
+                      customer={customer}
+                      setPopup={setPopup}
+                      popuo={popup}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <Maintenace />
+          )}
         </div>
       ) : (
         <div className={styles.titleDiv}>
