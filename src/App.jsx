@@ -28,13 +28,16 @@ import { ManageTasks } from "./components/MangeTasks/ManageTasks";
 import { ManageProjects } from "./components/ManageProjects/ManageProjects";
 import { DownloadWo } from "./components/DownloadWO/DownloadWO";
 import HandleMaintenance from "./components/HandleMaintenance/HandleMaintenance";
+import Verification from "./components/Verification/Verification";
+import HelloWorldComponent from "./Validation";
 
 function App() {
+  const [logout, setLogout] = useState(false);
   const access = useSelector((state) => state.access);
   const location = useLocation();
   const renderNavBar = () => {
     if (access && location.pathname != "/home") {
-      return <SideBar />;
+      return <SideBar setLogout={setLogout} />;
     }
     return null;
   };
@@ -46,7 +49,7 @@ function App() {
         datos.action = action;
         bodyData = JSON.stringify(datos);
       }
-      const response = await fetch(`http://3.136.96.0:5000/${ruta}`, {
+      const response = await fetch(`https://contempotechnology.tech/${ruta}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +66,7 @@ function App() {
 
   async function obtenerJSON(ruta) {
     try {
-      const response = await fetch(`http://3.136.96.0:5000/${ruta}`);
+      const response = await fetch(`https://contempotechnology.tech/${ruta}`);
 
       if (!response.ok) {
         throw new Error("La solicitud no fue exitosa");
@@ -79,15 +82,39 @@ function App() {
 
   return (
     <div>
+      {logout ? (
+        <div className="logout-container">
+          <div>
+            <label className="global-card-title">
+              Are you sure you want to log out?
+            </label>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            <button
+              className="global-button"
+              onClick={() => window.location.reload()}
+            >
+              Yes
+            </button>
+            <button className="global-button" onClick={() => setLogout(false)}>
+              No
+            </button>
+          </div>
+        </div>
+      ) : null}
       {renderNavBar()}
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route path="/home" exact element={<Home />} />
-          <Route 
+          <Route path="/home" exact element={<Home setLogout={setLogout} />} />
+          <Route
             path="/home/control_panel/handle_maintenance"
-            element={
-              <HandleMaintenance />
-            }
+            element={<HandleMaintenance />}
           />
           <Route
             path="/home/control_panel/manage_roles"

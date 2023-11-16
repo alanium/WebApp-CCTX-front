@@ -56,7 +56,7 @@ export function SelectWO(props) {
       try {
         props.setIsLoading(true);
         dispatch(setBar(true));
-        const response = await fetch("http://3.136.96.0:5000/download_wo", {
+        const response = await fetch("https://contempotechnology.tech/download_wo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -93,7 +93,7 @@ export default function Home(props) {
           <label>Placeholder</label>
         </div>
         <div className={styles.btnDiv}>
-          <button onClick={logoutHandler} className={styles.homeButton}>
+          <button onClick={() => props.setLogout(true)} className={styles.homeButton}>
             <BiLogOut className={styles.icon} />
           </button>
           <label>Logout</label>

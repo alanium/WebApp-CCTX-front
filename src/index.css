@@ -7,6 +7,30 @@ body {
   background-position: center center;
 }
 
+.logout-container {
+  width: 400px;
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border: 0.1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 10px;
+  background-color: #0000008f;
+  backdrop-filter: blur(60px);    
+
+  z-index: 1000;
+}
+
 .global-container {
   width: 100%;
   max-width: 600px;

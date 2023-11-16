@@ -84,7 +84,7 @@ export function ManageRoles(props) {
     <div className="global-container">
       {isAvaliable ? (
         <div>
-          {role === "admin" ? (
+          {role === "owner" ? (
             <div>
               {isSubmitting ? (
                 <div className={styles.spinContainer} style={{ zIndex: 1000 }}>

@@ -22,7 +22,7 @@ export default function NavBar(props) {
   const blocked = useSelector((state) => state.blocked);
 
   const logoutHandler = (event) => {
-    window.location.reload();
+    props.setLogout(true)
   };
 
   const blockedPaths = ["/", "/login", "/register", "/recovery", "*", "/home"];
@@ -52,13 +52,13 @@ export default function NavBar(props) {
           {!isPathBlocked && (
             <>
               <NavLink to="/home" className={styles.navLink}>
-                {isSidebarOpen ? <label>Home</label> : <BiHome />}
+                {isSidebarOpen ? <label>Home</label> : <BiHome title="Home"/>}
               </NavLink>
               <NavLink to="/home/manage_wo/" className={styles.navLink}>
                 {isSidebarOpen ? (
                   <label>Manage Work Orders</label>
                 ) : (
-                  <BiSolidStar />
+                  <BiSolidStar title="Manage Work Orders" />
                 )}
               </NavLink>
 
@@ -67,26 +67,25 @@ export default function NavBar(props) {
                 {isSidebarOpen ? (
                   <label>Manage Projects</label>
                 ) : (
-                  <BiSolidStar />
+                  <BiSolidStar title="Manage Projects" />
                 )}
               </NavLink>
               <NavLink to="/home/manage_tasks/" className={styles.navLink}>
-                {isSidebarOpen ? <label>Manage Tasks</label> : <BiSolidStar />}
+                {isSidebarOpen ? <label>Manage Tasks</label> : <BiSolidStar title="Manage Tasks"/>}
               </NavLink>
 
               <NavLink to="/home/control_panel" className={styles.navLink}>
                 {isSidebarOpen ? (
                   <label>Control Panel</label>
                 ) : (
-                  <BiSolidWrench />
+                  <BiSolidWrench title="Control Panel" />
                 )}
               </NavLink>
               <NavLink
-                to="/"
                 onClick={logoutHandler}
                 className={styles.navLink}
               >
-                {isSidebarOpen ? <label>Log Out</label> : <BiLogOut />}
+                {isSidebarOpen ? <label>Log Out</label> : <BiLogOut title="Log Out" />}
               </NavLink>
             </>
           )}

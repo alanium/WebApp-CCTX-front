@@ -6,11 +6,13 @@ import svgrPlugin from "vite-plugin-svgr";
 export default defineConfig({
   // This changes the out put dir from dist to build
   // comment this out if that isn't relevant for your project
+  assetsInclude: /\.(txt)$/i,
   build: {
     outDir: "build",
   },
   server: {
-    port: 3000, // Asegúrate de que el puerto sea correcto
+    port: 3000,
+     // Asegúrate de que el puerto sea correcto
   },
   plugins: [
     reactRefresh(),
@@ -21,4 +23,7 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    include: ['/.well-known/pki-validation/805020E98210896BBA58E49F3F284990.txt'],
+  }
 });
