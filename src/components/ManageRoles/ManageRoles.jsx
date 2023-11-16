@@ -193,6 +193,9 @@ export function ManageRoles(props) {
                   <BiNoEntry />
                 </label>
               </div>
+              <div>
+                <button className="global-button" onClick={() => navigate("/home")}>Go Back</button>
+              </div>
             </div>
           )}
         </div>
