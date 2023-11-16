@@ -3,9 +3,11 @@ import { setMaintenance } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./HandleMaintenance.module.css";
 import { useNavigate } from "react-router-dom";
+import { BiNoEntry } from "react-icons/bi";
 
 export default function HandleMaintenance(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const maintenance = useSelector((state) => state.underMaintenance);
   const role = useSelector((state) => state.user.role)
 
@@ -53,8 +55,22 @@ export default function HandleMaintenance(props) {
     <div className="global-container">
       {role !== "owner" ? (
         <div>
-          <label>You Dont Have Access</label>
-          <button onClick={() => useNavigate("/home")}></button>
+          <label className="global-card-title">You Dont Have Access</label>
+          <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  marginBottom: "0px",
+                }}
+              >
+                <label
+                  className="global-card-title"
+                  style={{ fontSize: "70px" }}
+                >
+                  <BiNoEntry />
+                </label>
+              </div>
+          <button className="global-button" onClick={() => navigate("/home")}>Go Back</button>
         </div>
       ) : (
         <div>
