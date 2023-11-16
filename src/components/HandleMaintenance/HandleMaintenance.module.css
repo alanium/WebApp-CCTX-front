@@ -1,46 +1,52 @@
 .buttonsDiv {
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  .btnDiv {
-    flex-basis: calc(30% - 20px);
-    display: flex; 
-    flex-direction: column ; 
-    align-items: center; 
-    color: white;
-    margin: 10px;
-    font-size: 11px;
-  }
+.btnDiv {
+  flex-basis: calc(30% - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  margin: 10px;
+  font-size: 11px;
+}
 
-  .maintenanceButton {
-    width: 100%;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.300);
-    color: white;
-    border-width: 1px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    align-self: center;
-    border: transparent;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+.maintenanceButton {
+  position: relative; /* Añadido para posicionar el círculo relativo al botón */
+  width: 100%;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.300);
+  color: white;
+  border-width: 1px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+  border: transparent;
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow: hidden; /* Añadido para ocultar el contenido que se desborde */
+}
 
-  .statusIndicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    
-  }
-  
-  .disabled {
-    background-color: green; /* or your desired color for enabled state */
-  }
-  
-  .enabled {
-    background-color: red; /* or your desired color for disabled state */
-  }
+.statusIndicator {
+  position: absolute; /* Añadido para posicionar el círculo de manera absoluta */
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid white; /* Añadido para agregar un borde blanco */
+}
+
+
+.disabled {
+  background-color: lightgreen; /* o tu color deseado para el estado habilitado */
+}
+
+.enabled {
+  background-color: lightcoral; /* o tu color deseado para el estado deshabilitado */
+}
