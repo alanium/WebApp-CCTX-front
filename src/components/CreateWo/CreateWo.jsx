@@ -8,6 +8,7 @@ export function CreateWo(props) {
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [response, setResponse] = useState(true)
+  const [result, setResult] = useState(false)
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {
@@ -38,7 +39,7 @@ export function CreateWo(props) {
       }
     });
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     for (const category of categories) {
       for (const task of props.master[category]) {
@@ -48,23 +49,52 @@ export function CreateWo(props) {
         }
       }
     } // Use functional form of setState
-
+    
     if (isCorrect) {
-      let result = false
-      props.setMaster(editedMaster);
-      console.log(props.master);
-      setResponse(false)
-      
-      while (result === false) {
-        setTimeout(() => {
-          result = props.enviarDatos({
+      try {
+        props.setMaster(editedMaster);
+        console.log(props.master);
+        setResponse(false);
+  
+        const taskId = await props.enviarDatos(
+          {
             data: props.master,
-            action: "work_order"
-          }, "create_project")
-          setResponse(result)
-        }, 5000)
+            action: "work_order",
+          },
+          "create_project"
+        );
+  
+        
+  
+        while (result === false) {
+          console.log("entré")
+          await new Promise((resolve) => {
+            setTimeout(async () => {
+              setResult(
+                await props.enviarDatos(
+                  {
+                    task_id: taskId,
+                    action: "check_status",
+                  },
+                  "create_project"
+                )
+              )  
+              setResponse(result);
+              resolve();
+            }, 5000);
+          });
+          console.log("me ejecuté")
+        }
+  
+        
+      } catch (error) {
+        console.error("Error during submission:", error);
+      } finally {
+        if (result === true) {
+          console.log("me envié")
+          props.handleSubmit(event);
+        }
       }
-      if (result === true) props.handleSubmit(event);
     }
   };
 

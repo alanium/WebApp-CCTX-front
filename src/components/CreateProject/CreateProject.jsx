@@ -214,6 +214,7 @@ export function CreateProject(props) {
                               setMaster={updateMaster}
                               worders={worders}
                               handleSubmit={handleSubmit}
+                              setIsWoReady={setIsWoReady}
                               master={master}
                               enviarDatos={props.enviarDatos}
                             />
