@@ -8,7 +8,7 @@ export function CreateWo(props) {
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [response, setResponse] = useState(true);
-  const [taskId, setTaskId] = useState({});
+  const [taskId, setTaskId] = useState("");
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {
@@ -41,11 +41,13 @@ export function CreateWo(props) {
   };
 
   const checkStatus = async (event) => {
-    
+    console.log(taskId)
     let response = await props.enviarDatos(
       { task_id: taskId, action: "check_status" },
       "create_project"
     );
+
+    
   
     while (!response.result) {
       await new Promise(resolve => setTimeout(resolve, 5000));
