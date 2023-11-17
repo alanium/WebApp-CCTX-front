@@ -110,13 +110,7 @@ export function CreateWo(props) {
           </div>
         </div>
       )}
-      {response ? (
-        <div className={styles.popupContainer}>
-          <div className="global-container">
-            <label style={{ color: "white" }}>LOADING...</label>
-          </div>
-        </div>
-      ) : null}
+      
       <form
         className={styles.selectedTasks}
         style={{ maxHeight: "300px", overflowY: "auto" }}
