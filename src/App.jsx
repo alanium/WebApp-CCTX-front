@@ -51,6 +51,7 @@ function App() {
       }
       const response = await fetch(`https://contempotechnology.tech/${ruta}`, {
         method: "POST",
+        mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },
