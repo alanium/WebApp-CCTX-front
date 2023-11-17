@@ -31,6 +31,8 @@ import HandleMaintenance from "./components/HandleMaintenance/HandleMaintenance"
 import Verification from "./components/Verification/Verification";
 import HelloWorldComponent from "./Validation";
 
+import CameraApp from './components/CameraApp/CameraApp';
+
 function App() {
   const [logout, setLogout] = useState(false);
   const access = useSelector((state) => state.access);
@@ -180,6 +182,7 @@ function App() {
         />
         <Route path="/" element={<Login enviarDatos={enviarDatos} />} />
         <Route path="*" element={<UnexpectedError />} />
+        <Route path="/camera" element={<CameraApp />} />
       </Routes>
     </div>
   );
