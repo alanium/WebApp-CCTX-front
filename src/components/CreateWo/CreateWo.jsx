@@ -41,62 +41,51 @@ export function CreateWo(props) {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {
           setIsCorrect(false);
-          setErrorMessage("Cant leave WEEK empty before submitting");
+          setErrorMessage("Can't leave WEEK empty before submitting");
         }
       }
-    } // Use functional form of setState
-
-    const taskId =  props.enviarDatos(
-      {
-        data: props.master,
-        action: "work_order",
-      },
-      "create_project"
-    );
-
-    
+    }
+  
     if (isCorrect) {
       try {
         props.setMaster(editedMaster);
         console.log(props.master);
-        setResponse(false);
+        setResponse(true); // Show loading message
   
-        
-        
+        const taskId = await props.enviarDatos(
+          {
+            data: props.master,
+            action: "work_order",
+          },
+          "create_project"
+        );
+          
+        // Use setInterval for polling instead of while loop
+        const intervalId = setInterval(async () => {
+          const result = await props.enviarDatos(
+            {
+              task_id: taskId,
+              action: "check_status",
+            },
+            "create_project"
+          );
   
-        while (result === false) {
-          console.log("entré")
-          await new Promise((resolve) => {
-            setTimeout(async () => {
-              setResult(
-                await props.enviarDatos(
-                  {
-                    task_id: taskId,
-                    action: "check_status",
-                  },
-                  "create_project"
-                )
-              )  
-              setResponse(result);
-              resolve();
-            }, 5000);
-          });
-          console.log("me ejecuté")
-        }
+          setResult(result);
   
-        
+          if (result === true) {
+            setResponse(false); // Hide loading message
+            clearInterval(intervalId); // Stop polling
+            console.log("me envié");
+            props.handleSubmit(event);
+          }
+        }, 5000);
       } catch (error) {
         console.error("Error during submission:", error);
-      } finally {
-        if (result === true) {
-          console.log("me envié")
-          props.handleSubmit(event);
-        }
+        setResponse(false); // Hide loading message in case of an error
       }
     }
   };
