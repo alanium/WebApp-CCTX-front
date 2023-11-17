@@ -41,6 +41,7 @@ export function CreateWo(props) {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {
@@ -49,6 +50,15 @@ export function CreateWo(props) {
         }
       }
     } // Use functional form of setState
+
+    const taskId =  props.enviarDatos(
+      {
+        data: props.master,
+        action: "work_order",
+      },
+      "create_project"
+    );
+
     
     if (isCorrect) {
       try {
@@ -56,14 +66,7 @@ export function CreateWo(props) {
         console.log(props.master);
         setResponse(false);
   
-        const taskId = await props.enviarDatos(
-          {
-            data: props.master,
-            action: "work_order",
-          },
-          "create_project"
-        );
-  
+        
         
   
         while (result === false) {
