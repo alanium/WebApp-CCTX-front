@@ -6,6 +6,7 @@ export function CreateWo(props) {
   const [editedMaster, setEditedMaster] = useState(initialMaster);
   const [worders, setWorders] = useState([]);
   const [isCorrect, setIsCorrect] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const [taskId, setTaskId] = useState({});
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export function CreateWo(props) {
   
     props.setMaster(editedMaster);
     console.log(props.master);
-
+  
    const taskIdResponse = await props.enviarDatos(
       {
         data: props.master,
