@@ -56,6 +56,8 @@ export function CreateProject(props) {
       setIsAvaliable(false);
     }
 
+  
+
     async function fetchData() {
       try {
         const result = await props.obtenerJSON("create_project");
@@ -120,7 +122,7 @@ export function CreateProject(props) {
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
-            { data: master, action: "work_order" },
+            { data: master, action: "get_sub" },
             "create_project"
           );
 
@@ -213,6 +215,7 @@ export function CreateProject(props) {
                               worders={worders}
                               handleSubmit={handleSubmit}
                               master={master}
+                              enviarDatos={props.enviarDatos}
                             />
                           )}
                         </div>

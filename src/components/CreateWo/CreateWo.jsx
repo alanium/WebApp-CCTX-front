@@ -7,7 +7,7 @@ export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const isAvaliable = true
+  const [response, setResponse] = useState(true)
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {
@@ -50,9 +50,21 @@ export function CreateWo(props) {
     } // Use functional form of setState
 
     if (isCorrect) {
+      let result = false
       props.setMaster(editedMaster);
       console.log(props.master);
-      props.handleSubmit(event);
+      setResponse(false)
+      
+      while (result === false) {
+        setTimeout(() => {
+          result = props.enviarDatos({
+            data: props.master,
+            action: "work_order"
+          }, "create_project")
+          setResponse(result)
+        }, 5000)
+      }
+      if (result === true) props.handleSubmit(event);
     }
   };
 
@@ -75,6 +87,14 @@ export function CreateWo(props) {
           </div>
         </div>
       )}
+      {response ? (
+        <div className={styles.popupContainer}>
+          <div className="global-container">  
+            <label style={{ color: "white" }}>LOADING...</label>
+
+          </div>
+        </div>
+      ) : null }
       <form
         className={styles.selectedTasks}
         style={{ maxHeight: "300px", overflowY: "auto" }}
