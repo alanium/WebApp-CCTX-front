@@ -6,8 +6,6 @@ export function CreateWo(props) {
   const [editedMaster, setEditedMaster] = useState(initialMaster);
   const [worders, setWorders] = useState([]);
   const [isCorrect, setIsCorrect] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [response, setResponse] = useState(true);
   const [taskId, setTaskId] = useState({});
 
   useEffect(() => {
@@ -67,8 +65,23 @@ export function CreateWo(props) {
       "create_project"
     );
     
-    console.log(taskIdResponse.task_id)
-    setTaskId(taskIdResponse, () => console.log(taskId));
+    console.log(taskIdResponse);
+
+    setTaskId(taskIdResponse);
+    console.log(taskId)
+
+      setTaskId(
+        await props.enviarDatos(
+          {
+            data: props.master,
+            action: "work_order",
+          },
+          "create_project"
+        )
+      )
+    
+      console.log(taskId)
+    
     
 
     
