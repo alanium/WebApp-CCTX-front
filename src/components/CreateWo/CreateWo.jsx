@@ -51,42 +51,50 @@ export function CreateWo(props) {
           { data: taskId, action: "check_status" },
           "create_project"
         );
-      }, 5000)
+      }, 5000);
     }
 
     if (response.result === true) {
-      setResponse(true)
-      return response.result
+      setResponse(true);
+      return response.result;
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check if week is empty for any task
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {
           setIsCorrect(false);
-          setErrorMessage("Cant leave WEEK empty before submitting");
+          setErrorMessage("Can't leave WEEK empty before submitting");
+          return; // Exit early if there's an error
         }
       }
-    } // Use functional form of setState
+    }
 
-    if (isCorrect) {
-      props.setMaster(editedMaster);
-      console.log(props.master);
-      setResponse(false);
+    // If there are no errors, proceed with the submission
+    props.setMaster(editedMaster);
+    console.log(props.master);
+    setResponse(false);
 
-      setTaskId(
-        props.enviarDatos(
-          {
-            data: props.master,
-            action: "work_order",
-          },
-          "create_project"
-        )
-      );
-      
-      if (checkStatus(event)) props.handleSubmit(event);
+    const taskIdResponse = await props.enviarDatos(
+      {
+        data: props.master,
+        action: "work_order",
+      },
+      "create_project"
+    );
+
+    setTaskId(taskIdResponse);
+
+    // Use the checkStatus function to wait for the task to complete
+    const isTaskCompleted = await checkStatus(event);
+
+    if (isTaskCompleted) {
+      // If the task is completed, proceed with the original handleSubmit logic
+      props.handleSubmit(event);
     }
   };
 
