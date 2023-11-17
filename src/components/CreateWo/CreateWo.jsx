@@ -7,7 +7,8 @@ export function CreateWo(props) {
   const [worders, setWorders] = useState([]);
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [response, setResponse] = useState(true)
+  const [response, setResponse] = useState(true);
+  const [taskId, setTaskId] = useState({});
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {
@@ -38,6 +39,27 @@ export function CreateWo(props) {
       }
     });
   };
+
+  const checkStatus = async (event) => {
+    let response = props.enviarDatos(
+      { data: taskId, action: "check_status" },
+      "create_project"
+    );
+    while (!response.result) {
+      setTimeout(() => {
+        response = props.enviarDatos(
+          { data: taskId, action: "check_status" },
+          "create_project"
+        );
+      }, 5000)
+    }
+
+    if (response.result === true) {
+      setResponse(true)
+      return response.result
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     for (const category of categories) {
@@ -50,26 +72,21 @@ export function CreateWo(props) {
     } // Use functional form of setState
 
     if (isCorrect) {
-      let result = false
       props.setMaster(editedMaster);
       console.log(props.master);
-      setResponse(false)
-      let taskId = props.enviarDatos({
-        data: props.master,
-        action: "work_order"
-      }, "create_project")
-      setResponse(result)
+      setResponse(false);
 
-      while (result === false) {
-        setTimeout(() => {
-          result = props.enviarDatos({
-            data: taskId,
-            action: "work_order"
-          }, "create_project")
-          setResponse(result)
-        }, 5000)
-      }
-      if (result === true) props.handleSubmit(event);
+      setTaskId(
+        props.enviarDatos(
+          {
+            data: props.master,
+            action: "work_order",
+          },
+          "create_project"
+        )
+      );
+      
+      if (checkStatus(event)) props.handleSubmit(event);
     }
   };
 
@@ -94,12 +111,11 @@ export function CreateWo(props) {
       )}
       {response ? (
         <div className={styles.popupContainer}>
-          <div className="global-container">  
+          <div className="global-container">
             <label style={{ color: "white" }}>LOADING...</label>
-
           </div>
         </div>
-      ) : null }
+      ) : null}
       <form
         className={styles.selectedTasks}
         style={{ maxHeight: "300px", overflowY: "auto" }}
@@ -135,14 +151,16 @@ export function CreateWo(props) {
                         marginBottom: "10px",
                       }}
                     >
-                      <label style={{fontWeight:"bold", fontSize: "20px",}}>{task.name}</label>
+                      <label style={{ fontWeight: "bold", fontSize: "20px" }}>
+                        {task.name}
+                      </label>
                     </div>
                   </div>
 
                   <div>
                     <div>
                       <div style={{ fontSize: "15px", marginBottom: "10px" }}>
-                        <label style={{ fontSize: "15px"}}>Week:</label>
+                        <label style={{ fontSize: "15px" }}>Week:</label>
                       </div>
                       {task.week === null ? (task.week = "") : null}
                       <input
@@ -158,7 +176,9 @@ export function CreateWo(props) {
                     </div>
                     <div>
                       <div style={{ marginBottom: "5px" }}>
-                        <label style={{ fontSize: "15px"}}>Work Order Number:</label>
+                        <label style={{ fontSize: "15px" }}>
+                          Work Order Number:
+                        </label>
                       </div>
 
                       <select
