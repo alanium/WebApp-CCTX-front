@@ -52,8 +52,7 @@ function App() {
       const response = await fetch(`https://contempotechnology.tech/${ruta}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*'
+          "Content-Type": "application/json"
         },
         body: bodyData,
       });
