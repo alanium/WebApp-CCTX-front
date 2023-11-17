@@ -41,6 +41,7 @@ export function CreateWo(props) {
   };
 
   const checkStatus = async (event) => {
+    
     let response = await props.enviarDatos(
       { data: taskId, action: "check_status" },
       "create_project"
@@ -49,7 +50,7 @@ export function CreateWo(props) {
     while (!response.result) {
       await new Promise(resolve => setTimeout(resolve, 5000));
       response = await props.enviarDatos(
-        { data: taskId, action: "check_status" },
+        { task_id: taskId, action: "check_status" },
         "create_project"
       );
     }
@@ -74,15 +75,21 @@ export function CreateWo(props) {
     console.log(props.master);
     setResponse(false);
   
-    const taskIdResponse = await props.enviarDatos(
+    try {const taskIdResponse = await props.enviarDatos(
       {
         data: props.master,
         action: "work_order",
       },
       "create_project"
     );
-  
+
     setTaskId(taskIdResponse);
+  } catch (error) {
+    console.error("Error getting taskIdResponse:", error);
+    // Handle the error as needed
+  }
+    
+    
   
     const isTaskCompleted = await checkStatus(event);
   
