@@ -87,6 +87,7 @@ export function CreateWo(props) {
     
     console.log(taskIdResponse.task_id)
     setTaskId(taskIdResponse.task_id);
+    console.log(taskId)
   } catch (error) {
     console.error("Error getting taskIdResponse:", error);
     // Handle the error as needed
