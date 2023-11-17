@@ -43,7 +43,8 @@ export function CreateWo(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    props.setIsSubmitting(true)
+
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {

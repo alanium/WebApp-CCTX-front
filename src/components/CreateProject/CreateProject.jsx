@@ -217,6 +217,7 @@ export function CreateProject(props) {
                               setIsWoReady={setIsWoReady}
                               master={master}
                               enviarDatos={props.enviarDatos}
+                              setIsSubmitting={setIsSubmitting}
                             />
                           )}
                         </div>

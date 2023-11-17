@@ -64,6 +64,22 @@ function App() {
     }
   }
 
+  // async function checkStatus(task_id) {
+  //   try {
+  //     const response = await fetch('https://contempotechnology.tech/${task_id}');
+    
+  //     if (!response.ok) {
+  //       throw new Error("La solicitud no fue exitosa");
+  //     }
+    
+  //     const data = await response.json();
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     throw error;
+  //   }
+  // }
+
   async function obtenerJSON(ruta) {
     try {
       const response = await fetch(`https://contempotechnology.tech/${ruta}`);
