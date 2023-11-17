@@ -43,7 +43,7 @@ export function CreateWo(props) {
   const checkStatus = async (event) => {
     
     let response = await props.enviarDatos(
-      { data: taskId, action: "check_status" },
+      { task_id: taskId, action: "check_status" },
       "create_project"
     );
   
