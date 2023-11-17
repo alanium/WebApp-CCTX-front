@@ -8,7 +8,6 @@ export function CreateWo(props) {
   const [isCorrect, setIsCorrect] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [response, setResponse] = useState(true)
-  const [result, setResult] = useState(false)
 
   useEffect(() => {
     const allWorders = categories.reduce((allWorders, category) => {
@@ -39,54 +38,38 @@ export function CreateWo(props) {
       }
     });
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     for (const category of categories) {
       for (const task of props.master[category]) {
         if (task.week === "") {
           setIsCorrect(false);
-          setErrorMessage("Can't leave WEEK empty before submitting");
+          setErrorMessage("Cant leave WEEK empty before submitting");
         }
       }
-    }
-  
+    } // Use functional form of setState
+
     if (isCorrect) {
-      try {
-        props.setMaster(editedMaster);
-        console.log(props.master);
-        setResponse(true); // Show loading message
-  
-        const taskId = await props.enviarDatos(
-          {
-            data: props.master,
-            action: "work_order",
-          },
-          "create_project"
-        );
-          
-        // Use setInterval for polling instead of while loop
-        const intervalId = setInterval(async () => {
-          const result = await props.enviarDatos(
-            {
-              task_id: taskId,
-              action: "check_status",
-            },
-            "create_project"
-          );
-  
-          setResult(result);
-  
-          if (result === true) {
-            setResponse(false); // Hide loading message
-            clearInterval(intervalId); // Stop polling
-            console.log("me envié");
-            props.handleSubmit(event);
-          }
-        }, 5000);
-      } catch (error) {
-        console.error("Error during submission:", error);
-        setResponse(false); // Hide loading message in case of an error
+      let result = false
+      props.setMaster(editedMaster);
+      console.log(props.master);
+      setResponse(false)
+      let taskId = props.enviarDatos({
+        data: props.master,
+        action: "work_order"
+      }, "create_project")
+      setResponse(result)
+
+      while (result === false) {
+        setTimeout(() => {
+          result = props.enviarDatos({
+            data: taskId,
+            action: "work_order"
+          }, "create_project")
+          setResponse(result)
+        }, 5000)
       }
+      if (result === true) props.handleSubmit(event);
     }
   };
 
