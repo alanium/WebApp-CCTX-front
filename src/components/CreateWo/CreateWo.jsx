@@ -55,8 +55,7 @@ export function CreateWo(props) {
   
     props.setMaster(editedMaster);
     console.log(props.master);
-    setResponse(false);
-  
+
    const taskIdResponse = await props.enviarDatos(
       {
         data: props.master,
