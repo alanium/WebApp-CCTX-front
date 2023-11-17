@@ -40,25 +40,7 @@ export function CreateWo(props) {
     });
   };
 
-  const checkStatus = async (event) => {
-    console.log(taskId)
-    let response = await props.enviarDatos(
-      { task_id: taskId.task_id, action: "check_status" },
-      "create_project"
-    );
-
-    
   
-    while (!response.result) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      response = await props.enviarDatos(
-        { task_id: taskId.task_id, action: "check_status" },
-        "create_project"
-      );
-    }
-  
-    return response.result;
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -86,8 +68,8 @@ export function CreateWo(props) {
     );
     
     console.log(taskIdResponse.task_id)
-    setTaskId(taskIdResponse);
-    console.log(taskId)
+    setTaskId(taskIdResponse, () => console.log(taskId));
+    
 
     
   
@@ -96,6 +78,26 @@ export function CreateWo(props) {
     if (isTaskCompleted) {
       props.handleSubmit(event);
     }
+  };
+
+  const checkStatus = async (event) => {
+    console.log(taskId)
+    let response = await props.enviarDatos(
+      { task_id: taskId.task_id, action: "check_status" },
+      "create_project"
+    );
+
+    
+  
+    while (!response.result) {
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      response = await props.enviarDatos(
+        { task_id: taskId.task_id, action: "check_status" },
+        "create_project"
+      );
+    }
+  
+    return response.result;
   };
 
   return (
