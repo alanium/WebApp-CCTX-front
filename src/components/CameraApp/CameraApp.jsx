@@ -5,10 +5,13 @@ const CameraApp = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
+  const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: facingMode }
+      });
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -43,7 +46,7 @@ const CameraApp = () => {
         // Crear un enlace de descarga
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'rey-paga-la-plata.png';
+        link.download = 'photo.png';
 
         // Simular un clic en el enlace para iniciar la descarga
         link.click();
@@ -52,6 +55,12 @@ const CameraApp = () => {
         URL.revokeObjectURL(link.href);
       }, 'image/png', 1); // Calidad '1' sin compresión
     }
+  };
+
+  const switchCamera = () => {
+    setFacingMode((prevFacingMode) => (prevFacingMode === 'user' ? 'environment' : 'user'));
+    stopCamera();
+    startCamera();
   };
 
   return (
@@ -63,6 +72,7 @@ const CameraApp = () => {
         <button onClick={startCamera}>Start Camera</button>
         <button onClick={stopCamera}>Stop Camera</button>
         <button onClick={takePhoto}>Take Photo</button>
+        <button onClick={switchCamera}>Switch Camera</button>
       </div>
     </div>
   );
