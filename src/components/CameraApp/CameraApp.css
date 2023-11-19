@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  div {
+    text-align: center;
+  }
+  
+  video {
+    width: 100%;
+    max-width: 640px; /* Puedes ajustar el ancho máximo según tus preferencias */
+    border: 1px solid #ccc; /* Un borde para resaltar el área del video */
+  }
+  
+  canvas {
+    border: 1px solid #ccc; /* Un borde para resaltar el área del canvas */
+  }
+  
