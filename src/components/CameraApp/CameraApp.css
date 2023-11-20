@@ -32,8 +32,10 @@ body {
 
 .button-container button {
   margin: 0 80px;
-  background-color: white;
-  border: none;
+  background-color: black;
+  border-color: white;
+  border-width: 5px;
+  padding: 5px;
   border-radius: 50%;
   width: 100px;
   height: 100px;
@@ -45,7 +47,7 @@ body {
 }
 
 .button-container button:hover {
-  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+  background-color: gray; /* Cambia el color de fondo al pasar el ratón sobre el botón */
 }
 
 .canvas-container {

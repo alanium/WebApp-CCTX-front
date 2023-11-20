@@ -1,12 +1,15 @@
 // CameraApp.js
-import React, { useState, useRef, useEffect } from 'react';
-import './CameraApp.css';
+import React, { useState, useRef, useEffect } from "react";
+import { FaCircle } from "react-icons/fa";
+import { MdChangeCircle } from "react-icons/md";
+import { BiSolidXCircle } from "react-icons/bi";
+import "./CameraApp.css";
 
 const CameraApp = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState('user');
+  const [facingMode, setFacingMode] = useState("user");
 
   useEffect(() => {
     startCamera();
@@ -16,14 +19,14 @@ const CameraApp = () => {
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode }
+        video: { facingMode: facingMode },
       });
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
     } catch (error) {
-      console.error('Error accessing camera:', error);
+      console.error("Error accessing camera:", error);
     }
   };
 
@@ -39,26 +42,35 @@ const CameraApp = () => {
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-
-      const aspectRatio = video.videoWidth / video.videoHeight;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      canvas.toBlob((blob) => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'photo.png';
-        link.click();
-        URL.revokeObjectURL(link.href);
-      }, 'image/png', 1);
+  
+      const maxWidth = video.videoWidth;
+      const maxHeight = video.videoHeight;
+  
+      // Ajustar el tamaño del canvas a la resolución máxima permitida por el dispositivo
+      canvas.width = maxWidth;
+      canvas.height = maxHeight;
+  
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, maxWidth, maxHeight);
+  
+      canvas.toBlob(
+        (blob) => {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "photo.png";
+          link.click();
+          URL.revokeObjectURL(link.href);
+        },
+        "image/png",
+        1
+      );
     }
   };
 
   const switchCamera = () => {
-    setFacingMode((prevFacingMode) => (prevFacingMode === 'user' ? 'environment' : 'user'));
+    setFacingMode((prevFacingMode) =>
+      prevFacingMode === "user" ? "environment" : "user"
+    );
     stopCamera();
     startCamera();
   };
@@ -68,11 +80,18 @@ const CameraApp = () => {
       <video ref={videoRef} autoPlay playsInline className="video-preview" />
 
       <div className="button-container">
-        <button onClick={startCamera}>Start Camera</button>
-        <button onClick={takePhoto}>Take Photo</button>
-        <button onClick={switchCamera}>Switch Camera</button>
+        <button style={{ fontSize: "77px", color: "white" }} onClick={stopCamera}><BiSolidXCircle /></button>
+        <button
+          style={{ fontSize: "66px", color: "white" }}
+          onClick={takePhoto}
+        >
+          <FaCircle />{" "}
+        </button>
+        <button style={{ fontSize: "77px", color: "white" }} onClick={switchCamera}>
+          <MdChangeCircle />
+        </button>
       </div>
-      
+
       <div className="canvas-container">
         <canvas ref={canvasRef} className="hidden-canvas" />
       </div>
