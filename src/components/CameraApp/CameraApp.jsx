@@ -9,7 +9,7 @@ const CameraApp = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState('user');
 
   useEffect(() => {
     startCamera();
@@ -19,14 +19,18 @@ const CameraApp = () => {
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode },
+        video: {
+          facingMode: facingMode,
+          width: { ideal: 4096 },
+          height: { ideal: 2160 },
+        },
       });
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      console.error('Error accessing camera:', error);
     }
   };
 
@@ -42,32 +46,26 @@ const CameraApp = () => {
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-  
-      const maxWidth = video.videoWidth;
-      const maxHeight = video.videoHeight;
-  
-      // Establecer el tamaño del canvas a la resolución máxima del video
-      canvas.width = maxWidth;
-      canvas.height = maxHeight;
-  
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, maxWidth, maxHeight);
-  
-      // Obtener la imagen en formato data URL con la máxima calidad
-      const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
-  
-      // Crear un enlace para descargar la imagen
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = "photo.jpg";
-      link.click();
+
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'photo.png';
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }, 'image/png', 1);
     }
   };
 
   const switchCamera = () => {
-    setFacingMode((prevFacingMode) =>
-      prevFacingMode === "user" ? "environment" : "user"
-    );
+    setFacingMode((prevFacingMode) => (prevFacingMode === 'user' ? 'environment' : 'user'));
     stopCamera();
     startCamera();
   };
