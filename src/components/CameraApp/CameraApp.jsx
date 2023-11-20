@@ -70,6 +70,8 @@ const CameraApp = () => {
     startCamera();
   };
 
+  
+
   return (
     <div className="camera-container">
       <video ref={videoRef} autoPlay playsInline className="video-preview" />
