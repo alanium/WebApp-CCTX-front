@@ -46,24 +46,21 @@ const CameraApp = () => {
       const maxWidth = video.videoWidth;
       const maxHeight = video.videoHeight;
   
-      // Ajustar el tamaño del canvas a la resolución máxima permitida por el dispositivo
+      // Establecer el tamaño del canvas a la resolución máxima del video
       canvas.width = maxWidth;
       canvas.height = maxHeight;
   
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, maxWidth, maxHeight);
   
-      canvas.toBlob(
-        (blob) => {
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = "photo.png";
-          link.click();
-          URL.revokeObjectURL(link.href);
-        },
-        "image/png",
-        1
-      );
+      // Obtener la imagen en formato data URL con la máxima calidad
+      const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+  
+      // Crear un enlace para descargar la imagen
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "photo.jpg";
+      link.click();
     }
   };
 
