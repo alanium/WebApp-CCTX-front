@@ -67,20 +67,19 @@ const CameraApp = () => {
   const handleCanvasClick = (event) => {
     if (mediaStream) {
       const video = videoRef.current;
-      const canvas = canvasRef.current;
-
+  
       const { offsetX, offsetY } = event.nativeEvent;
-      const clickX = offsetX / canvas.width;
-      const clickY = offsetY / canvas.height;
-
+      const clickX = offsetX / video.clientWidth;
+      const clickY = offsetY / video.clientHeight;
+  
       const track = mediaStream.getVideoTracks()[0];
       if (track && 'applyConstraints' in track) {
         // Check if applyConstraints is supported
         track.applyConstraints({
           advanced: [{ focusPointOfInterest: { x: clickX, y: clickY } }],
         })
-        .then(() => console.log('Camera focused successfully'))
-        .catch((error) => console.error('Error focusing camera:', error));
+          .then(() => console.log('Camera focused successfully'))
+          .catch((error) => console.error('Error focusing camera:', error));
       } else {
         console.log('Applying constraints not supported on this device');
       }
