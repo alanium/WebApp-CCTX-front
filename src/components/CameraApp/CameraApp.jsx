@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
-import firebase from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import 'firebase/storage';
 import "./CameraApp.css";
 
@@ -17,7 +17,7 @@ const firebaseConfig = {
   measurementId: "G-2J1T6GN9R0"
 };
 
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const CameraApp = () => {
   const videoRef = useRef(null);

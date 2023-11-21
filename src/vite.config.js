@@ -24,6 +24,6 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ['/.well-known/pki-validation/805020E98210896BBA58E49F3F284990.txt'],
+    include: ['firebase/app', 'firebase/storage'],
   }
 });
