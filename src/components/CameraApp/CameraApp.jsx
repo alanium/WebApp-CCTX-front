@@ -4,6 +4,7 @@ import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
 import { initializeApp } from 'firebase/app';
+import firebase from 'firebase/app'
 import 'firebase/storage';
 import "./CameraApp.css";
 
