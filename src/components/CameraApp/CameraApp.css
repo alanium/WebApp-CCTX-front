@@ -4,12 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: black;
 }
 
 body {
   margin: 0;
   overflow: hidden;
-  background-color: black;
+  
 }
 
 .video-preview {
@@ -22,7 +23,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: black;
+  
 }
 
 .button-container button {
@@ -54,7 +55,7 @@ body {
 
 @media screen and (max-width: 768px) {
   .button-container {
-    bottom: 100px;
+    bottom: 150px;
     width: 30px;
     height: 30px;
   }
@@ -71,7 +72,7 @@ body {
 
 @media screen and (max-width: 400px) {
   .button-container {
-    bottom: 100px;
+    bottom: 150px;
     width: 30px;
     height: 30px;
   }
