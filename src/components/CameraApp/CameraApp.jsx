@@ -6,7 +6,7 @@ import { BiSolidXCircle } from "react-icons/bi";
 import { initializeApp } from 'firebase/app';
 import 'firebase/storage';
 import "./CameraApp.css";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
@@ -57,7 +57,7 @@ const CameraApp = () => {
       await uploadBytes(imageRef, blob).then((snapshot) => {
         console.log("uploaded a blob")
       });
-      const imageUrl = await imageRef.getDownloadURL();
+      const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       console.log('Image uploaded to Firebase:', imageUrl);
     } catch (error) {
       console.error('Error uploading image to Firebase:', error);
