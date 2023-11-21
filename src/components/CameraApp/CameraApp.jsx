@@ -51,8 +51,7 @@ const CameraApp = () => {
 
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
-    const storageRef = ref(storage);
-    const imageRef = storageRef.child(`images/${Date.now()}_photo.png`);
+    const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
 
     try {
       await imageRef.put(blob);
