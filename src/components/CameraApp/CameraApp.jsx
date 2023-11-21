@@ -4,9 +4,9 @@ import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
 import { initializeApp } from 'firebase/app';
-import firebase from 'firebase/app'
 import 'firebase/storage';
 import "./CameraApp.css";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
@@ -50,8 +50,8 @@ const CameraApp = () => {
   };
 
   const uploadImageToFirebase = async (blob) => {
-    const storage = firebase.storage();
-    const storageRef = storage.ref();
+    const storage = getStorage();
+    const storageRef = ref(storage);
     const imageRef = storageRef.child(`images/${Date.now()}_photo.png`);
 
     try {
