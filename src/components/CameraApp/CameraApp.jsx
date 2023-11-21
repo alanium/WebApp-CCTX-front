@@ -54,7 +54,9 @@ const CameraApp = () => {
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
 
     try {
-      await imageRef.put(blob);
+      await uploadBytes(imageRef, blob).then((snapshot) => {
+        console.log("uploaded a blob")
+      });
       const imageUrl = await imageRef.getDownloadURL();
       console.log('Image uploaded to Firebase:', imageUrl);
     } catch (error) {
