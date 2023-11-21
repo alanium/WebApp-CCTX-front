@@ -22,7 +22,8 @@ body {
   bottom: 20px;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  margin-right: 20px;
   
 }
 
@@ -39,6 +40,7 @@ body {
   justify-content: center;
   cursor: pointer;
   outline: none;
+  margin: 30px;
 }
 
 .button-container button:hover {
@@ -54,35 +56,33 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+  .button-container button {
+    
+    width: 60;
+    height: 60px;
+    margin-right: 20px;
+  }
+
   .button-container {
-    bottom: 150px;
-    width: 30px;
-    height: 30px;
+    bottom: 100px;
   }
 
   .video-preview {
     width: 100%;
     height: 1200px
   }
-
-  .button-container button {
-    margin: 30px;
-  }
 }
 
 @media screen and (max-width: 400px) {
-  .button-container {
+  .button-container button {
     bottom: 150px;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
   }
 
   .video-preview {
     width: 100%;
     height: 600px
-  }
-
-  .button-container button {
-    margin: 10px;
   }
 }
