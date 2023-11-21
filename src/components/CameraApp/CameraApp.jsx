@@ -6,7 +6,7 @@ import { BiSolidXCircle } from "react-icons/bi";
 import { initializeApp } from 'firebase/app';
 import 'firebase/storage';
 import "./CameraApp.css";
-import { getStorage, ref } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
