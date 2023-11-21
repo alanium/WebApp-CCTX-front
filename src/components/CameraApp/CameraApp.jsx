@@ -3,7 +3,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import "./CameraApp.css";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
+  authDomain: "fb-storage-49d33.firebaseapp.com",
+  projectId: "fb-storage-49d33",
+  storageBucket: "fb-storage-49d33.appspot.com",
+  messagingSenderId: "327363193304",
+  appId: "1:327363193304:web:88b1cf55edee2322b6eaad",
+  measurementId: "G-2J1T6GN9R0"
+};
+
+firebase.initializeApp(firebaseConfig);
 
 const CameraApp = () => {
   const videoRef = useRef(null);
@@ -34,6 +48,20 @@ const CameraApp = () => {
     }
   };
 
+  const uploadImageToFirebase = async (blob) => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const imageRef = storageRef.child(`images/${Date.now()}_photo.png`);
+
+    try {
+      await imageRef.put(blob);
+      const imageUrl = await imageRef.getDownloadURL();
+      console.log('Image uploaded to Firebase:', imageUrl);
+    } catch (error) {
+      console.error('Error uploading image to Firebase:', error);
+    }
+  };
+
   const stopCamera = () => {
     if (mediaStream) {
       const tracks = mediaStream.getTracks();
@@ -55,11 +83,7 @@ const CameraApp = () => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       canvas.toBlob((blob) => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'photo.png';
-        link.click();
-        URL.revokeObjectURL(link.href);
+        uploadImageToFirebase(blob);
       }, 'image/png', 1);
     }
   };
