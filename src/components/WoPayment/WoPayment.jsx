@@ -18,13 +18,18 @@ export default function WoPayment(props) {
     let aux = parseFloat(worder.paid);
     let num = new Number(worder.week);
     // Pass the updated values directly to props.enviarDatos
-    props.enviarDatos({
-      ...worder,
-      check_number: "test",
-      action: "set_wo",
-      paid: aux,
-      week: num,
-    }, "create_wo_payment");
+    props.enviarDatos(
+      {
+        selected_wo: {
+          ...worder,
+          check_number: "test",
+          paid: aux,
+          week: num,
+        },
+        action: "set_wo",
+      },
+      "create_wo_payment"
+    );
   };
 
   const handleSelectChange = (event) => {
@@ -45,7 +50,9 @@ export default function WoPayment(props) {
       <select className="global-input-1" onChange={handleSelectChange}>
         <option value={null}>Select a work order</option>
         {worders.map((worder) => (
-          <option key={worder.wo_id} value={JSON.stringify(worder)}>{worder.wo_id}</option>
+          <option key={worder.wo_id} value={JSON.stringify(worder)}>
+            {worder.wo_id}
+          </option>
         ))}
       </select>
       {worder !== null ? (
