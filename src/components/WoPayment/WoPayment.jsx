@@ -93,7 +93,7 @@ export default function WoPayment(props) {
             <input
               className="global-input-1"
               onChange={changeHandler}
-              type="text"
+              type="number"
               name="paid"
               value={worder.paid || ""}
             />
