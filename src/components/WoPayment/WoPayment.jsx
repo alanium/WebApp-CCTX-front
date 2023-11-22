@@ -20,7 +20,7 @@ export default function WoPayment(props) {
 
   const handleSelectChange = (event) => {
     const selectedWorder = JSON.parse(event.target.value);
-    setWorder(event.target.value);
+    setWorder(selectedWorder);
   };
 
   const changeHandler = (event) => {
