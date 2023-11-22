@@ -21,6 +21,8 @@ export default function WoPayment(props) {
         ...worder,
         check_number: "test",
         action: "set_wo",
+        paid: aux,
+        week: num
     })
     props.enviarDatos( worder );
   };
