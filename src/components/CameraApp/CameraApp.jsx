@@ -126,7 +126,7 @@ const CameraApp = (props) => {
         uploadImageToFirebase(blob);
       }, 'image/png', 1);
 
-      props.enviarDatos({location: {location}, image:[url]})
+      props.enviarDatos({location: {location}, image:[url]}, "camera")
     }
   };
 
