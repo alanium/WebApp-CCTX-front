@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function WoPayment(props) {
-  const [worders, setWorders] = useState({});
+  const [worders, setWorders] = useState([]);
   const [worder, setWorder] = useState(null);
 
   useEffect(() => {
