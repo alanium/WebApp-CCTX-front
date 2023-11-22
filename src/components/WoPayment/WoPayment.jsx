@@ -50,7 +50,7 @@ export default function WoPayment(props) {
             </label>
             <input
               className="global-input-1"
-              onChange={weekHandler}
+              onChange={changeHandler}
               type="number"
               name="week"
               max="51"
