@@ -10,6 +10,7 @@ import {
   BiSolidFileFind,
   BiDownload,
   BiSolidStar,
+  BiSolidCheckboxChecked,
 } from "react-icons/bi";
 import { setAccess, setUser } from "../../redux/actions";
 import styles from "./SideBar.module.css";
@@ -58,7 +59,7 @@ export default function NavBar(props) {
                 {isSidebarOpen ? (
                   <label>Manage Work Orders</label>
                 ) : (
-                  <BiSolidStar title="Manage Work Orders" />
+                  <BiSolidFileFind title="Manage Work Orders" />
                 )}
               </NavLink>
 
@@ -67,12 +68,10 @@ export default function NavBar(props) {
                 {isSidebarOpen ? (
                   <label>Manage Projects</label>
                 ) : (
-                  <BiSolidStar title="Manage Projects" />
+                  <BiSolidCheckboxChecked title="Manage Projects" />
                 )}
               </NavLink>
-              <NavLink to="/home/manage_tasks/" className={styles.navLink}>
-                {isSidebarOpen ? <label>Manage Tasks</label> : <BiSolidStar title="Manage Tasks"/>}
-              </NavLink>
+              
 
               <NavLink to="/home/control_panel" className={styles.navLink}>
                 {isSidebarOpen ? (
