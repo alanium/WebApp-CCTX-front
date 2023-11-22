@@ -19,7 +19,7 @@ export default function WoPayment(props) {
   };
 
   const handleSelectChange = (event) => {
-   
+    const selectedWorder = JSON.parse(event.target.value);
     setWorder(event.target.value);
   };
 
@@ -36,7 +36,7 @@ export default function WoPayment(props) {
       <select className="global-input-1" onChange={handleSelectChange}>
         <option value={null}>Select a work order</option>
         {worders.map((worder) => (
-          <option value={worder}>{worder.wo_id}</option>
+          <option key={worder.wo_id} value={JSON.stringify(worder)}>{worder.wo_id}</option>
         ))}
       </select>
       {worder !== null ? (
