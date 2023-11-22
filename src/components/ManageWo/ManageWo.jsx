@@ -56,6 +56,20 @@ export default function ManageWo(props) {
               </button>
               <label>Download WO</label>
             </div>
+            <div className={styles.btnDiv}>
+              <button
+                className={styles.homeButton}
+                name="wo_payment"
+                onClick={handleOnClick}
+              >
+                <BiDownload
+                  className={styles.icon}
+                  name="wo_payment"
+                  onClick={handleOnClick}
+                />
+              </button>
+              <label>Download WO</label>
+            </div>
           </div>
         </div>
       ) : (
