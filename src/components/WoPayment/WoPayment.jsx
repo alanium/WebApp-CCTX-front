@@ -24,7 +24,7 @@ export default function WoPayment(props) {
       action: "set_wo",
       paid: aux,
       week: num,
-    });
+    }, "create_wo_payment");
   };
 
   const handleSelectChange = (event) => {
