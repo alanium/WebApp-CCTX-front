@@ -15,7 +15,14 @@ export default function WoPayment(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.enviarDatos({ worder });
+    let aux = parseFloat(worder.paid)
+    let num = new Number(worder.week)
+    setWorder({
+        ...worder,
+        check_number: "test",
+        action: "set_wo",
+    })
+    props.enviarDatos( worder );
   };
 
   const handleSelectChange = (event) => {
