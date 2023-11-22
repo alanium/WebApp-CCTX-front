@@ -25,6 +25,9 @@ const CameraApp = () => {
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
   const [facingMode, setFacingMode] = useState('user');
+  const [location, setLocation] = useState(null);
+  const [url, setUrl] = useState([])
+
 
   useEffect(() => {
     startCamera();
@@ -58,6 +61,7 @@ const CameraApp = () => {
         console.log("uploaded a blob")
       });
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
+      setUrl([...url, imageUrl])
       console.log('Image uploaded to Firebase:', imageUrl);
     } catch (error) {
       console.error('Error uploading image to Firebase:', error);
@@ -72,8 +76,25 @@ const CameraApp = () => {
     }
   };
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+    }
+  };
+
   const takePhoto = () => {
     if (videoRef.current && canvasRef.current) {
+      getLocation()
       const video = videoRef.current;
       const canvas = canvasRef.current;
 
@@ -87,6 +108,8 @@ const CameraApp = () => {
       canvas.toBlob((blob) => {
         uploadImageToFirebase(blob);
       }, 'image/png', 1);
+
+      props.enviarDatos({location: {location}, image:[url]})
     }
   };
 

@@ -182,7 +182,7 @@ function App() {
         />
         <Route path="/" element={<Login enviarDatos={enviarDatos} />} />
         <Route path="*" element={<UnexpectedError />} />
-        <Route path="/camera" element={<CameraApp />} />
+        <Route path="/camera" element={<CameraApp enviarDatos={enviarDatos} />} />
       </Routes>
     </div>
   );
