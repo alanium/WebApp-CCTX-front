@@ -19,8 +19,8 @@ export default function WoPayment(props) {
   };
 
   const handleSelectChange = (event) => {
-    const selectedWorder = worders.find((w) => w.wo_id === event.target.value);
-    setWorder(selectedWorder || {});
+   
+    setWorder(event.target.value);
   };
 
   const changeHandler = (event) => {
