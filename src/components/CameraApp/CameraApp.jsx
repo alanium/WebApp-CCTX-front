@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-const CameraApp = () => {
+const CameraApp = (props) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
@@ -30,7 +30,24 @@ const CameraApp = () => {
 
 
   useEffect(() => {
-    startCamera();
+    // Solicitar acceso a la ubicación cuando se monta el componente
+    const requestLocationAccess = async () => {
+      try {
+        await navigator.permissions.request({ name: "geolocation" });
+        getLocation();
+      } catch (error) {
+        console.error("Error requesting location access:", error);
+      }
+    };
+
+    // Iniciar la cámara y solicitar acceso a la ubicación
+    const startCameraAndRequestLocation = async () => {
+      await startCamera();
+      requestLocationAccess();
+    };
+
+    startCameraAndRequestLocation();
+
     return () => stopCamera();
   }, []);
 
