@@ -32,6 +32,7 @@ import Verification from "./components/Verification/Verification";
 import HelloWorldComponent from "./Validation";
 
 import CameraApp from './components/CameraApp/CameraApp';
+import WoPayment from "./components/WoPayment/WoPayment";
 
 function App() {
   const [logout, setLogout] = useState(false);
@@ -141,6 +142,12 @@ function App() {
                 obtenerJSON={obtenerJSON}
                 enviarDatos={enviarDatos}
               />
+            }
+          />
+          <Route 
+            path="/home/manage_wo/wo_payment"
+            element={
+              <WoPayment obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>
             }
           />
           <Route
