@@ -86,10 +86,14 @@ const CameraApp = (props) => {
   
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       setUrl((prevUrl) => [...prevUrl, imageUrl]); // Use the functional form of setUrl
+  
+      const updatedUrl = [...url, imageUrl]; // Capture the updated url state
+  
       await props.enviarDatos(
-        { location: location, image: [...prevUrl, imageUrl] },
+        { location: location, image: updatedUrl },
         "camera"
       );
+  
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
