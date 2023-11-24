@@ -86,12 +86,14 @@ const CameraApp = (props) => {
 
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       if (url.length === 0) {
-        setUrl(imageUrl)
+        setUrl(imageUrl);
       } else {
         setUrl((prevUrl) => [...prevUrl, imageUrl]);
       }
-      
-
+      await props.enviarDatos(
+        { location: location, image: url },
+        "camera"
+      );
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
@@ -135,25 +137,14 @@ const CameraApp = (props) => {
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      await canvas.toBlob(
-        async (blob) => {
-          try {
-            await uploadImageToFirebase(blob);
-          } catch (error) {
-            console.log(error)
-          } finally {
-            if (url.length > 0) {
-              await props.enviarDatos(
-                { location: location, image: url },
-                "camera"
-              );
-            }
-            
-          }
-        },
-        "image/png",
-        1
-      );
+      await canvas.toBlob(async (blob) => {
+        try {
+          await uploadImageToFirebase(blob);
+        } catch (error) {
+          console.log(error);
+        }
+        "image/png", 1;
+      });
     }
   };
 
