@@ -30,7 +30,6 @@ const CameraApp = (props) => {
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
-  let images = [];
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -86,16 +85,18 @@ const CameraApp = (props) => {
       console.log("uploaded a blob");
 
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
-      if (images.length === 0) {
+      if (url.length === 0) {
+        setUrl([imageUrl])
         await props.enviarDatos(
           { location: location, image: [imageUrl] },
           "camera"
         );
       } else {
         async () => {
-          images.push(imageUrl);
+          setUrl([...url, imageUrl])
+          
           await props.enviarDatos(
-            { location: location, image: images },
+            { location: location, image: url },
             "camera"
           );
         };
