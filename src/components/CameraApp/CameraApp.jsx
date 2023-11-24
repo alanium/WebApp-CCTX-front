@@ -35,15 +35,12 @@ const CameraApp = (props) => {
     // Solicitar acceso a la ubicación cuando se monta el componente
     const requestLocationAccess = async () => {
       try {
-        await navigator.geolocation.getCurrentPosition(
-          (position) => {
-            // Get the user's latitude and longitude coordinates
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            getLocation();
-          }
-        )
-        
+        await navigator.geolocation.getCurrentPosition((position) => {
+          // Get the user's latitude and longitude coordinates
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          getLocation();
+        });
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
@@ -55,7 +52,7 @@ const CameraApp = (props) => {
       await requestLocationAccess();
       setPermissions(true);
     };
-    
+
     startCameraAndRequestLocation();
 
     return () => stopCamera();
@@ -82,14 +79,14 @@ const CameraApp = (props) => {
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
-  
+
     try {
       await uploadBytes(imageRef, blob);
       console.log("uploaded a blob");
-  
+
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       setUrl((prevUrl) => [...prevUrl, imageUrl]);
-  
+
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
@@ -133,12 +130,25 @@ const CameraApp = (props) => {
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      await canvas.toBlob(async (blob) => {
-        await uploadImageToFirebase(blob);
-        await props.enviarDatos({ location: location, image: url }, "camera");
-      }, "image/png", 1);
-
-      
+      await canvas.toBlob(
+        async (blob) => {
+          try {
+            await uploadImageToFirebase(blob);
+          } catch (error) {
+            console.log(error)
+          } finally {
+            if (url.length > 0) {
+              await props.enviarDatos(
+                { location: location, image: url },
+                "camera"
+              );
+            }
+            
+          }
+        },
+        "image/png",
+        1
+      );
     }
   };
 
@@ -219,7 +229,9 @@ const CameraApp = (props) => {
         </div>
       ) : (
         <div className="global-containter">
-          <label>Grant location and camera permissions to use this component</label>
+          <label>
+            Grant location and camera permissions to use this component
+          </label>
           <button onClick={() => navigate("/")}>Go Back</button>
         </div>
       )}
