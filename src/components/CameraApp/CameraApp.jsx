@@ -85,15 +85,12 @@ const CameraApp = (props) => {
   
     try {
       await uploadBytes(imageRef, blob);
-      console.log("uploaded a blob")
-      .then(
-        async () => {
-          const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
-          setUrl((prevUrl) => [...prevUrl, imageUrl]);
-      
-          console.log("Image uploaded to Firebase:", imageUrl);
-        }
-      )
+      console.log("uploaded a blob");
+  
+      const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
+      setUrl((prevUrl) => [...prevUrl, imageUrl]);
+  
+      console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
     }
