@@ -111,7 +111,7 @@ const CameraApp = (props) => {
     }
   };
 
-  const takePhoto = () => {
+  const takePhoto = async () => {
     if (videoRef.current && canvasRef.current) {
       getLocation();
       const video = videoRef.current;
@@ -124,15 +124,17 @@ const CameraApp = (props) => {
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      canvas.toBlob(
+      await canvas.toBlob(
         (blob) => {
           uploadImageToFirebase(blob);
         },
         "image/png",
         1
-      );
+      ).then(
+        props.enviarDatos({ location: location, image: url }, "camera")
+      )
 
-      props.enviarDatos({ location: location, image: url }, "camera");
+      
     }
   };
 
