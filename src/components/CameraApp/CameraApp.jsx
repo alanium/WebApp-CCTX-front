@@ -79,33 +79,23 @@ const CameraApp = (props) => {
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
-
+  
     try {
       await uploadBytes(imageRef, blob);
       console.log("uploaded a blob");
-
+  
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
-      if (url.length === 0) {
-        setUrl([imageUrl])
-        await props.enviarDatos(
-          { location: location, image: [imageUrl] },
-          "camera"
-        );
-      } else {
-        async () => {
-          setUrl([...url, imageUrl])
-          
-          await props.enviarDatos(
-            { location: location, image: url },
-            "camera"
-          );
-        };
-      }
-
+      setUrl(prevUrl => [...prevUrl, imageUrl]);
+      await props.enviarDatos(
+        { location: location, image: url },
+        "camera"
+      );
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
     }
+  
+   
   };
 
   const stopCamera = () => {
