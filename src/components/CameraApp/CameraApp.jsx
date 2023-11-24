@@ -53,9 +53,10 @@ const CameraApp = (props) => {
     const startCameraAndRequestLocation = async () => {
       await startCamera();
       await requestLocationAccess();
+      setPermissions(true);
     };
-
-    startCameraAndRequestLocation().then(setPermissions(true));
+    
+    startCameraAndRequestLocation();
 
     return () => stopCamera();
   }, []);
@@ -131,15 +132,10 @@ const CameraApp = (props) => {
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      await canvas.toBlob(
-        (blob) => {
-          uploadImageToFirebase(blob);
-        },
-        "image/png",
-        1
-      ).then(
-        props.enviarDatos({ location: location, image: url }, "camera")
-      )
+      await canvas.toBlob(async (blob) => {
+        await uploadImageToFirebase(blob);
+        props.enviarDatos({ location: location, image: url }, "camera");
+      }, "image/png", 1);
 
       
     }
