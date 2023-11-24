@@ -30,6 +30,7 @@ const CameraApp = (props) => {
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
+  let images = [];
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -86,14 +87,20 @@ const CameraApp = (props) => {
 
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       if (url.length === 0) {
-        setUrl(imageUrl);
+        await props.enviarDatos(
+          { location: location, image: [imageUrl] },
+          "camera"
+        );
       } else {
-        setUrl((prevUrl) => [...prevUrl, imageUrl]);
+        async () => {
+          images.push(imageUrl);
+          await props.enviarDatos(
+            { location: location, image: images },
+            "camera"
+          );
+        };
       }
-      await props.enviarDatos(
-        { location: location, image: url },
-        "camera"
-      );
+
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
