@@ -168,9 +168,9 @@ const CameraApp = (props) => {
   };
 
   return (
-    <div className="camera-container">
+    <div>
       {permissions ? (
-        <div>
+        <div className="camera-container">
           <video
             ref={videoRef}
             autoPlay
