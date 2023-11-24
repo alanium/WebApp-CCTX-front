@@ -35,8 +35,15 @@ const CameraApp = (props) => {
     // Solicitar acceso a la ubicación cuando se monta el componente
     const requestLocationAccess = async () => {
       try {
-        await navigator.permissions.request({ name: "geolocation" });
-        getLocation();
+        await navigator.geolocation.getCurrentPosition(
+          (position) => {
+            // Get the user's latitude and longitude coordinates
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            getLocation();
+          }
+        )
+        
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
@@ -95,7 +102,7 @@ const CameraApp = (props) => {
     }
   };
 
-  const getLocation = () => {
+  const getLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
