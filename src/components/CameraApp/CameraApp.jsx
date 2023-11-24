@@ -85,8 +85,9 @@ const CameraApp = (props) => {
       console.log("uploaded a blob");
   
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
+      setUrl((prevUrl) => [...prevUrl, imageUrl]); // Use the functional form of setUrl
       await props.enviarDatos(
-        { location: location, image: [...url, imageUrl] },
+        { location: location, image: [...prevUrl, imageUrl] },
         "camera"
       );
       console.log("Image uploaded to Firebase:", imageUrl);
