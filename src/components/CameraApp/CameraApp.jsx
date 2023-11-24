@@ -86,7 +86,7 @@ const CameraApp = (props) => {
       console.log("uploaded a blob");
 
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
-      if (url.length === 0) {
+      if (images.length === 0) {
         await props.enviarDatos(
           { location: location, image: [imageUrl] },
           "camera"
