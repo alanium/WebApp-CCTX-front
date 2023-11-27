@@ -58,14 +58,7 @@ export default function VideoRecorder (props)  {
   }, []);
 
   const initializeMediaRecorder = () => {
-    const stream = navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: facingMode,
-        width: { ideal: 4096 },
-        height: { ideal: 2160 },
-        frameRate: { ideal: 30, max: 60 },
-      },
-    }); // Use captureStream instead of srcObject
+    const stream = videoRef.current?.captureStream(); // Use captureStream instead of srcObject
 
     if (stream) {
       const mediaRecorder = new MediaRecorder(stream);
