@@ -8,6 +8,7 @@ import "firebase/storage";
 import "./CameraApp.css";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import TakePhoto from "./TakePhoto";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
@@ -79,21 +80,21 @@ const CameraApp = (props) => {
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
-  
+
     try {
       await uploadBytes(imageRef, blob);
       console.log("uploaded a blob");
-  
+
       const imageUrl = await getDownloadURL(ref(storage, `${imageRef}`));
       setUrl((prevUrl) => [...prevUrl, imageUrl]); // Use the functional form of setUrl
-  
+
       const updatedUrl = [...url, imageUrl]; // Capture the updated url state
-  
+
       await props.enviarDatos(
         { location: location, image: updatedUrl },
         "camera"
       );
-  
+
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
@@ -121,30 +122,6 @@ const CameraApp = (props) => {
       );
     } else {
       console.error("Geolocation is not supported by this browser");
-    }
-  };
-
-  const takePhoto = async () => {
-    if (videoRef.current && canvasRef.current) {
-      await getLocation();
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-
-      const aspectRatio = video.videoWidth / video.videoHeight;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      await canvas.toBlob(async (blob) => {
-        try {
-          await uploadImageToFirebase(blob);
-        } catch (error) {
-          console.log(error);
-        }
-        "image/png", 1;
-      });
     }
   };
 
@@ -182,53 +159,19 @@ const CameraApp = (props) => {
   return (
     <div>
       {permissions ? (
-        <div className="camera-container">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="video-preview"
-          />
-
-          <div className="canvas-container">
-            <canvas
-              ref={canvasRef}
-              className="hidden-canvas"
-              onClick={handleCanvasClick}
-            />
-          </div>
-
-          <div className="button-container">
-            <button
-              style={{ fontSize: "77px", color: "white" }}
-              onClick={stopCamera}
-            >
-              <BiSolidXCircle />
-            </button>
-            <button
-              style={{ fontSize: "66px", color: "white" }}
-              onClick={takePhoto}
-            >
-              <FaCircle />{" "}
-            </button>
-            <button
-              style={{ fontSize: "77px", color: "white" }}
-              onClick={switchCamera}
-            >
-              <MdChangeCircle />
-            </button>
-          </div>
-
-          <div className="canvas-container">
-            <canvas ref={canvasRef} className="hidden-canvas" />
-          </div>
-        </div>
+        <TakePhoto
+          canvasRef={canvasRef}
+          videoRef={videoRef}
+          switchCamera={switchCamera}
+          stopCamera={stopCamera}
+          handleCanvasClick={handleCanvasClick}
+        />
       ) : (
         <div className="global-containter">
           <label>
             Grant location and camera permissions to use this component
           </label>
-          <button onClick={() => navigate("/")}>Go Back</button>
+          <button className="global-button" onClick={() => navigate("/")}>Go Back</button>
         </div>
       )}
     </div>
