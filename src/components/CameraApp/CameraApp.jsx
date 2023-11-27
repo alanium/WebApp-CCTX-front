@@ -6,7 +6,7 @@ import "./CameraApp.css";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import TakePhoto from "./TakePhoto";
-
+import VideoRecorder from "./RecordVideo";
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
   authDomain: "fb-storage-49d33.firebaseapp.com",
@@ -28,6 +28,7 @@ const CameraApp = (props) => {
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
+  const [mode, setMode] = useState(false)
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -156,15 +157,22 @@ const CameraApp = (props) => {
   return (
     <div>
       {permissions ? (
-        <TakePhoto
-          canvasRef={canvasRef}
-          videoRef={videoRef}
-          switchCamera={switchCamera}
-          stopCamera={stopCamera}
-          handleCanvasClick={handleCanvasClick}
-          getLocation={getLocation}
-          uploadImageToFirebase={uploadImageToFirebase}
-        />
+        <div>
+          {mode ? (
+            <TakePhoto
+            canvasRef={canvasRef}
+            videoRef={videoRef}
+            switchCamera={switchCamera}
+            stopCamera={stopCamera}
+            handleCanvasClick={handleCanvasClick}
+            getLocation={getLocation}
+            uploadImageToFirebase={uploadImageToFirebase}
+          />
+          ) : (
+            <VideoRecorder />
+          )}
+        </div>
+        
       ) : (
         <div className="global-containter">
           <label>
