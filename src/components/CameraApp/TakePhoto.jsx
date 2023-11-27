@@ -6,7 +6,7 @@ import { BiSolidXCircle } from "react-icons/bi";
 export default function TakePhoto (props) {
 
     const takePhoto = async () => {
-        if (videoRef.current && canvasRef.current) {
+        if (props.videoRef.current && props.canvasRef.current) {
           await props.getLocation();
           const video = props.videoRef.current;
           const canvas = props.canvasRef.current;
