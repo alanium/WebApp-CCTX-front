@@ -163,6 +163,7 @@ const CameraApp = (props) => {
           stopCamera={stopCamera}
           handleCanvasClick={handleCanvasClick}
           getLocation={getLocation}
+          uploadImageToFirebase={uploadImageToFirebase}
         />
       ) : (
         <div className="global-containter">
