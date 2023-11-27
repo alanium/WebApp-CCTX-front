@@ -67,12 +67,6 @@ export default function VideoRecorder(props) {
       });
       const chunks = [];
 
-      const handleDataAvailable = (event) => {
-        if (event.data.size > 0) {
-          const uint8Array = new Uint8Array(event.data);
-          chunks.push(uint8Array);
-        }
-      };
       // Adjust the delay as needed
 
       mediaRecorder.ondataavailable = handleDataAvailable;
@@ -87,6 +81,13 @@ export default function VideoRecorder(props) {
       setMediaRecorder(mediaRecorder);
     } else {
       console.error("Video reference not available.");
+    }
+  };
+
+  const handleDataAvailable = (event) => {
+    if (event.data.size > 0) {
+      const uint8Array = new Uint8Array(event.data);
+      setRecordedChunks((prevChunks) => [...prevChunks, uint8Array]);
     }
   };
 
