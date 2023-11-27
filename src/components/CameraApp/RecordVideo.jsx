@@ -153,7 +153,6 @@ export default function VideoRecorder(props) {
 
   const startRecording = () => {
     setRecordedChunks([]);
-    mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.start();
     setRecording(true);
   };
