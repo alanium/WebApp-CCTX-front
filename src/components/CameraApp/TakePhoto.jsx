@@ -20,7 +20,7 @@ export default function TakePhoto (props) {
     
           await canvas.toBlob(async (blob) => {
             try {
-              await uploadImageToFirebase(blob);
+              await props.uploadImageToFirebase(blob);
             } catch (error) {
               console.log(error);
             }
