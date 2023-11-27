@@ -1,8 +1,5 @@
 // CameraApp.js
 import React, { useState, useRef, useEffect } from "react";
-import { FaCircle } from "react-icons/fa";
-import { MdChangeCircle } from "react-icons/md";
-import { BiSolidXCircle } from "react-icons/bi";
 import { initializeApp } from "firebase/app";
 import "firebase/storage";
 import "./CameraApp.css";
@@ -165,6 +162,7 @@ const CameraApp = (props) => {
           switchCamera={switchCamera}
           stopCamera={stopCamera}
           handleCanvasClick={handleCanvasClick}
+          getLocation={getLocation}
         />
       ) : (
         <div className="global-containter">

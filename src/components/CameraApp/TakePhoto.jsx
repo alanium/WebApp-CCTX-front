@@ -1,8 +1,13 @@
+import React from "react";
+import { FaCircle } from "react-icons/fa";
+import { MdChangeCircle } from "react-icons/md";
+import { BiSolidXCircle } from "react-icons/bi";
+
 export default function TakePhoto (props) {
 
     const takePhoto = async () => {
         if (videoRef.current && canvasRef.current) {
-          await getLocation();
+          await props.getLocation();
           const video = props.videoRef.current;
           const canvas = props.canvasRef.current;
     
