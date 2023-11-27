@@ -90,8 +90,8 @@ export default function VideoRecorder (props)  {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "environment",
-          width: { ideal: 4096 },
-          height: { ideal: 2160 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
           frameRate: { ideal: 30, max: 60 },
         },
       });
