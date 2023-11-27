@@ -92,6 +92,7 @@ export default function VideoRecorder (props)  {
           facingMode: facingMode,
           width: { ideal: 4096 },
           height: { ideal: 2160 },
+          frameRate: { ideal: 30, max: 60 },
         },
       });
       setMediaStream(stream);
