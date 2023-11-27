@@ -2,28 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaCircle, FaStopCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
-import { throttle } from 'lodash'
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import { throttle } from "lodash";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
-    authDomain: "fb-storage-49d33.firebaseapp.com",
-    projectId: "fb-storage-49d33",
-    storageBucket: "fb-storage-49d33.appspot.com",
-    messagingSenderId: "327363193304",
-    appId: "1:327363193304:web:88b1cf55edee2322b6eaad",
-    measurementId: "G-2J1T6GN9R0",
+  apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
+  authDomain: "fb-storage-49d33.firebaseapp.com",
+  projectId: "fb-storage-49d33",
+  storageBucket: "fb-storage-49d33.appspot.com",
+  messagingSenderId: "327363193304",
+  appId: "1:327363193304:web:88b1cf55edee2322b6eaad",
+  measurementId: "G-2J1T6GN9R0",
 };
 
 initializeApp(firebaseConfig);
 
-export default function VideoRecorder (props)  {
+export default function VideoRecorder(props) {
   const videoRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
   const [facingMode, setFacingMode] = useState("user");
@@ -36,7 +31,7 @@ export default function VideoRecorder (props)  {
   useEffect(() => {
     const requestLocationAccess = async () => {
       try {
-       navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition((position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           getLocation();
@@ -46,11 +41,11 @@ export default function VideoRecorder (props)  {
       }
     };
 
-    const startCameraAndRequestLocation = async () => {
+    const startCameraAndRequestLocation = throttle(async () => {
       await startCamera();
       await requestLocationAccess();
       setPermissions(true);
-    };
+    }, 1000);
 
     startCameraAndRequestLocation();
 
@@ -58,10 +53,18 @@ export default function VideoRecorder (props)  {
   }, []);
 
   const initializeMediaRecorder = () => {
-    const stream = videoRef.current?.captureStream({frameRate: 60}); // Use captureStream instead of srcObject
+    const stream = videoRef.current?.captureStream({ frameRate: 60 });
+    if (!stream) {
+      console.error("Capture stream not available.");
+      return;
+    } // Use captureStream instead of srcObject
 
     if (stream) {
-      const mediaRecorder = new MediaRecorder(stream, { frameRate: { ideal: 30, max: 60 }, mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 4000000 });
+      const mediaRecorder = new MediaRecorder(stream, {
+        frameRate: { ideal: 30, max: 60 },
+        mimeType: "video/webm; codecs=vp9",
+        videoBitsPerSecond: 4000000,
+      });
       const chunks = [];
 
       const handleDataAvailable = (event) => {
@@ -69,9 +72,9 @@ export default function VideoRecorder (props)  {
           const uint8Array = new Uint8Array(event.data);
           chunks.push(uint8Array);
         }
-      }
-       // Adjust the delay as needed
-      
+      };
+      // Adjust the delay as needed
+
       mediaRecorder.ondataavailable = handleDataAvailable;
 
       mediaRecorder.onstop = () => {
@@ -86,7 +89,6 @@ export default function VideoRecorder (props)  {
       console.error("Video reference not available.");
     }
   };
-  
 
   const startCamera = async () => {
     try {
@@ -135,14 +137,13 @@ export default function VideoRecorder (props)  {
   };
 
   const uploadVideoToFirebase = async (blob) => {
+    console.log("Blob size:", blob.size); // Log the size to check if it's greater than 0
     const storage = getStorage();
-    const videoRef = ref(storage, `videos/${Date.now()}_video.mp4`);;
-
+    const videoRef = ref(storage, `videos/${Date.now()}_video.mp4`);
+  
     try {
       await uploadBytes(videoRef, blob);
       const videoUrl = await getDownloadURL(videoRef);
-
-      // Handle the video URL as needed (e.g., updating state, sending to parent component)
       console.log("Video uploaded to Firebase:", videoUrl);
     } catch (error) {
       console.error("Error uploading video to Firebase:", error);
@@ -176,7 +177,13 @@ export default function VideoRecorder (props)  {
     <div>
       {permissions ? (
         <div className="camera-container">
-          <video style={{ transform: 'translate3d(0,0,0)' }} ref={videoRef} autoPlay playsInline className="video-preview" />
+          <video
+            style={{ transform: "translate3d(0,0,0)" }}
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="video-preview"
+          />
 
           <div className="button-container">
             <button
@@ -209,4 +216,4 @@ export default function VideoRecorder (props)  {
       )}
     </div>
   );
-};
+}
