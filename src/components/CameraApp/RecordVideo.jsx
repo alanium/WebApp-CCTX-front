@@ -67,6 +67,11 @@ export default function VideoRecorder(props) {
       });
       const chunks = [];
 
+      const handleDataAvailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
       // Adjust the delay as needed
 
       mediaRecorder.ondataavailable = handleDataAvailable;
@@ -84,12 +89,7 @@ export default function VideoRecorder(props) {
     }
   };
 
-  const handleDataAvailable = (event) => {
-    if (event.data.size > 0) {
-      const uint8Array = new Uint8Array(event.data);
-      setRecordedChunks((prevChunks) => [...prevChunks, uint8Array]);
-    }
-  };
+  
 
   const startCamera = async () => {
     try {
