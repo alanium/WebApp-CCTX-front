@@ -89,7 +89,7 @@ export default function VideoRecorder (props)  {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: facingMode,
+          facingMode: "environment",
           width: { ideal: 4096 },
           height: { ideal: 2160 },
           frameRate: { ideal: 30, max: 60 },
@@ -133,7 +133,7 @@ export default function VideoRecorder (props)  {
 
   const uploadVideoToFirebase = async (blob) => {
     const storage = getStorage();
-    const videoRef = ref(storage, `videos/${Date.now()}_video.webm`);
+    const videoRef = ref(storage, `videos/${Date.now()}_video.mp4`);;
 
     try {
       await uploadBytes(videoRef, blob);
