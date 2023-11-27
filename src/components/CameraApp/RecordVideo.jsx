@@ -61,7 +61,7 @@ export default function VideoRecorder (props)  {
     const stream = videoRef.current?.captureStream({frameRate: 30}); // Use captureStream instead of srcObject
 
     if (stream) {
-      const mediaRecorder = new MediaRecorder(stream, { frameRate: { ideal: 30, max: 60 }, mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 500000 });
+      const mediaRecorder = new MediaRecorder(stream, { frameRate: { ideal: 30, max: 60 }, mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 5000000 });
       const chunks = [];
 
       mediaRecorder.ondataavailable = (event) => {
