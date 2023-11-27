@@ -157,13 +157,6 @@ export default function VideoRecorder (props)  {
   const stopRecording = () => {
     mediaRecorder.stop();
     setRecording(false);
-  
-    // Release resources
-    if (mediaStream) {
-      const tracks = mediaStream.getTracks();
-      tracks.forEach((track) => track.stop());
-      setMediaStream(null);
-    }
   };
 
   const handleCanvasClick = (event) => {
