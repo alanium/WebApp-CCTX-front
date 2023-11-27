@@ -48,7 +48,6 @@ export default function VideoRecorder (props)  {
 
     const startCameraAndRequestLocation = async () => {
       await startCamera();
-      initializeMediaRecorder();
       await requestLocationAccess();
       setPermissions(true);
     };
@@ -93,7 +92,6 @@ export default function VideoRecorder (props)  {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "environment",
-          
           width: { ideal: 1920 },
           height: { ideal: 1080 },
           frameRate: { ideal: 30, max: 60 },
@@ -104,7 +102,7 @@ export default function VideoRecorder (props)  {
         videoRef.current.srcObject = stream;
         videoRef.current.addEventListener("loadedmetadata", () => {
           initializeMediaRecorder();
-        })
+        });
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
@@ -184,7 +182,7 @@ export default function VideoRecorder (props)  {
     <div>
       {permissions ? (
         <div className="camera-container">
-          <video transform={translate3d(0,0,0)} ref={videoRef} autoPlay playsInline className="video-preview" />
+          <video style={{ transform: 'translate3d(0,0,0)' }} ref={videoRef} autoPlay playsInline className="video-preview" />
 
           <div className="button-container">
             <button
