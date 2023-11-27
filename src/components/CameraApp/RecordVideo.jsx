@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaCircle, FaStopCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
+import { throttle } from 'lodash'
 import {
   getDownloadURL,
   getStorage,
@@ -64,17 +65,19 @@ export default function VideoRecorder (props)  {
       const mediaRecorder = new MediaRecorder(stream, { frameRate: { ideal: 30, max: 60 }, mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 4000000 });
       const chunks = [];
 
-      mediaRecorder.ondataavailable = (event) => {
+      const handleDataAvailable = throttle((event) => {
         if (event.data.size > 0) {
-          chunks.push(event.data);
+          const uint8Array = new Uint8Array(event.data);
+          chunks.push(uint8Array);
         }
-      };
+      }, 1000); // Adjust the delay as needed
+      
+      mediaRecorder.ondataavailable = handleDataAvailable;
 
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: "video/webm" });
         const videoUrl = URL.createObjectURL(blob);
-        uploadVideoToFirebase(blob)
-        // Handle the video URL as needed (e.g., updating state, sending to parent component)
+        uploadVideoToFirebase(blob);
         console.log("Video URL created:", videoUrl);
       };
 
@@ -90,6 +93,7 @@ export default function VideoRecorder (props)  {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "environment",
+          
           width: { ideal: 1920 },
           height: { ideal: 1080 },
           frameRate: { ideal: 30, max: 60 },
@@ -155,6 +159,13 @@ export default function VideoRecorder (props)  {
   const stopRecording = () => {
     mediaRecorder.stop();
     setRecording(false);
+  
+    // Release resources
+    if (mediaStream) {
+      const tracks = mediaStream.getTracks();
+      tracks.forEach((track) => track.stop());
+      setMediaStream(null);
+    }
   };
 
   const handleCanvasClick = (event) => {
@@ -173,7 +184,7 @@ export default function VideoRecorder (props)  {
     <div>
       {permissions ? (
         <div className="camera-container">
-          <video ref={videoRef} autoPlay playsInline className="video-preview" />
+          <video transform={translate3d(0,0,0)} ref={videoRef} autoPlay playsInline className="video-preview" />
 
           <div className="button-container">
             <button
