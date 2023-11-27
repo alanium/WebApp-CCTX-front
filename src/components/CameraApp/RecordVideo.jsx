@@ -98,6 +98,9 @@ export default function VideoRecorder (props)  {
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.addEventListener("loadedmetadata", () => {
+          initializeMediaRecorder();
+        })
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
