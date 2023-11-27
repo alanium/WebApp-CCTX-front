@@ -64,12 +64,13 @@ export default function VideoRecorder (props)  {
       const mediaRecorder = new MediaRecorder(stream, { frameRate: { ideal: 30, max: 60 }, mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 4000000 });
       const chunks = [];
 
-      const handleDataAvailable = throttle((event) => {
+      const handleDataAvailable = (event) => {
         if (event.data.size > 0) {
           const uint8Array = new Uint8Array(event.data);
           chunks.push(uint8Array);
         }
-      }, 1000); // Adjust the delay as needed
+      }
+       // Adjust the delay as needed
       
       mediaRecorder.ondataavailable = handleDataAvailable;
 
