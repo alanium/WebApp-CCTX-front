@@ -59,7 +59,7 @@ export default function Radius(props) {
         </div>
       ) : (
         <div>
-          {response.code === "A3" ? (
+          {props.response.code === "A3" ? (
             <div>
               <div>
                 <label>No project found, enter the project name below</label>
