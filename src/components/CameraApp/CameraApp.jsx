@@ -30,32 +30,7 @@ const CameraApp = (props) => {
   const [url, setUrl] = useState([]);
   const [mode, setMode] = useState(false)
 
-  useEffect(() => {
-    // Solicitar acceso a la ubicación cuando se monta el componente
-    const requestLocationAccess = async () => {
-      try {
-        await navigator.geolocation.getCurrentPosition((position) => {
-          // Get the user's latitude and longitude coordinates
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          getLocation();
-        });
-      } catch (error) {
-        console.error("Error requesting location access:", error);
-      }
-    };
-
-    // Iniciar la cámara y solicitar acceso a la ubicación
-    const startCameraAndRequestLocation = async () => {
-      await startCamera();
-      await requestLocationAccess();
-      setPermissions(true);
-    };
-
-    startCameraAndRequestLocation();
-
-    return () => stopCamera();
-  }, []);
+ 
 
   const startCamera = async () => {
     try {
@@ -168,6 +143,7 @@ const CameraApp = (props) => {
             getLocation={getLocation}
             uploadImageToFirebase={uploadImageToFirebase}
             setMode={setMode}
+            setPermissions={setPermissions}
           />
           ) : (
             <VideoRecorder setMode={setMode} />

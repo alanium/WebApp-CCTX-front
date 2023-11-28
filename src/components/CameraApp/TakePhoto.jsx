@@ -5,6 +5,34 @@ import { BiSolidXCircle } from "react-icons/bi";
 import { PiVideoCameraFill } from "react-icons/pi"
 
 export default function TakePhoto(props) {
+
+  useEffect(() => {
+    // Solicitar acceso a la ubicación cuando se monta el componente
+    const requestLocationAccess = async () => {
+      try {
+        await navigator.geolocation.getCurrentPosition((position) => {
+          // Get the user's latitude and longitude coordinates
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          props.getLocation();
+        });
+      } catch (error) {
+        console.error("Error requesting location access:", error);
+      }
+    };
+
+    // Iniciar la cámara y solicitar acceso a la ubicación
+    const startCameraAndRequestLocation = async () => {
+      await props.startCamera();
+      await requestLocationAccess();
+      props.setPermissions(true);
+    };
+
+    startCameraAndRequestLocation();
+
+    return () => props.stopCamera();
+  }, []);
+
   const takePhoto = async () => {
     if (props.videoRef.current && props.canvasRef.current) {
       await props.getLocation();
