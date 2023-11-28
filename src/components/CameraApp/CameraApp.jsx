@@ -163,6 +163,7 @@ const CameraApp = (props) => {
             canvasRef={canvasRef}
             videoRef={videoRef}
             switchCamera={switchCamera}
+            startCamera={startCamera}
             stopCamera={stopCamera}
             handleCanvasClick={handleCanvasClick}
             getLocation={getLocation}
