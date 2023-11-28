@@ -29,9 +29,9 @@ const CameraApp = (props) => {
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
-  const [mode, setMode] = useState(false)
+  const [mode, setMode] = useState(false);
   const [response, setResponse] = useState({});
-  const [radius, setRadius] = useState(false)
+  const [radius, setRadius] = useState(false);
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -42,19 +42,16 @@ const CameraApp = (props) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           getLocation();
-
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
     };
-    
 
     // Iniciar la cámara y solicitar acceso a la ubicación
     const startCameraAndRequestLocation = async () => {
-     
       await requestLocationAccess();
-      
+
       setPermissions(true);
     };
 
@@ -167,34 +164,40 @@ const CameraApp = (props) => {
           {radius ? (
             <div>
               {mode ? (
-            <TakePhoto
-            canvasRef={canvasRef}
-            videoRef={videoRef}
-            switchCamera={switchCamera}
-            startCamera={startCamera}
-            stopCamera={stopCamera}
-            handleCanvasClick={handleCanvasClick}
-            getLocation={getLocation}
-            uploadImageToFirebase={uploadImageToFirebase}
-            setMode={setMode}
-            setPermissions={setPermissions}
-          />
-          ) : (
-            <VideoRecorder setMode={setMode} />
-          )}
+                <TakePhoto
+                  canvasRef={canvasRef}
+                  videoRef={videoRef}
+                  switchCamera={switchCamera}
+                  startCamera={startCamera}
+                  stopCamera={stopCamera}
+                  handleCanvasClick={handleCanvasClick}
+                  getLocation={getLocation}
+                  uploadImageToFirebase={uploadImageToFirebase}
+                  setMode={setMode}
+                  setPermissions={setPermissions}
+                />
+              ) : (
+                <VideoRecorder setMode={setMode} />
+              )}
             </div>
           ) : (
-            <Radius getLocation={getLocation} enviarDatos={props.enviarDatos} setRadius={setRadius} setResponse={setResponse} response={response} />
+            <Radius
+              getLocation={getLocation}
+              enviarDatos={props.enviarDatos}
+              setRadius={setRadius}
+              setResponse={setResponse}
+              response={response}
+            />
           )}
-          
         </div>
-        
       ) : (
         <div className="global-containter">
           <label>
             Grant location and camera permissions to use this component
           </label>
-          <button className="global-button" onClick={() => navigate("/")}>Go Back</button>
+          <button className="global-button" onClick={() => navigate("/")}>
+            Go Back
+          </button>
         </div>
       )}
     </div>
