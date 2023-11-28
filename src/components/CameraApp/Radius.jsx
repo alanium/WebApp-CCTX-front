@@ -14,21 +14,20 @@ export default function Radius(props) {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           props.getLocation();
-          async () => {
-            const result = props.enviarDatos(
-              {
-                location: { latitude: lat, longitude: lng },
-                action: "find_project",
-              },
-              "camera"
-            );
-            props.setResponse(result);
-            if (result.code === "A5") {
-                props.setRadius(true);
-                await props.setPermissions(true);
-        console.log("RADIUS")
-              }
-          };
+
+          const result = props.enviarDatos(
+            {
+              location: { latitude: lat, longitude: lng },
+              action: "find_project",
+            },
+            "camera"
+          );
+          props.setResponse(result);
+          if (result.code === "A5") {
+            props.setRadius(true);
+            props.setPermissions(true);
+            console.log("RADIUS");
+          }
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
@@ -36,7 +35,7 @@ export default function Radius(props) {
         setIsSearching(false);
       }
     };
-     requestLocationAccess();
+    requestLocationAccess();
   }, []);
 
   const nameHandler = (event) => {
