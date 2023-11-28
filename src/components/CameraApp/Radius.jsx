@@ -13,7 +13,7 @@ export default function Radius(props) {
           // Get the user's latitude and longitude coordinates
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          getLocation();
+          props.getLocation();
           async () => {
             const result = props.enviarDatos(
               {

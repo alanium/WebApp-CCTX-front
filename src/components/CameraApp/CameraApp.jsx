@@ -184,7 +184,7 @@ const CameraApp = (props) => {
           )}
             </div>
           ) : (
-            <Radius enviarDatos={props.enviarDatos} setRadius={setRadius} setResponse={setResponse} response={response} />
+            <Radius getLocation={getLocation} enviarDatos={props.enviarDatos} setRadius={setRadius} setResponse={setResponse} response={response} />
           )}
           
         </div>
