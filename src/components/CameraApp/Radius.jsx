@@ -37,6 +37,7 @@ export default function Radius(props) {
 
     requestLocationAccess();
     props.setPermissions(true);
+    console.log("RADIUS")
   }, []);
 
   const nameHandler = (event) => {
