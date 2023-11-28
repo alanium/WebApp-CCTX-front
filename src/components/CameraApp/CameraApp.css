@@ -17,6 +17,7 @@ body {
   background-color: black;
   border-color: white;
   border-width: 5px;
+  border-radius: 5%;
   padding: 10px;
   width: 80px;
   height: 80px;
@@ -82,6 +83,11 @@ body {
     
   }
 
+  .mode-button{
+    width: 60px;
+    height: 60px;
+  }
+
   .button-container {
     bottom: 80px;
   }
@@ -100,7 +106,7 @@ body {
     margin-right: 20px;
   }
 
-  .modeButton{
+  .mode-button{
     width: 50px;
     height: 50px;
   }

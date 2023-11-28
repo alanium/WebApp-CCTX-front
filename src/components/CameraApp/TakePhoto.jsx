@@ -60,7 +60,7 @@ export default function TakePhoto(props) {
   return (
     <div className="camera-container">
       <button className="mode-button"  onClick={() => props.setMode(false)}>
-      <PiVideoCameraFill />
+      <PiVideoCameraFill style={{color: "white"}} />
       </button>
       <video
         ref={props.videoRef}
