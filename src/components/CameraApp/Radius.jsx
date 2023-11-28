@@ -4,7 +4,7 @@ export default function Radius(props) {
   const [isSearching, setIsSearching] = useState(false);
   const [name, setName] = useState("");
 
-  useEffect(async () => {
+  useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
     setIsSearching(true);
     const requestLocationAccess = async () => {
@@ -36,7 +36,7 @@ export default function Radius(props) {
         setIsSearching(false);
       }
     };
-    await requestLocationAccess();
+     requestLocationAccess();
   }, []);
 
   const nameHandler = (event) => {
