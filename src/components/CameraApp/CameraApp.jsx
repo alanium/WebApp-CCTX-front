@@ -187,6 +187,7 @@ const CameraApp = (props) => {
               setRadius={setRadius}
               setResponse={setResponse}
               response={response}
+              setPermissions={setPermissions}
             />
           )}
         </div>
