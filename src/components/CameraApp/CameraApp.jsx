@@ -7,6 +7,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import TakePhoto from "./TakePhoto";
 import VideoRecorder from "./RecordVideo";
+import Radius from "./Radius";
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
   authDomain: "fb-storage-49d33.firebaseapp.com",
@@ -29,6 +30,7 @@ const CameraApp = (props) => {
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
   const [mode, setMode] = useState(false)
+  const [response, setResponse] = useState({});
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -39,21 +41,24 @@ const CameraApp = (props) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           getLocation();
+
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
     };
+    
 
     // Iniciar la cámara y solicitar acceso a la ubicación
     const startCameraAndRequestLocation = async () => {
-      await startCamera();
+     
       await requestLocationAccess();
+      
       setPermissions(true);
     };
 
     startCameraAndRequestLocation();
-
+    startCamera();
     return () => stopCamera();
   }, []);
 
@@ -158,7 +163,9 @@ const CameraApp = (props) => {
     <div>
       {permissions ? (
         <div>
-          {mode ? (
+          {radius ? (
+            <div>
+              {mode ? (
             <TakePhoto
             canvasRef={canvasRef}
             videoRef={videoRef}
@@ -174,6 +181,11 @@ const CameraApp = (props) => {
           ) : (
             <VideoRecorder setMode={setMode} />
           )}
+            </div>
+          ) : (
+            <Radius enviarDatos={enviarDatos} setResponse={setResponse} response={response} />
+          )}
+          
         </div>
         
       ) : (
