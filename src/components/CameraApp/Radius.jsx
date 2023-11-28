@@ -34,6 +34,8 @@ export default function Radius(props) {
         setIsSearching(false);
       }
     };
+
+    requestLocationAccess();
   }, []);
 
   const nameHandler = (event) => {
