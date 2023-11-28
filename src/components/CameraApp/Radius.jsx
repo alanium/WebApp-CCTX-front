@@ -34,17 +34,6 @@ export default function Radius(props) {
         setIsSearching(false);
       }
     };
-
-    // Iniciar la cámara y solicitar acceso a la ubicación
-    const startCameraAndRequestLocation = async () => {
-      await requestLocationAccess();
-
-      setPermissions(true);
-    };
-
-    startCameraAndRequestLocation();
-    startCamera();
-    return () => stopCamera();
   }, []);
 
   const nameHandler = (event) => {
