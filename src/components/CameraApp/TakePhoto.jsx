@@ -2,6 +2,7 @@ import React from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
+import { PiVideoCameraFill } from "react-icons/pi"
 
 export default function TakePhoto(props) {
   const takePhoto = async () => {
@@ -30,6 +31,9 @@ export default function TakePhoto(props) {
 
   return (
     <div className="camera-container">
+      <button onClick={props.setMode(false)}>
+      <PiVideoCameraFill />
+      </button>
       <video
         ref={props.videoRef}
         autoPlay

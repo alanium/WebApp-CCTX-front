@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaCircle, FaStopCircle } from "react-icons/fa";
+import { FaCircle, FaStopCircle, FaCamera } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
 import { throttle } from "lodash";
@@ -178,6 +178,9 @@ export default function VideoRecorder(props) {
     <div>
       {permissions ? (
         <div className="camera-container">
+          <button onClick={props.setMode(true)}>
+            <FaCamera />
+          </button>
           <video
             style={{ transform: "translate3d(0,0,0)" }}
             ref={videoRef}

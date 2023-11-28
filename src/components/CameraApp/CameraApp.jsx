@@ -167,9 +167,10 @@ const CameraApp = (props) => {
             handleCanvasClick={handleCanvasClick}
             getLocation={getLocation}
             uploadImageToFirebase={uploadImageToFirebase}
+            setMode={setMode}
           />
           ) : (
-            <VideoRecorder />
+            <VideoRecorder setMode={setMode} />
           )}
         </div>
         
