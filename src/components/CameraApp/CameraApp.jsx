@@ -31,6 +31,7 @@ const CameraApp = (props) => {
   const [url, setUrl] = useState([]);
   const [mode, setMode] = useState(false)
   const [response, setResponse] = useState({});
+  const [radius, setRadius] = useState(false)
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -183,7 +184,7 @@ const CameraApp = (props) => {
           )}
             </div>
           ) : (
-            <Radius enviarDatos={enviarDatos} setResponse={setResponse} response={response} />
+            <Radius enviarDatos={enviarDatos} setRadius={setRadius} setResponse={setResponse} response={response} />
           )}
           
         </div>
