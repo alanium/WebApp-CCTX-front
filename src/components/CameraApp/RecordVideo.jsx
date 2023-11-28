@@ -180,7 +180,7 @@ export default function VideoRecorder(props) {
       {permissions ? (
         <div className="camera-container">
           <button className="mode-button" onClick={() => props.setMode(true)}>
-            <FaCamera style={{fontSize: "56px", color: "white"}} />
+            <FaCamera style={{fontSize: "40px", color: "white"}} />
           </button>
           <video
             style={{ transform: "translate3d(0,0,0)" }}
