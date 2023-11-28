@@ -5,6 +5,7 @@ import { BiSolidXCircle } from "react-icons/bi";
 import { throttle } from "lodash";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { initializeApp } from "firebase/app";
+import style from "./CameraApp.css"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
@@ -178,7 +179,7 @@ export default function VideoRecorder(props) {
     <div>
       {permissions ? (
         <div className="camera-container">
-          <button onClick={() => props.setMode(true)}>
+          <button className={style.modeButton} onClick={() => props.setMode(true)}>
             <FaCamera />
           </button>
           <video
