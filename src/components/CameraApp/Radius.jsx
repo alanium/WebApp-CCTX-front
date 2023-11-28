@@ -25,6 +25,8 @@ export default function Radius(props) {
             props.setResponse(result);
             if (result.code === "A5") {
                 props.setRadius(true);
+                await props.setPermissions(true);
+        console.log("RADIUS")
               }
           };
         });
@@ -34,10 +36,7 @@ export default function Radius(props) {
         setIsSearching(false);
       }
     };
-
     await requestLocationAccess();
-    await props.setPermissions(true);
-    console.log("RADIUS")
   }, []);
 
   const nameHandler = (event) => {
