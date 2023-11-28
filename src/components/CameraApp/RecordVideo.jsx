@@ -178,7 +178,7 @@ export default function VideoRecorder(props) {
     <div>
       {permissions ? (
         <div className="camera-container">
-          <button onClick={props.setMode(true)}>
+          <button onClick={() => props.setMode(true)}>
             <FaCamera />
           </button>
           <video

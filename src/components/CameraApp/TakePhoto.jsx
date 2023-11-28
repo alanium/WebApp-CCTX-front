@@ -31,7 +31,7 @@ export default function TakePhoto(props) {
 
   return (
     <div className="camera-container">
-      <button onClick={props.setMode(false)}>
+      <button onClick={() => props.setMode(false)}>
       <PiVideoCameraFill />
       </button>
       <video
