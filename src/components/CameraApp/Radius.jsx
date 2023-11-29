@@ -21,14 +21,18 @@ export default function Radius(props) {
               action: "find_project",
             },
             "camera"
-          );
-          console.log(result)
-          props.setResponse(result);
+          ).then((result) => {
+            console.log(result),
+            props.setResponse(result)
           if (props.response.code === "A5") {
             props.setRadius(true);
             props.setPermissions(true);
             console.log("RADIUS");
           }
+          }
+            
+          )
+          
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
