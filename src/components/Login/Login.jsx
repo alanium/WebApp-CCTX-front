@@ -64,9 +64,9 @@ function Login(props) {
   };
 
   return (
-    <div className="global-container">
+    <div className={styles.loginContainer}>
       {isAvaliable ? (
-        <div>
+        <div className={styles.formContainer}>
           <div className={styles.titleDiv}>
             <label className="global-card-title">Sign In</label>
           </div>
