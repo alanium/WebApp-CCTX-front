@@ -213,7 +213,7 @@ const CameraApp = (props) => {
         </div>
       ) : (
         <div className="global-containter">
-          <label>
+          <label style={{fontSize:"24px" ,color: "white", marginBottom:"10px"}} >
             Grant location and camera permissions to use this component
           </label>
           <button className="global-button" onClick={() => navigate("/")}>
