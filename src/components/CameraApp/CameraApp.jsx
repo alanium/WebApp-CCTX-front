@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TakePhoto from "./TakePhoto";
 import VideoRecorder from "./RecordVideo";
 import Radius from "./Radius";
+import { useSelector } from "react-redux";
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
   authDomain: "fb-storage-49d33.firebaseapp.com",
@@ -34,6 +35,7 @@ const CameraApp = (props) => {
   const [radius, setRadius] = useState(false);
   const [projectId, setProjectId] = useState("");
   const [temp, setTemp] = useState(false);
+  const userData = useSelector((state) => state.user)
 
 
   useEffect(() => {
@@ -96,17 +98,17 @@ const CameraApp = (props) => {
 
       if (projectId !== "") {
         await props.enviarDatos(
-          {action:"send_image", project_id: projectId, image: updatedUrl },
+          {action:"send_image", project_id: projectId, image: updatedUrl, user_data: userData },
           "camera"
         );
       } else if (temp) {
         await props.enviarDatos(
-          {action:"temp", image: updatedUrl },
+          {action:"temp", image: updatedUrl, user_data: userData },
           "camera"
         );
       } else {
         await props.enviarDatos(
-          {action:"send_image", project_id: response.content[0].id, image: updatedUrl },
+          {action:"send_image", project_id: response.content[0].id, image: updatedUrl, user_data: userData },
           "camera"
         );
       }
