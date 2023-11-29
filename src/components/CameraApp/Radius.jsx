@@ -22,6 +22,7 @@ export default function Radius(props) {
             },
             "camera"
           );
+          console.log(result)
           props.setResponse(result);
           if (result.code === "A5") {
             props.setRadius(true);
