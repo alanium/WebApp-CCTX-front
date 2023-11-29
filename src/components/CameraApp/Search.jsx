@@ -30,7 +30,7 @@ export default function Search (props) {
             {isReady ? (
                 <SelectProject setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
             ) : (
-                <form>
+                <form className="global-container">
                 <div>
                   <label className="global-card-title">No project found, enter the project name below</label>
                 </div>
