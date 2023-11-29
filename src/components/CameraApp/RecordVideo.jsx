@@ -84,11 +84,11 @@ export default function VideoRecorder(props) {
         uploadVideoToFirebase(blob);
         console.log("Video URL created:", videoUrl);
         if (props.projectId !== "") {
-          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl})
+          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl}, "camera")
         } else if (props.temp) {
-          props.enviarDatos({action: "temp", image: videoUrl})
+          props.enviarDatos({action: "temp", image: videoUrl}, "camera")
         } else {
-          props.enviarDatos({action: "send_image", location: location, image: videoUrl})
+          props.enviarDatos({action: "send_image", location: location, image: videoUrl}, "camera")
         }
       };
       
