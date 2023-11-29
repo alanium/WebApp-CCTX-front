@@ -24,7 +24,7 @@ export default function Radius(props) {
           );
           console.log(result)
           props.setResponse(result);
-          if (result.code === "A5") {
+          if (response.code === "A5") {
             props.setRadius(true);
             props.setPermissions(true);
             console.log("RADIUS");
