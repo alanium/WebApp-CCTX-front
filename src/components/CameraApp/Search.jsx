@@ -18,6 +18,9 @@ export default function Search (props) {
           (result) => {
             setSearchResponse(result)
             setIsReady(false)
+            if (result.code === "A5") {
+                props.setRadius(false)
+            }
           }
         )
       }
