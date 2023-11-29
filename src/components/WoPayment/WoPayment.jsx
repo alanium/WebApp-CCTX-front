@@ -58,7 +58,7 @@ export default function WoPayment(props) {
       </select>
       {worder !== null ? (
         <div>
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
               style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" , marginBottom:"15px"}}
@@ -76,7 +76,7 @@ export default function WoPayment(props) {
             />
           </div>
 
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
               style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}
@@ -93,7 +93,7 @@ export default function WoPayment(props) {
             />
           </div>
 
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
               style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}

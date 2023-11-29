@@ -8,6 +8,7 @@
     text-align: right;
     float: right;
     color: white;
+    border-width: 0px;
     border-radius: 4px;
     white-space: nowrap;
     overflow: hidden;
