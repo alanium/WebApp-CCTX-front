@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function NoMatches (event) {
+export default function NoMatches (props) {
 
     const navigate = useNavigate()
 
