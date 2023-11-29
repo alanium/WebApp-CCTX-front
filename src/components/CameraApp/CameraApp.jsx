@@ -216,7 +216,7 @@ const CameraApp = (props) => {
           <label style={{fontSize:"24px" ,color: "white", marginBottom:"10px"}} >
             Grant location and camera permissions to use this component
           </label>
-          <button className="global-button" onClick={() => navigate("/")}>
+          <button className="global-button" onClick={() => navigate("/home")}>
             Go Back
           </button>
         </div>

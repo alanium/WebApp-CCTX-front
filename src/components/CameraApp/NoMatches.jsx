@@ -15,7 +15,7 @@ export default function NoMatches (props) {
             <label style={{fontSize:"24px" ,color: "white", marginBottom:"10px"}}>No matches have been found, do you want to save the pictures in a temporal project?</label>
             <div>
                 <button className="global-button" onClick={yesHandler} >Yes</button>
-                <button className="global-button" onClick={() => navigate("/")}>No</button>
+                <button className="global-button" onClick={() => navigate("/home")}>No</button>
             </div>
         </div>
     )
