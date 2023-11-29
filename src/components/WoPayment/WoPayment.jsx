@@ -42,6 +42,18 @@ export default function WoPayment(props) {
     );
   };
 
+  const handleSelectChange = (event) => {
+    const selectedWorder = JSON.parse(event.target.value);
+    setWorder(selectedWorder);
+  };
+
+  const changeHandler = (event) => {
+    setWorder({
+      ...worder,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
     <form className="global-container">
       <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Create new Payment</label>
