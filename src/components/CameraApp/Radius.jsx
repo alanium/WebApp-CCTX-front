@@ -6,7 +6,7 @@ export default function Radius(props) {
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
-    setIsSearching(true);
+    () => setIsSearching(true);
     const requestLocationAccess = async () => {
       try {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -15,29 +15,27 @@ export default function Radius(props) {
           const lng = position.coords.longitude;
           props.getLocation();
 
-          const result = props.enviarDatos(
-            {
-              location: { latitude: lat, longitude: lng },
-              action: "find_project",
-            },
-            "camera"
-          ).then((result) => {
-            console.log(result),
-            props.setResponse(result)
-          if (result.code === "A5") {
-            props.setRadius(true);
-            props.setPermissions(true);
-            console.log("RADIUS");
-          }
-          }
-            
-          )
-          
+          const result = props
+            .enviarDatos(
+              {
+                location: { latitude: lat, longitude: lng },
+                action: "find_project",
+              },
+              "camera"
+            )
+            .then((result) => {
+              console.log(result), props.setResponse(result);
+              if (result.code === "A5") {
+                props.setRadius(true);
+                props.setPermissions(true);
+                console.log("RADIUS");
+              }
+            });
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
       } finally {
-        setIsSearching(false);
+        () => setIsSearching(false);
       }
     };
     requestLocationAccess();
