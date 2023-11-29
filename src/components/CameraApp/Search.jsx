@@ -6,6 +6,7 @@ export default function Search (props) {
     const [isReady, setIsReady] = useState(false)
     const [name, setName] = useState("");
     const [searchResponse, setSearchResponse] = useState({})
+    
 
     const nameHandler = (event) => {
         setName(event.target.value);
@@ -30,7 +31,7 @@ export default function Search (props) {
     return (
         <div>
             {isReady ? (
-                <SelectProject setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
+                <SelectProject projects={searchResponse} setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
             ) : (
                 <form className="global-container">
                 <div>
