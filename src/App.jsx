@@ -31,7 +31,7 @@ import HandleMaintenance from "./components/HandleMaintenance/HandleMaintenance"
 import Verification from "./components/Verification/Verification";
 import HelloWorldComponent from "./Validation";
 
-import CameraApp from './components/CameraApp/CameraApp';
+import CameraApp from "./components/CameraApp/CameraApp";
 import WoPayment from "./components/WoPayment/WoPayment";
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
       const response = await fetch(`https://contempotechnology.tech/${ruta}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: bodyData,
       });
@@ -70,11 +70,11 @@ function App() {
   // async function checkStatus(task_id) {
   //   try {
   //     const response = await fetch('https://contempotechnology.tech/${task_id}');
-    
+
   //     if (!response.ok) {
   //       throw new Error("La solicitud no fue exitosa");
   //     }
-    
+
   //     const data = await response.json();
   //     return data;
   //   } catch (error) {
@@ -144,10 +144,14 @@ function App() {
               />
             }
           />
-          <Route 
+          <Route
+            path="/home/camera"
+            element={<CameraApp enviarDatos={enviarDatos} />}
+          />
+          <Route
             path="/home/manage_wo/wo_payment"
             element={
-              <WoPayment obtenerJSON={obtenerJSON} enviarDatos={enviarDatos}/>
+              <WoPayment obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />
             }
           />
           <Route
@@ -189,7 +193,6 @@ function App() {
         />
         <Route path="/" element={<Login enviarDatos={enviarDatos} />} />
         <Route path="*" element={<UnexpectedError />} />
-        <Route path="/camera" element={<CameraApp enviarDatos={enviarDatos} />} />
       </Routes>
     </div>
   );

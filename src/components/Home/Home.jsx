@@ -84,13 +84,13 @@ export default function Home(props) {
         </div>
         <div className={styles.btnDiv}>
           <button className={styles.homeButton} onClick={handleOnClick}>
-            <BiDownload
+            <FaCamera 
               className={styles.icon}
-              name="download_wo"
+              name="camera"
               onClick={handleOnClick}
             />
           </button>
-          <label>Placeholder</label>
+          <label>Camera</label>
         </div>
         <div className={styles.btnDiv}>
           <button onClick={() => props.setLogout(true)} className={styles.homeButton}>
