@@ -44,13 +44,14 @@ export default function NavBar(props) {
           style={{ color: "white", fontSize: isSidebarOpen ? 100 : 50 }}
         />
       </div>
+      {!isPathBlocked && (
       <div className={styles.sidebarContent}>
         <div
           className={
             isSidebarOpen ? styles.navContainer : styles.navContainerClosed
           }
         >
-          {!isPathBlocked && (
+          
             <>
               <NavLink to="/home" className={styles.navLink}>
                 {isSidebarOpen ? <label>Home</label> : <BiHome title="Home"/>}
@@ -87,7 +88,7 @@ export default function NavBar(props) {
                 {isSidebarOpen ? <label>Log Out</label> : <BiLogOut title="Log Out" />}
               </NavLink>
             </>
-          )}
+          
         </div>
         <div
           className={
@@ -104,6 +105,7 @@ export default function NavBar(props) {
           </label>
         </div>
       </div>
+      )}
     </div>
   );
 }
