@@ -105,7 +105,7 @@ export default function VideoRecorder(props) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: "environment",
+          facingMode: facingMode,
           width: { ideal: 1920 },
           height: { ideal: 1080 },
           frameRate: { ideal: 30, max: 60 },
@@ -206,7 +206,7 @@ export default function VideoRecorder(props) {
               style={{ fontSize: "66px", color: "white" }}
               onClick={recording ? stopRecording : startRecording}
             >
-              {recording ? <FaStopCircle /> : <FaCircle />}
+              {recording ? <FaStopCircle style={{color: "red"}} /> : <FaCircle />}
             </button>
             <button
               style={{ fontSize: "77px", color: "white" }}
