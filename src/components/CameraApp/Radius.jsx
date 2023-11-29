@@ -26,11 +26,12 @@ export default function Radius(props) {
             )
             .then((result) => {
               console.log(result), props.setResponse(result);
+              setIsSearching(false);
               if (result.code === "A5" && result.content.length === 1) {
                 props.setRadius(true);
                 props.setPermissions(true);
                 console.log("RADIUS");
-                setIsSearching(false);
+                
               }
             });
         });
