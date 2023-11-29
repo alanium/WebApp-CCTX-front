@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function Radius(props) {
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(true);
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -9,7 +9,6 @@ export default function Radius(props) {
    
     const requestLocationAccess = async () => {
       try {
-        setIsSearching(true);
         navigator.geolocation.getCurrentPosition((position) => {
           // Get the user's latitude and longitude coordinates
           const lat = position.coords.latitude;
