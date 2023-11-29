@@ -15,6 +15,7 @@ export default function SelectProject (props) {
     const handleButton = (event) => {
         event.preventDefault();
         props.setProjectId(select.value)
+        props.setRadius(true)
     }
 
     return (
