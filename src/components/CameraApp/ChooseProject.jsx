@@ -18,7 +18,7 @@ export default function ChooseProject (props) {
 
     return (
         <div className="global-container">
-            <label style={{fontSize:"24px" ,color: "white"}}>Multiple projects have been found near you, select the one you wish to work with</label>
+            <label style={{fontSize:"24px" ,color: "white", marginBottom:"10px"}}>Multiple projects have been found near you, select the one you wish to work with</label>
             <select
                 onChange={selectHandler}
             >

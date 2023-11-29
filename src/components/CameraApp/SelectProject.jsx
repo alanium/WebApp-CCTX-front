@@ -28,7 +28,7 @@ export default function SelectProject (props) {
         <div>
             {!isReady ? (
                 <form className="global-container" onSubmit={handleButton}>
-                    <label style={{fontSize:"24px" ,color: "white"}} className="form-label">
+                    <label style={{fontSize:"24px" ,color: "white", marginBottom:"10px"}} className="form-label">
                     Matches have been found, please select the project you need
                 </label>
                 <select className="global-input-1"

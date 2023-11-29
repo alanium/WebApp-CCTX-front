@@ -34,7 +34,7 @@ export default function Search (props) {
                 <SelectProject setTemp={props.setTemp} projects={searchResponse} setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
             ) : (
                 <form className="global-container">
-                <div>
+                <div style={{alignContent: "center", marginBottom:"10px"}}>
                   <label style={{fontSize:"24px" ,color: "white"}}>No project found, enter the project name below</label>
                 </div>
                 <input className="global-input-1" onChange={nameHandler} value={name} />
