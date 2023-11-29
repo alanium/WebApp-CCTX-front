@@ -36,7 +36,7 @@ const CameraApp = (props) => {
   const [projectId, setProjectId] = useState("");
   const [temp, setTemp] = useState(false);
   const userData = useSelector((state) => state.user)
-
+  const username = useSelector((state) => state.username)
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -86,6 +86,7 @@ const CameraApp = (props) => {
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
+    const user = {...userData, username: username}
 
     try {
       await uploadBytes(imageRef, blob);
@@ -98,17 +99,17 @@ const CameraApp = (props) => {
 
       if (projectId !== "") {
         await props.enviarDatos(
-          {action:"send_image", project_id: projectId, image: updatedUrl, user_data: userData },
+          {action:"send_image", project_id: projectId, image: updatedUrl, user_data: user },
           "camera"
         );
       } else if (temp) {
         await props.enviarDatos(
-          {action:"temp", image: updatedUrl, user_data: userData },
+          {action:"temp", image: updatedUrl, user_data: user },
           "camera"
         );
       } else {
         await props.enviarDatos(
-          {action:"send_image", project_id: response.content[0].id, image: updatedUrl, user_data: userData },
+          {action:"send_image", project_id: response.content[0].id, image: updatedUrl, user_data: user },
           "camera"
         );
       }

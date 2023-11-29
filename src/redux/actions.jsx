@@ -22,3 +22,8 @@ export const setMaintenance = (underMaintenance) => ({
   type: "SET_MAINTENANCE",
   payload: underMaintenance
 })
+
+export const setUsername = (username) => ({
+  type: "SET_USERNAME",
+  payload: username
+})

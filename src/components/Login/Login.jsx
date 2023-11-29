@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSuccess } from "../../redux/actions";
+import { setSuccess, setUsername } from "../../redux/actions";
 import { setAccess, setUser } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import styles from "../Login/Login.module.css";
@@ -52,6 +52,7 @@ function Login(props) {
       if (datos.response === "True") {
         console.log(datos);
         dispatch(setAccess(true));
+        dispatch(setUsername(input.username))
         dispatch(setUser(datos));
         navigate("/home");
       } else {
