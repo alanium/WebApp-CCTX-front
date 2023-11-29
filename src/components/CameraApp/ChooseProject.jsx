@@ -23,7 +23,7 @@ export default function ChooseProject (props) {
                 onChange={selectHandler}
             >
                 <option value={null}>Select a Project</option>
-                {projects.map((project) => (
+                {props.response.content.map((project) => (
                     <option value={project.id}>{project.name}</option>
                 ))}
             </select>

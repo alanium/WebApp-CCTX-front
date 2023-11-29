@@ -4,7 +4,6 @@ import ChooseProject from "./ChooseProject";
 
 export default function Radius(props) {
   const [isSearching, setIsSearching] = useState(false);
-  
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -55,7 +54,7 @@ export default function Radius(props) {
       {isSearching ? null : (
         <div>
           {props.response.code === "A5" && props.response.content.length > 1 ? (
-            <ChooseProject />
+            <ChooseProject response={props.response} />
           ) : null}
           {props.response.code === "A3" ? (
             <Search setTemp={props.setTemp} setRadius={props.setRadius} setProjectId={props.setProjectId} response={props.response} enviarDatos={props.enviarDatos} />
