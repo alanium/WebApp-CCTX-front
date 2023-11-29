@@ -30,12 +30,12 @@ export default function Radius(props) {
                 props.setRadius(true);
                 props.setPermissions(true);
                 console.log("RADIUS");
+                setIsSearching(false);
               }
             });
         });
       } catch (error) {
         console.error("Error requesting location access:", error);
-      } finally {
         setIsSearching(false);
       }
     };
