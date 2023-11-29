@@ -35,7 +35,7 @@ export default function Search (props) {
             ) : (
                 <form className="global-container">
                 <div>
-                  <label className="global-card-title">No project found, enter the project name below</label>
+                  <label style={{fontSize:"24px" ,color: "white"}}>No project found, enter the project name below</label>
                 </div>
                 <input className="global-input-1" onChange={nameHandler} value={name} />
                 <button className="global-button" onClick={handleSearch}>Search</button>

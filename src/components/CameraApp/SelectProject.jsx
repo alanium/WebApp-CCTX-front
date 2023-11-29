@@ -27,11 +27,11 @@ export default function SelectProject (props) {
     return (
         <div>
             {!isReady ? (
-                <form onSubmit={handleButton}>
-                    <label>
+                <form className="global-container" onSubmit={handleButton}>
+                    <label style={{fontSize:"24px" ,color: "white"}} className="form-label">
                     Matches have been found, please select the project you need
                 </label>
-                <select
+                <select className="global-input-1"
                     onChange={handleSelect}
                 >
                     <option value={null}>Select a Project</option>
@@ -39,7 +39,7 @@ export default function SelectProject (props) {
                         <option key={project.id} value={project.id}>{project.name}</option>
                     ))}
                 </select>
-                <button type="submit" >Select</button>
+                <button className="global-button" type="submit" >Select</button>
                 </form>            
             ) : (
                 <NoMatches setTemp={props.setTemp} setRadius={props.setRadius} />

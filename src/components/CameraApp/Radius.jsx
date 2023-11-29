@@ -47,7 +47,7 @@ export default function Radius(props) {
     <div>
       {isSearching ? (
         <div className="global-container">
-          <label className="global-card-title">
+          <label style={{fontSize:"24px" ,color: "white"}}>
             Looking for a project near your location. Please Wait
           </label>
         </div>
