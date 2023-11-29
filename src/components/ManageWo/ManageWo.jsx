@@ -69,7 +69,7 @@ export default function ManageWo(props) {
                   onClick={handleOnClick}
                 />
               </button>
-              <label>Download WO</label>
+              <label>Create Payment</label>
             </div>
           </div>
         </div>
