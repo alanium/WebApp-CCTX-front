@@ -4,24 +4,24 @@ import NoMatches from "./NoMatches";
 export default function SelectProject (props) {
 
     const [isReady, setIsReady] = useState(false)
-    const [select, setSelect] = useState({})
+    const [selectId, setSelectId] = useState(null);
 
     const handleSelect = (event) =>{
         if (event.target.value !== null) {
-            setSelect( event.target.value );
+            setSelectId( event.target.value );
           }
     }
     
     const handleButton = (event) => {
         event.preventDefault();
-        props.setProjectId(select.value)
+        props.setProjectId(selectId)
         props.setRadius(true)
     }
 
     return (
         <div>
             {!isReady ? (
-                <form>
+                <form onSubmit={handleButton}>
                     <label>
                     Matches have been found, please select the project you need
                 </label>
@@ -30,10 +30,10 @@ export default function SelectProject (props) {
                 >
                     <option value={null}>Select a Project</option>
                     {props.projects.content.map((project) => (
-                        <option value={project.id}>{project.name}</option>
+                        <option key={project.id} value={project.id}>{project.name}</option>
                     ))}
                 </select>
-                <button onClick={handleButton}>Select</button>
+                <button type="submit" >Select</button>
                 </form>            
             ) : (
                 <NoMatches setTemp={props.setTemp} setRadius={props.setRadius} />

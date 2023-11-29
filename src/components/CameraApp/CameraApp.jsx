@@ -35,6 +35,7 @@ const CameraApp = (props) => {
   const [projectId, setProjectId] = useState("");
   const [temp, setTemp] = useState(false);
 
+
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
     const requestLocationAccess = async () => {
