@@ -48,15 +48,15 @@ export default function Radius(props) {
   return (
     <div>
       {isSearching ? (
-        <div>
-          <label>Looking for a project near your location</label>
+        <div className="global-container">
+          <label className="global-card-title">Looking for a project near your location. Please Wait</label>
         </div>
       ) : (
         <div>
           {props.response.code === "A3" ? (
             <div>
               <div>
-                <label>No project found, enter the project name below</label>
+                <label className="global-card-title">No project found, enter the project name below</label>
               </div>
               <input onChange={nameHandler} value={name} />
             </div>
