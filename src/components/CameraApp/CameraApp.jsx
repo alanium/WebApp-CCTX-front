@@ -25,7 +25,7 @@ const CameraApp = (props) => {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState("environment");
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);

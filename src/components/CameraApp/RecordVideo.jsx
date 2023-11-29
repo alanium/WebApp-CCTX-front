@@ -22,7 +22,7 @@ initializeApp(firebaseConfig);
 export default function VideoRecorder(props) {
   const videoRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState("environment");
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [recording, setRecording] = useState(false);
