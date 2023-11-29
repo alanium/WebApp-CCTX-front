@@ -29,7 +29,7 @@ const CameraApp = (props) => {
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(true);
   const [response, setResponse] = useState({});
   const [radius, setRadius] = useState(false);
   const [projectId, setProjectId] = useState("");
