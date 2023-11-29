@@ -188,7 +188,6 @@ export default function VideoRecorder(props) {
             <FaCamera style={{fontSize: "40px", color: "white"}} />
           </button>
           <video
-            style={{ transform: "translate3d(0,0,0)" }}
             ref={videoRef}
             autoPlay
             playsInline
