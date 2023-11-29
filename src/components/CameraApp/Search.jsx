@@ -31,7 +31,7 @@ export default function Search (props) {
     return (
         <div>
             {isReady ? (
-                <SelectProject projects={searchResponse} setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
+                <SelectProject setTemp={props.setTemp} projects={searchResponse} setRadius={props.setRadius} setProjectId={props.setProjectId} enviarDatos={props.enviarDatos} />
             ) : (
                 <form className="global-container">
                 <div>
