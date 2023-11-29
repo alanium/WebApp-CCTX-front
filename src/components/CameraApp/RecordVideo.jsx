@@ -150,7 +150,7 @@ export default function VideoRecorder(props) {
   const uploadVideoToFirebase = async (blob) => {
     console.log("Blob size:", blob.size); // Log the size to check if it's greater than 0
     const storage = getStorage();
-    const videoRef = ref(storage, `videos/${Date.now()}_video.mp4`);
+    const videoRef = ref(storage, `videos/${Date.now()}_video.webm`);
   
     try {
       await uploadBytes(videoRef, blob);
