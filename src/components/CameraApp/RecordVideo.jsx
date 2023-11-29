@@ -198,7 +198,7 @@ export default function VideoRecorder(props) {
           <div className="button-container">
             <button
               style={{ fontSize: "77px", color: "white" }}
-              onClick={stopCamera}
+              onClick={() => props.navigate("/home")}
             >
               <BiSolidXCircle />
             </button>

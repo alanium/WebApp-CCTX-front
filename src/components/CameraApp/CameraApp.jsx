@@ -193,9 +193,10 @@ const CameraApp = (props) => {
                   setPermissions={setPermissions}
                   projectId={projectId}
                   temp={temp}
+                  navigate={navigate}
                 />
               ) : (
-                <VideoRecorder enviarDatos={props.enviarDatos} temp={temp} projectId={projectId} setMode={setMode} />
+                <VideoRecorder navigate={navigate} enviarDatos={props.enviarDatos} temp={temp} projectId={projectId} setMode={setMode} />
               )}
             </div>
           ) : (

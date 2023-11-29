@@ -80,7 +80,7 @@ export default function TakePhoto(props) {
       <div className="button-container">
         <button
           style={{ fontSize: "77px", color: "white" }}
-          onClick={props.stopCamera}
+          onClick={() => props.navigate("/home")}
         >
           <BiSolidXCircle />
         </button>
