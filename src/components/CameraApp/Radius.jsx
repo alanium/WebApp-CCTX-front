@@ -53,6 +53,9 @@ export default function Radius(props) {
       </div>
       {isSearching ? null : (
         <div>
+          {props.response.code === "A5" && props.response.content.length > 1 ? (
+            <ChooseProject />
+          ) : null}
           {props.response.code === "A3" ? (
             <Search setTemp={props.setTemp} setRadius={props.setRadius} setProjectId={props.setProjectId} response={props.response} enviarDatos={props.enviarDatos} />
           ) : null}
