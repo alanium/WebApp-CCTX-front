@@ -84,7 +84,7 @@ export default function Home(props) {
           <label>Control Panel</label>
         </div>
         <div className={styles.btnDiv}>
-          <button className={styles.homeButton} onClick={handleOnClick}>
+          <button name="camera" className={styles.homeButton} onClick={handleOnClick}>
             <FaCamera 
               className={styles.icon}
               name="camera"
