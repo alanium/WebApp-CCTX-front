@@ -105,7 +105,7 @@ const CameraApp = (props) => {
         );
       } else {
         await props.enviarDatos(
-          {action:"send_image", location: location, image: updatedUrl },
+          {action:"send_image", projectId: response.content.id, image: updatedUrl },
           "camera"
         );
       }
