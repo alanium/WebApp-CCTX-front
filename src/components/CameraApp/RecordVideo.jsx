@@ -172,12 +172,12 @@ export default function VideoRecorder(props) {
     setRecording(false);
   };
 
-  const switchCamera = () => {
+  const switchCamera = async () => {
     setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
     stopCamera();
-    startCamera();
+    await startCamera(); // Wait for startCamera to complete before proceeding
   };
 
   return (
