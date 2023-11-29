@@ -17,11 +17,11 @@ export default function Search (props) {
         .then(
           (result) => {
             setSearchResponse(result)
-                
+            setIsReady(true)
             if (result.code === "A5") {
                 props.setRadius(false)
             } else if (result.code === "A3") {
-                setIsReady(true)
+                
             }
           }
         )
