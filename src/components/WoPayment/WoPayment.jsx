@@ -47,7 +47,7 @@ export default function WoPayment(props) {
 
   return (
     <form className="global-container">
-      <label style={{color: "white", fontSize: "24px", marginBottom: "15px", alignContent:"center"}}>Create new Payment</label>
+      <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", margin: "auto" }}>Create new Payment</label>
       <select className="global-input-1" onChange={handleSelectChange}>
         <option value={null}>Select a work order</option>
         {worders.map((worder) => (
