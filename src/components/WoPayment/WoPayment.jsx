@@ -61,9 +61,9 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
             >
-              Week:{" "}
+              Week:
             </label>
             <input
               className={styles.bgLabel}
@@ -79,9 +79,9 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
             >
-              Date:{" "}
+              Date:
             </label>
             <input
             style={{width: "70%"}}
@@ -96,9 +96,9 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
             >
-              Paid:{" "}
+              Paid:
             </label>
             <input
             style={{width: "70%"}}
