@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./WoPayment.module.css"
 
 export default function WoPayment(props) {
   const [worders, setWorders] = useState([]);
@@ -65,7 +66,7 @@ export default function WoPayment(props) {
               Week:{" "}
             </label>
             <input
-              className="global-input-1"
+              className={styles.bgLabel}
               style={{width: "70%"}}
               onChange={changeHandler}
               type="number"
@@ -84,7 +85,7 @@ export default function WoPayment(props) {
             </label>
             <input
             style={{width: "70%"}}
-              className="global-input-1"
+            className={styles.bgLabel}
               onChange={changeHandler}
               type="date"
               name="date"
@@ -101,7 +102,7 @@ export default function WoPayment(props) {
             </label>
             <input
             style={{width: "70%"}}
-              className="global-input-1"
+            className={styles.bgLabel}
               onChange={changeHandler}
               type="number"
               name="paid"
