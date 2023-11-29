@@ -3,7 +3,7 @@ import Search from "./Search";
 import ChooseProject from "./ChooseProject";
 
 export default function Radius(props) {
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(true);
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
