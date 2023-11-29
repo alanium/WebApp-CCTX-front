@@ -27,10 +27,10 @@ export function SelectWO(props) {
     }
   };
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event, downloadOption) {
     event.preventDefault();
 
-    if (event.target.value === "selected" && worder !== null) {
+    if (downloadOption === "selected" && worder !== null) {
       props.setIsLoading(true);
       dispatch(setBar(true));
       try {
@@ -52,7 +52,7 @@ export function SelectWO(props) {
         dispatch(setBar(false));
   
       }
-    } else {
+    } else if (downloadOption === "all") {
       try {
         props.setIsLoading(true);
         dispatch(setBar(true));
@@ -138,11 +138,11 @@ export function SelectWO(props) {
             <button
               value="selected"
               className="global-button"
-              onClick={handleSubmit}
+              onClick={(e) => handleSubmit(e, "selected")}
             >
               Download Selected
             </button>
-            <button value="all" className="global-button" onClick={handleSubmit}>
+            <button value="all" className="global-button" onClick={(e) => handleSubmit(e, "all")}>
               Download All
             </button>
           </div>
