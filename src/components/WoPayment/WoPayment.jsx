@@ -61,7 +61,7 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" , marginBottom:"15px"}}
             >
               Week:
             </label>
@@ -79,7 +79,7 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}
             >
               Date:
             </label>
@@ -96,7 +96,7 @@ export default function WoPayment(props) {
           <div>
             <label
               className="form-label"
-              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}
             >
               Paid:
             </label>
