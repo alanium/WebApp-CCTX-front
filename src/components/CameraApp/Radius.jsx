@@ -6,7 +6,7 @@ export default function Radius(props) {
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
-    () => setIsSearching(true);
+    setIsSearching(true);
     const requestLocationAccess = async () => {
       try {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -35,7 +35,7 @@ export default function Radius(props) {
       } catch (error) {
         console.error("Error requesting location access:", error);
       } finally {
-        () => setIsSearching(false);
+        setIsSearching(false);
       }
     };
     requestLocationAccess();
