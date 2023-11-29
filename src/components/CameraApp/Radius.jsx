@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Search from "./Search";
 
 export default function Radius(props) {
   const [isSearching, setIsSearching] = useState(false);
-  const [name, setName] = useState("");
+  
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -41,9 +42,9 @@ export default function Radius(props) {
     requestLocationAccess();
   }, []);
 
-  const nameHandler = (event) => {
-    setName(event.target.value);
-  };
+
+
+  
 
   return (
     <div>
@@ -53,12 +54,7 @@ export default function Radius(props) {
       {isSearching ? null : (
         <div>
           {props.response.code === "A3" ? (
-            <div>
-              <div>
-                <label className="global-card-title">No project found, enter the project name below</label>
-              </div>
-              <input onChange={nameHandler} value={name} />
-            </div>
+            <Search setTemp={props.setTemp} setRadius={props.setRadius} setProjectId={props.setProjectId} response={props.response} enviarDatos={props.enviarDatos} />
           ) : null}
         </div>
       )}

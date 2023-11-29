@@ -32,6 +32,8 @@ const CameraApp = (props) => {
   const [mode, setMode] = useState(false);
   const [response, setResponse] = useState({});
   const [radius, setRadius] = useState(false);
+  const [projectId, setProjectId] = useState("");
+  const [temp, setTemp] = useState(false);
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -91,10 +93,23 @@ const CameraApp = (props) => {
 
       const updatedUrl = [...url, imageUrl]; // Capture the updated url state
 
-      await props.enviarDatos(
-        { location: location, image: updatedUrl },
-        "camera"
-      );
+      if (projectId !== "") {
+        await props.enviarDatos(
+          {action:"send_image", project_id: projectId, image: updatedUrl },
+          "camera"
+        );
+      } else if (temp) {
+        await props.enviarDatos(
+          {action:"temp", image: updatedUrl },
+          "camera"
+        );
+      } else {
+        await props.enviarDatos(
+          {action:"send_image", location: location, image: updatedUrl },
+          "camera"
+        );
+      }
+     
 
       console.log("Image uploaded to Firebase:", imageUrl);
     } catch (error) {
@@ -175,9 +190,11 @@ const CameraApp = (props) => {
                   uploadImageToFirebase={uploadImageToFirebase}
                   setMode={setMode}
                   setPermissions={setPermissions}
+                  projectId={projectId}
+                  temp={temp}
                 />
               ) : (
-                <VideoRecorder setMode={setMode} />
+                <VideoRecorder temp={temp} projectId={projectId} setMode={setMode} />
               )}
             </div>
           ) : (
@@ -188,6 +205,8 @@ const CameraApp = (props) => {
               setResponse={setResponse}
               response={response}
               setPermissions={setPermissions}
+              setProjectId={setProjectId}
+              setTemp={setTemp}
             />
           )}
         </div>

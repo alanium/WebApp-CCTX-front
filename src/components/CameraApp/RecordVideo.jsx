@@ -28,6 +28,7 @@ export default function VideoRecorder(props) {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const [urls, setUrls] = useState([])
 
   useEffect(() => {
     const requestLocationAccess = async () => {
@@ -82,8 +83,16 @@ export default function VideoRecorder(props) {
         const videoUrl = URL.createObjectURL(blob);
         uploadVideoToFirebase(blob);
         console.log("Video URL created:", videoUrl);
+        if (props.projectId !== "") {
+          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl})
+        } else if (props.temp) {
+          props.enviarDatos({action: "temp", image: videoUrl})
+        } else {
+          props.enviarDatos({action: "send_image", location: location, image: videoUrl})
+        }
       };
-
+      
+      
       setMediaRecorder(mediaRecorder);
     } else {
       console.error("Video reference not available.");
@@ -161,10 +170,6 @@ export default function VideoRecorder(props) {
   const stopRecording = () => {
     mediaRecorder.stop();
     setRecording(false);
-  };
-
-  const handleCanvasClick = (event) => {
-    // Your canvas click logic here
   };
 
   const switchCamera = () => {
