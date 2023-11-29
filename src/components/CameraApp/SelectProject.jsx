@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NoMatches from "./NoMatches";
 
 export default function SelectProject (props) {
+
+    useEffect(() => {
+        if (props.projects.code === "A3") {
+            setIsReady(true)
+        }
+    })
 
     const [isReady, setIsReady] = useState(false)
     const [selectId, setSelectId] = useState(null);
@@ -38,7 +44,6 @@ export default function SelectProject (props) {
             ) : (
                 <NoMatches setTemp={props.setTemp} setRadius={props.setRadius} />
             )}
-            <label></label>
         </div>
     )
 }
