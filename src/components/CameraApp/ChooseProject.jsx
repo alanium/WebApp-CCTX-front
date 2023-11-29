@@ -24,7 +24,7 @@ export default function ChooseProject (props) {
             >
                 <option value={null}>Select a Project</option>
                 {props.response.content.map((project) => (
-                    <option value={project.id}>{project.name}</option>
+                    <option key={project.id} value={project.id}>{project.name}</option>
                 ))}
             </select>
             <button onClick={buttonHandler}>Select</button>
