@@ -80,10 +80,6 @@ body {
   margin: 30px;
 }
 
-.button-container button:hover,
-.button-container button:active {
-  background-color: gray;
-}
 
 .canvas-container {
   position: relative;

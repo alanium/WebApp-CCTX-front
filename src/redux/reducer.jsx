@@ -5,6 +5,7 @@ const initialState = {
   user: undefined,
   success: false,
   blocked: false,
+  username: undefined,
   underMaintenance: storedMaintenance ? JSON.parse(storedMaintenance) : [],
 };
 
@@ -35,6 +36,11 @@ const accessReducer = (state = initialState, action) => {
         ...state,
         underMaintenance: action.payload,
       };
+    case "SET_USERNAME":
+      return {
+        ...state,
+        username: action.payload,
+      }
     default:
       return state;
   }

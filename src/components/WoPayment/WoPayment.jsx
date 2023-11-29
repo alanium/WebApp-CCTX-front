@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./WoPayment.module.css"
 
 export default function WoPayment(props) {
   const [worders, setWorders] = useState([]);
@@ -46,7 +47,7 @@ export default function WoPayment(props) {
 
   return (
     <form className="global-container">
-      <label className="gloabl-card-title">Create new Payment</label>
+      <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Create new Payment</label>
       <select className="global-input-1" onChange={handleSelectChange}>
         <option value={null}>Select a work order</option>
         {worders.map((worder) => (
@@ -57,15 +58,16 @@ export default function WoPayment(props) {
       </select>
       {worder !== null ? (
         <div>
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px" , marginBottom:"15px"}}
             >
-              Week:{" "}
+              Week:
             </label>
             <input
-              className="global-input-1"
+              className={styles.bgLabel}
+              style={{width: "70%"}}
               onChange={changeHandler}
               type="number"
               name="week"
@@ -74,15 +76,16 @@ export default function WoPayment(props) {
             />
           </div>
 
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}
             >
-              Date:{" "}
+              Date:
             </label>
             <input
-              className="global-input-1"
+            style={{width: "70%"}}
+            className={styles.bgLabel}
               onChange={changeHandler}
               type="date"
               name="date"
@@ -90,15 +93,16 @@ export default function WoPayment(props) {
             />
           </div>
 
-          <div>
+          <div style={{marginBottom: "15px"}}>
             <label
               className="form-label"
-              style={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+              style={{ width:"120px", fontWeight: "bold", color: "white", fontSize: "14px", marginBottom:"15px" }}
             >
-              Paid:{" "}
+              Paid:
             </label>
             <input
-              className="global-input-1"
+            style={{width: "70%"}}
+            className={styles.bgLabel}
               onChange={changeHandler}
               type="number"
               name="paid"

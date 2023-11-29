@@ -22,7 +22,7 @@ initializeApp(firebaseConfig);
 export default function VideoRecorder(props) {
   const videoRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState("environment");
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -65,7 +65,7 @@ export default function VideoRecorder(props) {
       const mediaRecorder = new MediaRecorder(stream, {
         frameRate: { ideal: 30, max: 60 },
         mimeType: "video/webm; codecs=vp9",
-        videoBitsPerSecond: 4000000,
+        videoBitsPerSecond: 2000000,
       });
       const chunks = [];
 
@@ -84,11 +84,11 @@ export default function VideoRecorder(props) {
         uploadVideoToFirebase(blob);
         console.log("Video URL created:", videoUrl);
         if (props.projectId !== "") {
-          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl})
+          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl}, "camera")
         } else if (props.temp) {
-          props.enviarDatos({action: "temp", image: videoUrl})
+          props.enviarDatos({action: "temp", image: videoUrl}, "camera")
         } else {
-          props.enviarDatos({action: "send_image", location: location, image: videoUrl})
+          props.enviarDatos({action: "send_image", location: location, image: videoUrl}, "camera")
         }
       };
       
@@ -150,7 +150,7 @@ export default function VideoRecorder(props) {
   const uploadVideoToFirebase = async (blob) => {
     console.log("Blob size:", blob.size); // Log the size to check if it's greater than 0
     const storage = getStorage();
-    const videoRef = ref(storage, `videos/${Date.now()}_video.mp4`);
+    const videoRef = ref(storage, `videos/${Date.now()}_video.webm`);
   
     try {
       await uploadBytes(videoRef, blob);
@@ -172,12 +172,12 @@ export default function VideoRecorder(props) {
     setRecording(false);
   };
 
-  const switchCamera = () => {
+  const switchCamera = async () => {
     setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
     stopCamera();
-    startCamera();
+    await startCamera(); // Wait for startCamera to complete before proceeding
   };
 
   return (
@@ -188,7 +188,6 @@ export default function VideoRecorder(props) {
             <FaCamera style={{fontSize: "40px", color: "white"}} />
           </button>
           <video
-            style={{ transform: "translate3d(0,0,0)" }}
             ref={videoRef}
             autoPlay
             playsInline

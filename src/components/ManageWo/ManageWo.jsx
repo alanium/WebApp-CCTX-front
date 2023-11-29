@@ -14,6 +14,7 @@ import {
 } from "react-icons/bi";
 import "../../index.css";
 import Maintenace from "../Maintenance/Maintenance";
+import { MdOutlinePayments } from "react-icons/md";
 
 export default function ManageWo(props) {
   const navigate = useNavigate();
@@ -62,13 +63,13 @@ export default function ManageWo(props) {
                 name="wo_payment"
                 onClick={handleOnClick}
               >
-                <BiDownload
+                <MdOutlinePayments
                   className={styles.icon}
                   name="wo_payment"
                   onClick={handleOnClick}
                 />
               </button>
-              <label>Download WO</label>
+              <label>Create Payment</label>
             </div>
           </div>
         </div>

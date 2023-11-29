@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TakePhoto from "./TakePhoto";
 import VideoRecorder from "./RecordVideo";
 import Radius from "./Radius";
+import { useSelector } from "react-redux";
 const firebaseConfig = {
   apiKey: "AIzaSyAcCBS9ovlwg_Lg_yGKPILSsc_ETBb3_eE",
   authDomain: "fb-storage-49d33.firebaseapp.com",
@@ -25,7 +26,7 @@ const CameraApp = (props) => {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   const [mediaStream, setMediaStream] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState("environment");
   const [location, setLocation] = useState(null);
   const [permissions, setPermissions] = useState(false);
   const [url, setUrl] = useState([]);
@@ -34,7 +35,8 @@ const CameraApp = (props) => {
   const [radius, setRadius] = useState(false);
   const [projectId, setProjectId] = useState("");
   const [temp, setTemp] = useState(false);
-
+  const userData = useSelector((state) => state.user)
+  const username = useSelector((state) => state.username)
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -84,6 +86,7 @@ const CameraApp = (props) => {
   const uploadImageToFirebase = async (blob) => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${Date.now()}_photo.png`);
+    const user = {...userData, username: username}
 
     try {
       await uploadBytes(imageRef, blob);
@@ -96,17 +99,17 @@ const CameraApp = (props) => {
 
       if (projectId !== "") {
         await props.enviarDatos(
-          {action:"send_image", project_id: projectId, image: updatedUrl },
+          {action:"send_image", project_id: projectId, image: updatedUrl, user_data: user },
           "camera"
         );
       } else if (temp) {
         await props.enviarDatos(
-          {action:"temp", image: updatedUrl },
+          {action:"temp", image: updatedUrl, user_data: user },
           "camera"
         );
       } else {
         await props.enviarDatos(
-          {action:"send_image", project_id: response.content[0].id, image: updatedUrl },
+          {action:"send_image", project_id: response.content[0].id, image: updatedUrl, user_data: user },
           "camera"
         );
       }
@@ -165,12 +168,12 @@ const CameraApp = (props) => {
     }
   };
 
-  const switchCamera = () => {
+  const switchCamera = async () => {
     setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
     stopCamera();
-    startCamera();
+    await startCamera(); // Wait for startCamera to complete before proceeding
   };
 
   return (

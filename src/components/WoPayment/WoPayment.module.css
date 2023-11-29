@@ -1,0 +1,16 @@
+.bgLabel {
+    background-color: #2c29298f;
+    font-weight: bold;
+    height: 28px;
+    width: 73%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: right;
+    float: right;
+    color: white;
+    border-width: 0px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+  }
