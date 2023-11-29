@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 export default function Radius(props) {
-  const [isSearching, setIsSearching] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const [name, setName] = useState("");
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
-   
     const requestLocationAccess = async () => {
       try {
+        setIsSearching(true);
         navigator.geolocation.getCurrentPosition((position) => {
           // Get the user's latitude and longitude coordinates
           const lat = position.coords.latitude;
@@ -47,11 +47,10 @@ export default function Radius(props) {
 
   return (
     <div>
-      {isSearching ? (
-        <div className="global-container">
-          <label className="global-card-title">Looking for a project near your location. Please Wait</label>
-        </div>
-      ) : (
+      <div className="global-container">
+        <label className="global-card-title">Looking for a project near your location. Please Wait</label>
+      </div>
+      {isSearching ? null : (
         <div>
           {props.response.code === "A3" ? (
             <div>
