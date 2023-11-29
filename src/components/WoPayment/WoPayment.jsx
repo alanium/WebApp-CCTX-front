@@ -16,8 +16,17 @@ export default function WoPayment(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+  
+    // Check if all required fields are filled out
+    if (!worder || !worder.week || !worder.date || !worder.paid) {
+      // Display an error message or take appropriate action
+      console.error("Please fill out all the required fields");
+      return;
+    }
+  
     let aux = parseFloat(worder.paid);
     let num = new Number(worder.week);
+  
     // Pass the updated values directly to props.enviarDatos
     props.enviarDatos(
       {
@@ -31,18 +40,6 @@ export default function WoPayment(props) {
       },
       "create_wo_payment"
     );
-  };
-
-  const handleSelectChange = (event) => {
-    const selectedWorder = JSON.parse(event.target.value);
-    setWorder(selectedWorder);
-  };
-
-  const changeHandler = (event) => {
-    setWorder({
-      ...worder,
-      [event.target.name]: event.target.value,
-    });
   };
 
   return (
