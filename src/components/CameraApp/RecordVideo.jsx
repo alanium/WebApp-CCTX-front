@@ -65,7 +65,7 @@ export default function VideoRecorder(props) {
       const mediaRecorder = new MediaRecorder(stream, {
         frameRate: { ideal: 30, max: 60 },
         mimeType: "video/webm; codecs=vp9",
-        videoBitsPerSecond: 4000000,
+        videoBitsPerSecond: 2000000,
       });
       const chunks = [];
 
