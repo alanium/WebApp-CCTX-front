@@ -14,6 +14,7 @@ import {
 } from "react-icons/bi";
 import "../../index.css";
 import Maintenace from "../Maintenance/Maintenance";
+import { FaCamera } from "react-icons/fa";
 
 export default function Home(props) {
   const navigate = useNavigate();
