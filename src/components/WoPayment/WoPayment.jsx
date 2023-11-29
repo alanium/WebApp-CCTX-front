@@ -66,6 +66,7 @@ export default function WoPayment(props) {
             </label>
             <input
               className="global-input-1"
+              style={{width: "70%"}}
               onChange={changeHandler}
               type="number"
               name="week"
@@ -82,6 +83,7 @@ export default function WoPayment(props) {
               Date:{" "}
             </label>
             <input
+            style={{width: "70%"}}
               className="global-input-1"
               onChange={changeHandler}
               type="date"
@@ -98,6 +100,7 @@ export default function WoPayment(props) {
               Paid:{" "}
             </label>
             <input
+            style={{width: "70%"}}
               className="global-input-1"
               onChange={changeHandler}
               type="number"
