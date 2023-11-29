@@ -32,7 +32,9 @@ export default function NavBar(props) {
   const isPathBlocked = blockedPaths.includes(location.pathname);
 
   return (
-    <div className={isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed}>
+    <div>
+      {!isPathBlocked && (
+      <div className={isSidebarOpen ? styles.sidebarOpen : styles.sidebarClosed}>
       {blocked ? (
         <div className={styles.blocked}>
           <div className={styles.blocked}></div>
@@ -44,7 +46,7 @@ export default function NavBar(props) {
           style={{ color: "white", fontSize: isSidebarOpen ? 100 : 50 }}
         />
       </div>
-      {!isPathBlocked && (
+      
       <div className={styles.sidebarContent}>
         <div
           className={
@@ -105,7 +107,10 @@ export default function NavBar(props) {
           </label>
         </div>
       </div>
-      )}
+      
     </div>
+    )}
+    </div>
+    
   );
 }
