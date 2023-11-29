@@ -6,9 +6,10 @@ export default function Radius(props) {
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
-    setIsSearching(true);
+   
     const requestLocationAccess = async () => {
       try {
+        setIsSearching(true);
         navigator.geolocation.getCurrentPosition((position) => {
           // Get the user's latitude and longitude coordinates
           const lat = position.coords.latitude;
