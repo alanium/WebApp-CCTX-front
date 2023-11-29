@@ -42,22 +42,27 @@ export default function Radius(props) {
     requestLocationAccess();
   }, []);
 
-
-
-  
-
   return (
     <div>
-      <div className="global-container">
-        <label className="global-card-title">Looking for a project near your location. Please Wait</label>
-      </div>
-      {isSearching ? null : (
+      {isSearching ? (
+        <div className="global-container">
+          <label className="global-card-title">
+            Looking for a project near your location. Please Wait
+          </label>
+        </div>
+      ) : (
         <div>
           {props.response.code === "A5" && props.response.content.length > 1 ? (
             <ChooseProject response={props.response} />
           ) : null}
           {props.response.code === "A3" ? (
-            <Search setTemp={props.setTemp} setRadius={props.setRadius} setProjectId={props.setProjectId} response={props.response} enviarDatos={props.enviarDatos} />
+            <Search
+              setTemp={props.setTemp}
+              setRadius={props.setRadius}
+              setProjectId={props.setProjectId}
+              response={props.response}
+              enviarDatos={props.enviarDatos}
+            />
           ) : null}
         </div>
       )}
