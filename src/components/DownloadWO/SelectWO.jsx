@@ -91,6 +91,8 @@ export function SelectWO(props) {
         dispatch(setBar(false));
         
       }
+    } else if (worder === null) {
+      props.setPopup(true)
     }
   }
 
@@ -103,6 +105,7 @@ export function SelectWO(props) {
             enviarDatos={props.enviarDatos}
             worder={worder}
             details={details}
+            setPopup={props.setPopup}
           />
         ) : (
           <div>

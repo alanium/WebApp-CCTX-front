@@ -63,6 +63,7 @@ export function SelectProject(props) {
           enviarDatos={props.enviarDatos}
           worders={worders}
           setData={props.setData}
+          setPopup={props.setPopup}
         />
       ) : (
         <div>
