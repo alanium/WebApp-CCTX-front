@@ -79,13 +79,14 @@ export default function VideoRecorder(props) {
       mediaRecorder.ondataavailable = handleDataAvailable;
 
       mediaRecorder.onstop = async () => {
+        const blob = new Blob(chunks, { type: "video/webm" }); // Move this line up
+
         const videoUrl = URL.createObjectURL(blob);
-        setUrl((prevUrl) => [...prevUrl, videoUrl ]); // Use the functional form of setUrl
-        const updatedUrl = [...url, videoUrl ];
-        const blob = new Blob(chunks, { type: "video/webm" });
-        
+        setUrl((prevUrl) => [...prevUrl, videoUrl]);
+      
         uploadVideoToFirebase(blob);
-        console.log("Video URL created:", updatedUrl);
+      
+        console.log("Video URL created:", videoUrl);
         if (props.projectId !== "") {
           props.enviarDatos({project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: user }, "camera")
         } else if (props.temp) {
