@@ -81,7 +81,7 @@ export default function VideoRecorder(props) {
       mediaRecorder.onstop = async () => {
         const blob = new Blob(chunks, { type: "video/webm" }); // Move this line up
 
-        const videoUrl = URL.createObjectURL(blob);
+        const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
         setUrl((prevUrl) => [...prevUrl, videoUrl]);
         
         const updatedUrl = [...url, videoUrl];
