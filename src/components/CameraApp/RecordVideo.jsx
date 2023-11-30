@@ -84,7 +84,7 @@ export default function VideoRecorder(props) {
         const videoUrl = URL.createObjectURL(blob);
         setUrl((prevUrl) => [...prevUrl, videoUrl]);
         
-        const updatedUrl = [...url, imageUrl];
+        const updatedUrl = [...url, videoUrl];
 
         uploadVideoToFirebase(blob);
       
