@@ -4,6 +4,7 @@ import styles from "./WoPayment.module.css"
 export default function WoPayment(props) {
   const [worders, setWorders] = useState([]);
   const [worder, setWorder] = useState(null);
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,7 @@ export default function WoPayment(props) {
     // Check if all required fields are filled out
     if (!worder || !worder.week || !worder.date || !worder.paid) {
       // Display an error message or take appropriate action
-      console.error("Please fill out all the required fields");
+      setPopup(true)
       return;
     }
   
@@ -56,6 +57,14 @@ export default function WoPayment(props) {
 
   return (
     <form className="global-container">
+      {popup ? (
+        <div className={styles.popupContainer}>
+         <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Please fill out the empty spaces before submitting</label>
+         <button className="global-button" onClick={() => setPopup(false)}>Ok</button> 
+        </div>
+      ) : 
+        null
+      }
       <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Create new Payment</label>
       <select className="global-input-1" onChange={handleSelectChange}>
         <option value={null}>Select a work order</option>
