@@ -51,7 +51,7 @@ export function DownloadWo(props) {
             <div className={styles.popupContainer}>
               <div style={{maxWidth: "70%"}}>
                 <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Please select a project to before submitting</label>
-                <button onClick={() => setPopup(false)}>Ok</button>
+                <button className="global-button" onClick={() => setPopup(false)}>Ok</button>
               </div>
             </div>
           ) : null}
