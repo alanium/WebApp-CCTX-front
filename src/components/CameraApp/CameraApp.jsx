@@ -199,7 +199,7 @@ const CameraApp = (props) => {
                   navigate={navigate}
                 />
               ) : (
-                <VideoRecorder response={props.response} navigate={navigate} enviarDatos={props.enviarDatos} temp={temp} projectId={projectId} setMode={setMode} />
+                <VideoRecorder user={{...userData, username: username}} response={props.response} navigate={navigate} enviarDatos={props.enviarDatos} temp={temp} projectId={projectId} setMode={setMode} />
               )}
             </div>
           ) : (

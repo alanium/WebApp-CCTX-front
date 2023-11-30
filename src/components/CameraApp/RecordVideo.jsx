@@ -90,11 +90,11 @@ export default function VideoRecorder(props) {
       
         console.log("Video URL created:", videoUrl);
         if (props.projectId !== "") {
-          props.enviarDatos({project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: user }, "camera")
+          props.enviarDatos({project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: props.user }, "camera")
         } else if (props.temp) {
-          props.enviarDatos({action: "temp", image: updatedUrl, user_data: user }, "camera")
+          props.enviarDatos({action: "temp", image: updatedUrl, user_data: props.user }, "camera")
         } else {
-          props.enviarDatos({action: "send_image", image: updatedUrl, user_data: user, project_id: props.response.content[0].id }, "camera")
+          props.enviarDatos({action: "send_image", image: updatedUrl, user_data: props.user, project_id: props.response.content[0].id }, "camera")
         }
       };
       
