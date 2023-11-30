@@ -48,6 +48,8 @@ export function SelectProject(props) {
         dispatch(setBar(false))
         setIsProjectReady(true);
       }
+    } else {
+      popup.setPopup(true)
     }
     
     

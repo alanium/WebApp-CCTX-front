@@ -15,6 +15,7 @@ export function DownloadWo(props) {
   const dispatch = useDispatch();
   const [isAvaliable, setIsAvaliable] = useState(true);
   const underMaintenance = useSelector((state) => state.underMaintenance);
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     if (underMaintenance.includes("download_wo")) {
@@ -46,6 +47,14 @@ export function DownloadWo(props) {
     <div className="global-container">
       {isAvaliable ? (
         <div>
+          {popup ? (
+            <div className={styles.popupContainer}>
+              <div style={{maxWidth: "70%"}}>
+                <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Please select a project to before submitting</label>
+                <button onClick={() => setPopup(false)}>Ok</button>
+              </div>
+            </div>
+          ) : null}
           <label
             style={{ marginBottom: "15px", textAlign: "center", display: "block",
             margin: "0 auto", }}
@@ -69,6 +78,7 @@ export function DownloadWo(props) {
                   setData={setData}
                   enviarDatos={props.enviarDatos}
                   data={data}
+                  setPopup={setPopup}
                 />
               </div>
             ) : null}
