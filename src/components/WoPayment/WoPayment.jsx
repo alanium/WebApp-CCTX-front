@@ -59,8 +59,11 @@ export default function WoPayment(props) {
     <form className="global-container">
       {popup ? (
         <div className={styles.popupContainer}>
-         <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Please fill out the empty spaces before submitting</label>
+          <div style={{maxWidth: "70%"}}>
+          <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Please fill out the empty spaces before submitting</label>
          <button className="global-button" onClick={() => setPopup(false)}>Ok</button> 
+          </div>
+         
         </div>
       ) : 
         null
