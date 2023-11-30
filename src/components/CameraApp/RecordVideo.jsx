@@ -28,7 +28,7 @@ export default function VideoRecorder(props) {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
-  const [urls, setUrls] = useState([])
+  const [url, setUrl] = useState([])
 
   useEffect(() => {
     const requestLocationAccess = async () => {
@@ -78,17 +78,20 @@ export default function VideoRecorder(props) {
 
       mediaRecorder.ondataavailable = handleDataAvailable;
 
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/webm" });
+      mediaRecorder.onstop = async () => {
         const videoUrl = URL.createObjectURL(blob);
+        setUrl((prevUrl) => [...prevUrl, videoUrl ]); // Use the functional form of setUrl
+        const updatedUrl = [...url, videoUrl ];
+        const blob = new Blob(chunks, { type: "video/webm" });
+        
         uploadVideoToFirebase(blob);
-        console.log("Video URL created:", videoUrl);
+        console.log("Video URL created:", updatedUrl);
         if (props.projectId !== "") {
-          props.enviarDatos({project_id: props.projectId, action: "send_image", image: videoUrl}, "camera")
+          props.enviarDatos({project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: user }, "camera")
         } else if (props.temp) {
-          props.enviarDatos({action: "temp", image: videoUrl}, "camera")
+          props.enviarDatos({action: "temp", image: updatedUrl, user_data: user }, "camera")
         } else {
-          props.enviarDatos({action: "send_image", location: location, image: videoUrl}, "camera")
+          props.enviarDatos({action: "send_image", image: updatedUrl, user_data: user, project_id: props.response.content[0].id }, "camera")
         }
       };
       
