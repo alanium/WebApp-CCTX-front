@@ -49,7 +49,7 @@ export function SelectProject(props) {
         setIsProjectReady(true);
       }
     } else {
-      popup.setPopup(true)
+      props.setPopup(true)
     }
     
     
