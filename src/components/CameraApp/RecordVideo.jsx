@@ -63,7 +63,7 @@ export default function VideoRecorder(props) {
   const initializeMediaRecorder = async () => {
     const constraints = { video: true };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    videoPlayerRef.current.srcObject = mediaStream;
+    videoRef.current.srcObject = mediaStream;
     if (!stream) {
       console.error("Capture stream not available.");
       return;
