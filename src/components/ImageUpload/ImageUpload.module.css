@@ -1,3 +1,25 @@
+.container {
+    width: 100%;
+    max-width: 600px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+    padding: 50px;
+    border: 0.1px solid rgba(255, 255, 255, 0.103);
+    border-radius: 10px;
+    background-color: #0000008f;
+    backdrop-filter: blur(60px);  
+}
+
 .label {
     /* Add your global styles here */
     color: "white"; font-size: "24px"; margin-bottom: "15px"; text-align: "center";
@@ -9,10 +31,7 @@
   }
   
   /* Styles for the select dropdown */
-  .global-input-1 {
-    /* Add your styles for the select dropdown */
-  }
-  
+
   /* Styles for the dropzone */
   .dropzone {
     border: 2px dashed #cccccc;
@@ -24,8 +43,8 @@
   
   /* Media query for responsiveness */
   @media screen and (max-width: 768px) {
-    .global-container {
-      /* Add your responsive styles for smaller screens */
+    .container {
+        max-width: 400%;
     }
   
     /* Add additional responsive styles as needed */
