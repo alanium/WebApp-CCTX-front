@@ -76,7 +76,7 @@ const ImageUpload = (props) => {
   return (
     <div className={styles.container}>
       {!isSelected ? (
-        <div styles={{justifyContent: "center", textAlign: "center"}}>
+        <div className={styles.centerContent}>
             <label className={styles.titleLabel} >Select a Project</label>
             <select
                 className="global-input-1"

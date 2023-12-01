@@ -29,9 +29,14 @@
 }
 
 /* Styles for the non-selected state */
-.non-selected-container {
-  text-align: center;
-}
+.centerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+  }
 
 /* Styles for the select dropdown */
 
