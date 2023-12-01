@@ -64,28 +64,32 @@ export default function VideoRecorder(props) {
     const constraints = { video: true };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     videoRef.current.srcObject = stream;
+  
     if (!stream) {
-        console.error("Capture stream not available.");
-        return;
-    } // Use captureStream instead of srcObject
-
-    if (stream) {
-        const mediaRecorder = new MediaRecorder(stream); // Use 'stream' instead of 'mediaStream'
-        const chunks = [];
-
-        // Adjust the delay as needed
-
-        mediaRecorder.ondataavailable = handleDataAvailable;
-
-        mediaRecorder.onstop = async () => {
-            const blob = new Blob(chunks, { type: "video/mp4" });
-
-            const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
-            setUrl((prevUrl) => [...prevUrl, videoUrl]);
-
-            const updatedUrl = [...url, videoUrl];
-
-            uploadVideoToFirebase(blob);
+      console.error("Capture stream not available.");
+      return;
+    }
+  
+    const mediaRecorder = new MediaRecorder(stream);
+    const chunks = []; // Define chunks array
+  
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    };
+  
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: "video/mp4" });
+  
+      const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
+      setUrl((prevUrl) => [...prevUrl, videoUrl]);
+  
+      const updatedUrl = [...url, videoUrl];
+  
+      uploadVideoToFirebase(blob);
+  
+      console.log("Video URL created:", videoUrl);
 
             console.log("Video URL created:", videoUrl);
             if (props.projectId !== "") {
@@ -98,28 +102,23 @@ export default function VideoRecorder(props) {
         };
 
         setMediaRecorder(mediaRecorder);
-    } else {
-        console.error("Video reference not available.");
-    }
 };
   
 
-  const startCamera = async () => {
-    try {
-      const constraints = { video: true };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints)
-      
-      setMediaStream(stream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.addEventListener("loadedmetadata", () => {
-          initializeMediaRecorder();
-        });
-      }
-    } catch (error) {
-      console.error("Error accessing camera:", error);
+const startCamera = async () => {
+  try {
+    const constraints = { video: true };
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    setMediaStream(stream);
+
+    if (videoRef.current) {
+      videoRef.current.srcObject = stream;
+      initializeMediaRecorder(); // Call initializeMediaRecorder directly
     }
-  };
+  } catch (error) {
+    console.error("Error accessing camera:", error);
+  }
+};
 
   const stopCamera = () => {
     if (mediaStream) {
