@@ -15,6 +15,7 @@ import {
 import "../../index.css";
 import Maintenace from "../Maintenance/Maintenance";
 import { FaCamera } from "react-icons/fa";
+import { MdOutlinePermMedia } from "react-icons/md";
 
 export default function Home(props) {
   const navigate = useNavigate();
@@ -84,15 +85,15 @@ export default function Home(props) {
           <label>Control Panel</label>
         </div>
         <div className={styles.btnDiv}>
-          <button name="camera" className={styles.homeButton} onClick={handleOnClick}>
-            <FaCamera 
+          <button name="manage_media" className={styles.homeButton} onClick={handleOnClick}>
+            <MdOutlinePermMedia 
               className={styles.icon}
-              name="camera"
+              name=""
               onClick={handleOnClick}
               style = {{fontSize: "24px"}}
             />
           </button>
-          <label>Camera</label>
+          <label>Manage Media</label>
         </div>
         <div className={styles.btnDiv}>
           <button onClick={() => props.setLogout(true)} className={styles.homeButton}>
