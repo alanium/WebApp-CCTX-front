@@ -27,7 +27,7 @@ const ImageUpload = () => {
   const [isSelected, setIsSelected] = useState(false)
 
   useEffect(() => {
-    obtenerJSON("/upload_photo").then(
+    props.obtenerJSON("/upload_photo").then(
         (result) => setProjects(result)
     )
   }, [])

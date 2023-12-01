@@ -157,7 +157,7 @@ function App() {
           />
           <Route
             path="/home/manage_media/upload_image"
-            element={<ImageUpload enviarDatos={enviarDatos} />}
+            element={<ImageUpload obtenerJSON={obtenerJSON} enviarDatos={enviarDatos} />}
           />
           <Route
             path="/home/manage_wo/wo_payment"
