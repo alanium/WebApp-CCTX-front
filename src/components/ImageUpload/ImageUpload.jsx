@@ -68,6 +68,7 @@ const ImageUpload = (props) => {
         setIsSelected(false)
     } else if (event.target.value !== null) {
         setProjectId(event.target.value)
+        setIsSelected(true)
     }
   }
 
@@ -75,7 +76,7 @@ const ImageUpload = (props) => {
     <div className="global-container">
       {!isSelected ? (
         <div>
-            <label>Select a Project</label>
+            <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Select a Project</label>
             <select
                 className="global-input-1"
                 onChange={handleChange}
