@@ -1,60 +1,60 @@
 .container {
-    width: 100%;
-    max-width: 600px;
-  
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  
-    margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  
-    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
-    padding: 50px;
-    border: 0.1px solid rgba(255, 255, 255, 0.103);
-    border-radius: 10px;
-    background-color: #0000008f;
-    backdrop-filter: blur(60px);  
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border: 0.1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 10px;
+  background-color: #0000008f;
+  backdrop-filter: blur(60px);
 }
 
 .label {
-    /* Add your global styles here */
-    color: "white"; font-size: "24px"; margin-bottom: "15px"; text-align: "center";
-  }
-  
-  /* Styles for the non-selected state */
-  .non-selected-container {
-    text-align: center;
-  }
-  
-  /* Styles for the select dropdown */
+  /* Add your global styles here */
+  color: "white";
+  font-size: "24px";
+  margin-bottom: "15px";
+  text-align: "center";
+}
 
-  /* Styles for the dropzone */
-  .dropzone {
-    border: 2px dashed #cccccc;
-    border-radius: 4px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  /* Media query for responsiveness */
-  @media screen and (max-width: 768px) {
-    .container {
-        max-width: 60%;
-    }
+/* Styles for the non-selected state */
+.non-selected-container {
+  text-align: center;
+}
 
-    
-  
-    /* Add additional responsive styles as needed */
+/* Styles for the select dropdown */
+
+/* Styles for the dropzone */
+.dropzone {
+  border: 2px dashed #cccccc;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 60%;
   }
 
+  /* Add additional responsive styles as needed */
+}
 
-  @media screen and (max-width: 450px) {
-    .container {
-        max-width: 50%;
-    }
+@media screen and (max-width: 450px) {
+  .container {
+    max-width: 50%;
+  }
 }
