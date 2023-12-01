@@ -54,32 +54,32 @@ export default function VideoRecorder(props) {
     return () => stopCamera();
   }, []);
 
-  const initializeMediaRecorder = () => {
-    const stream = videoRef.current?.captureStream({ frameRate: 60 });
+  const handleDataAvailable = (event) => {
+    if (event.data.size > 0) {
+      chunks.push(event.data);
+    }
+  };
+
+  const initializeMediaRecorder = async () => {
+    const constraints = { video: true, audio: true };
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    videoPlayerRef.current.srcObject = mediaStream;
     if (!stream) {
       console.error("Capture stream not available.");
       return;
     } // Use captureStream instead of srcObject
 
     if (stream) {
-      const mediaRecorder = new MediaRecorder(stream, {
-        frameRate: { ideal: 30, max: 60 },
-        mimeType: "video/webm; codecs=vp9",
-        videoBitsPerSecond: 2000000,
-      });
+      const mediaRecorder = new MediaRecorder(mediaStream)
       const chunks = [];
 
-      const handleDataAvailable = (event) => {
-        if (event.data.size > 0) {
-          chunks.push(event.data);
-        }
-      };
+      
       // Adjust the delay as needed
 
       mediaRecorder.ondataavailable = handleDataAvailable;
 
       mediaRecorder.onstop = async () => {
-        const blob = new Blob(chunks, { type: "video/webm" }); // Move this line up
+        const blob = new Blob(chunks, { type: "video/mp4" }); // Move this line up
 
         const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
         setUrl((prevUrl) => [...prevUrl, videoUrl]);
@@ -109,14 +109,9 @@ export default function VideoRecorder(props) {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: facingMode,
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
-          frameRate: { ideal: 30, max: 60 },
-        },
-      });
+      const constraints = { video: true, audio: true };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
+      
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
