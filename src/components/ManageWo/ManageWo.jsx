@@ -33,15 +33,6 @@ export default function ManageWo(props) {
   return (
     <div className={styles.homeContainer}>
       {isAvaliable ? (
-        <div>
-          <div style={{ textAlign: "center" }}>
-            <BiSolidUserCircle className={styles.bigIcon} />
-            <div className={styles.titleDiv}>
-              <label className="global-card-subtitle">
-                Hello, {user.fullname}
-              </label>
-            </div>
-          </div>
           <div className={styles.buttonsDiv}>
             <div className={styles.btnDiv}>
               <button
@@ -72,7 +63,6 @@ export default function ManageWo(props) {
               <label>Create Payment</label>
             </div>
           </div>
-        </div>
       ) : (
         <Maintenace />
       )}

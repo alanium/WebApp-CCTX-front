@@ -31,15 +31,6 @@ export function ManageTasks(props) {
   return (
     <div className={styles.homeContainer}>
       {isAvaliable ? (
-        <div>
-          <div style={{ textAlign: "center" }}>
-            <BiSolidUserCircle className={styles.bigIcon} />
-            <div className={styles.titleDiv}>
-              <label className="global-card-subtitle">
-                Hello, {user.fullname}
-              </label>
-            </div>
-          </div>
           <div className={styles.buttonsDiv}>
             <div className={styles.btnDiv}>
               <button
@@ -52,7 +43,6 @@ export function ManageTasks(props) {
               <label>Assign Task</label>
             </div>
           </div>
-        </div>
       ) : (
         <Maintenace />
       )}

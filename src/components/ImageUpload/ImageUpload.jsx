@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import styles from "./ImageUpload.module.css"
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -73,10 +74,10 @@ const ImageUpload = (props) => {
   }
 
   return (
-    <div className="global-container">
+    <div className={styles.container}>
       {!isSelected ? (
         <div>
-            <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Select a Project</label>
+            <label className={styles.label}>Select a Project</label>
             <select
                 className="global-input-1"
                 onChange={handleChange}

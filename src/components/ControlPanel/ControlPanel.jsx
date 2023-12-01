@@ -41,14 +41,6 @@ export function ControlPanel(props) {
     <div className={styles.homeContainer}>
       {isAvaliable ? (
         <div>
-          <div style={{ textAlign: "center" }}>
-            <BiSolidUserCircle className={styles.bigIcon} />
-            <div className={styles.titleDiv}>
-              <label className="global-card-subtitle">
-                Hello, {user.fullname}
-              </label>
-            </div>
-          </div>
           <div className={styles.btnDiv}>
             <button
               name="manage_roles"

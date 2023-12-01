@@ -29,15 +29,6 @@ export function ManageProjects(props) {
 
   return (
     <div className={styles.homeContainer}>
-      <div style={{ textAlign: "center" }}>
-        <BiSolidUserCircle
-          className={styles.icon}
-          style={{ color: "white", fontSize: 200 }}
-        />
-        <div className={styles.titleDiv}>
-          <label className="global-card-subtitle">Hello, {user.fullname}</label>
-        </div>
-      </div>
       <div className={styles.buttonsDiv}>
         <div className={styles.btnDiv}>
           <button

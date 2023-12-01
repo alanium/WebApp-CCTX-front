@@ -1,0 +1,32 @@
+.label {
+    /* Add your global styles here */
+    color: "white"; font-size: "24px"; margin-bottom: "15px"; text-align: "center";
+  }
+  
+  /* Styles for the non-selected state */
+  .non-selected-container {
+    text-align: center;
+  }
+  
+  /* Styles for the select dropdown */
+  .global-input-1 {
+    /* Add your styles for the select dropdown */
+  }
+  
+  /* Styles for the dropzone */
+  .dropzone {
+    border: 2px dashed #cccccc;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  /* Media query for responsiveness */
+  @media screen and (max-width: 768px) {
+    .global-container {
+      /* Add your responsive styles for smaller screens */
+    }
+  
+    /* Add additional responsive styles as needed */
+  }
