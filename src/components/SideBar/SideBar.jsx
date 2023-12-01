@@ -26,7 +26,7 @@ export default function NavBar(props) {
     props.setLogout(true)
   };
 
-  const blockedPaths = ["/", "/login", "/register", "/recovery", "*", "/home", "/home/camera"];
+  const blockedPaths = ["/", "/login", "/register", "/recovery", "*", "/home", "/home/manage_media/camera"];
 
   // Check if the current path is blocked
   const isPathBlocked = blockedPaths.includes(location.pathname);
