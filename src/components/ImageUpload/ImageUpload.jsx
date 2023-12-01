@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-const ImageUpload = () => {
+const ImageUpload = (props) => {
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
