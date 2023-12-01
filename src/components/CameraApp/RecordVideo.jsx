@@ -63,48 +63,45 @@ export default function VideoRecorder(props) {
   const initializeMediaRecorder = async () => {
     const constraints = { video: true };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    videoRef.current.srcObject = mediaStream;
+    videoRef.current.srcObject = stream;
     if (!stream) {
-      console.error("Capture stream not available.");
-      return;
+        console.error("Capture stream not available.");
+        return;
     } // Use captureStream instead of srcObject
 
     if (stream) {
-      const mediaRecorder = new MediaRecorder(mediaStream)
-      const chunks = [];
+        const mediaRecorder = new MediaRecorder(stream); // Use 'stream' instead of 'mediaStream'
+        const chunks = [];
 
-      
-      // Adjust the delay as needed
+        // Adjust the delay as needed
 
-      mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.ondataavailable = handleDataAvailable;
 
-      mediaRecorder.onstop = async () => {
-        const blob = new Blob(chunks, { type: "video/mp4" }); // Move this line up
+        mediaRecorder.onstop = async () => {
+            const blob = new Blob(chunks, { type: "video/mp4" });
 
-        const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
-        setUrl((prevUrl) => [...prevUrl, videoUrl]);
-        
-        const updatedUrl = [...url, videoUrl];
+            const videoUrl = URL.createObjectURL(blob).replace(/^blob:/, '');
+            setUrl((prevUrl) => [...prevUrl, videoUrl]);
 
-        uploadVideoToFirebase(blob);
-      
-        console.log("Video URL created:", videoUrl);
-        if (props.projectId !== "") {
-          props.enviarDatos({project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: props.user }, "camera")
-        } else if (props.temp) {
-          props.enviarDatos({action: "temp", image: updatedUrl, user_data: props.user }, "camera")
-        } else {
-          props.enviarDatos({action: "send_image", image: updatedUrl, user_data: props.user, project_id: props.response.content[0].id }, "camera")
-        }
-      };
-      
-      
-      setMediaRecorder(mediaRecorder);
+            const updatedUrl = [...url, videoUrl];
+
+            uploadVideoToFirebase(blob);
+
+            console.log("Video URL created:", videoUrl);
+            if (props.projectId !== "") {
+                props.enviarDatos({ project_id: props.projectId, action: "send_image", image: updatedUrl, user_data: props.user }, "camera")
+            } else if (props.temp) {
+                props.enviarDatos({ action: "temp", image: updatedUrl, user_data: props.user }, "camera")
+            } else {
+                props.enviarDatos({ action: "send_image", image: updatedUrl, user_data: props.user, project_id: props.response.content[0].id }, "camera")
+            }
+        };
+
+        setMediaRecorder(mediaRecorder);
     } else {
-      console.error("Video reference not available.");
+        console.error("Video reference not available.");
     }
-  };
-
+};
   
 
   const startCamera = async () => {
