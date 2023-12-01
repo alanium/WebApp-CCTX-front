@@ -77,7 +77,7 @@ const ImageUpload = (props) => {
     <div className={styles.container}>
       {!isSelected ? (
         <div>
-            <label className={styles.label}>Select a Project</label>
+            <label className={styles.titleLabel}>Select a Project</label>
             <select
                 className="global-input-1"
                 onChange={handleChange}
