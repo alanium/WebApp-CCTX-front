@@ -83,7 +83,7 @@ const ImageUpload = (props) => {
             >
                 <option value={null}>Select a Project</option>
                 {projects.map((project) => (
-                    <option value={project.id} >{project.name} </option>
+                    <option key={project.id} value={project.id} >{project.name} </option>
                 ))}
             </select>
         </div>
@@ -91,7 +91,7 @@ const ImageUpload = (props) => {
         <div>
           <div {...getRootProps()} style={dropzoneStyle}>
             <input {...getInputProps()} />
-            <p>Drag & drop images here, or click to select files</p>
+            <p style={{ color: "white",}} >Drag & drop images here, or click to select files</p>
           </div>
           {files.length > 0 && (
             <div>
