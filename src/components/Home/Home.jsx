@@ -90,6 +90,7 @@ export default function Home(props) {
               className={styles.icon}
               name=""
               onClick={handleOnClick}
+              style = {{fontSize: "24px"}}
             />
           </button>
           <label>Manage Media</label>
