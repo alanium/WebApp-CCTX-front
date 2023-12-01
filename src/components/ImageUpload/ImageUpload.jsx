@@ -90,7 +90,7 @@ const ImageUpload = (props) => {
         </div>
       ) : (
         <div>
-          <div {...getRootProps()} style={dropzoneStyle}>
+          <div {...getRootProps()} className={styles.dropzone}>
             <input {...getInputProps()} />
             <p style={{ color: "white",}} >Drag & drop images here, or click to select files</p>
           </div>
@@ -117,14 +117,6 @@ const ImageUpload = (props) => {
       )}
     </div>
   );
-};
-
-const dropzoneStyle = {
-  border: "2px dashed #cccccc",
-  borderRadius: "4px",
-  padding: "20px",
-  textAlign: "center",
-  cursor: "pointer",
 };
 
 export default ImageUpload;
