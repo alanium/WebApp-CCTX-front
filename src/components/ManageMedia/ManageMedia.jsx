@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccess, setSuccess, setUser } from "../../redux/actions";
-import styles from "./Home.module.css";
+import styles from "./ManageMedia.module.css";
 import {
   BiSolidUserCircle,
   BiLogOut,
