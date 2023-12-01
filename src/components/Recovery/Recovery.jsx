@@ -4,6 +4,7 @@ import { BiXCircle } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa6";
 import Maintenace from "../Maintenance/Maintenance";
+import styles from "../Recovery/Recovery.module.css";
 
 export default function Recovery(props) {
   const navigate = useNavigate();
@@ -41,9 +42,9 @@ export default function Recovery(props) {
   };
 
   return (
-    <div className="global-container">
+    <div className={styles.loginContainer}>
       {isAvaliable ? (
-        <div>
+        <div className={styles.formContainer}>
           <div className="titleDiv">
             <label className="global-card-title">Recover</label>
           </div>
@@ -56,24 +57,12 @@ export default function Recovery(props) {
               <input
                 style={{
                   marginTop: "10px",
-                  paddingLeft: "30px",
                 }}
                 className="global-input-1"
                 name="email"
                 type="text"
                 placeholder="Email"
                 onChange={handleChange}
-              />
-              <MdEmail
-                className="icon"
-                style={{
-                  fontSize: "14px",
-                  top: "37%",
-                  color: "rgb(156, 156, 156)",
-                  position: "absolute",
-                  right: "14%",
-                  transform: "translateY(-50%)",
-                }}
               />
             </div>
             <div>
@@ -85,16 +74,6 @@ export default function Recovery(props) {
                 placeholder="Recovery code"
                 onChange={handleChange}
               />
-              <FaKey
-                style={{
-                  fontSize: "14px",
-                  top: "61%",
-                  color: "rgb(156, 156, 156)",
-                  position: "absolute",
-                  right: "14%",
-                  transform: "translateY(-50%)",
-                }}
-              />
             </div>
             <div>
               <input
@@ -104,16 +83,6 @@ export default function Recovery(props) {
                 type="password"
                 placeholder="New password"
                 onChange={handleChange}
-              />
-              <FaKey
-                style={{
-                  fontSize: "14px",
-                  top: "49%",
-                  color: "rgb(156, 156, 156)",
-                  position: "absolute",
-                  right: "14%",
-                  transform: "translateY(-50%)",
-                }}
               />
               {validate === "False" && click > 0 ? (
                 <p style={{ color: "red" }}>

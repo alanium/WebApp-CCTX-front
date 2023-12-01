@@ -61,9 +61,9 @@ export default function Register(props) {
   };
 
   return (
-    <div className="global-container">
+    <div className={styles.loginContainer}>
       {isAvaliable ? (
-        <div>
+        <div className={styles.formContainer}>
           <div
             style={{
               textAlign: "center",
