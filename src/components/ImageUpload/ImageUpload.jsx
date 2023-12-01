@@ -24,6 +24,7 @@ const ImageUpload = () => {
   const [uploadError, setUploadError] = useState(null);
   const [projects, setProjects] = useState([])
   const [projectId, setProjectId] = useState("")
+  const [isSelected, setIsSelected] = useState(false)
 
   useEffect(() => {
     obtenerJSON("/upload_photo").then(
