@@ -53,6 +53,7 @@
 @media screen and (max-width: 768px) {
   .container {
     max-width: 60%;
+    right: 35%;
   }
 
   /* Add additional responsive styles as needed */
@@ -61,6 +62,6 @@
 @media screen and (max-width: 450px) {
   .container {
     max-width: 50%;
-    right: 30%;
+    right: 45%;
   }
 }
