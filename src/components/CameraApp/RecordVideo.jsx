@@ -61,7 +61,7 @@ export default function VideoRecorder(props) {
   };
 
   const initializeMediaRecorder = async () => {
-    const constraints = { video: true, audio: true };
+    const constraints = { video: true };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     videoPlayerRef.current.srcObject = mediaStream;
     if (!stream) {
@@ -109,7 +109,7 @@ export default function VideoRecorder(props) {
 
   const startCamera = async () => {
     try {
-      const constraints = { video: true, audio: true };
+      const constraints = { video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
       
       setMediaStream(stream);
