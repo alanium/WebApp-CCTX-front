@@ -22,10 +22,10 @@
 
 .titleLabel {
   /* Add your global styles here */
-  color: "white";
-  font-size: "24px";
-  margin-bottom: "15px";
-  text-align: "center";
+  color: white;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 /* Styles for the non-selected state */
