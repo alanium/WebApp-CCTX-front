@@ -44,7 +44,7 @@
   /* Media query for responsiveness */
   @media screen and (max-width: 768px) {
     .container {
-        max-width: 40%;
+        max-width: 60%;
     }
   
     /* Add additional responsive styles as needed */
