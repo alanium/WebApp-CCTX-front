@@ -33,6 +33,8 @@ import HelloWorldComponent from "./Validation";
 
 import CameraApp from "./components/CameraApp/CameraApp";
 import WoPayment from "./components/WoPayment/WoPayment";
+import ImageUpload from "./components/ImageUpload/ImageUpload";
+import ManageMedia from "./components/ManageMedia/ManageMedia";
 
 function App() {
   const [logout, setLogout] = useState(false);
@@ -135,6 +137,7 @@ function App() {
             path="/home/control_panel/handle_maintenance"
             element={<HandleMaintenance />}
           />
+          <Route path="/home/manage_project/image_upload" element={<ImageUpload enviarDatos={enviarDatos} obtenerJSON={obtenerJSON} />} />
           <Route
             path="/home/control_panel/manage_roles"
             element={
@@ -145,8 +148,16 @@ function App() {
             }
           />
           <Route
-            path="/home/camera"
+            path="/home/manage_media/"
+            element={<ManageMedia enviarDatos={enviarDatos} />}
+          />
+          <Route
+            path="/home/manage_media/camera"
             element={<CameraApp enviarDatos={enviarDatos} />}
+          />
+          <Route
+            path="/home/manage_media/upload_image"
+            element={<ImageUpload enviarDatos={enviarDatos} />}
           />
           <Route
             path="/home/manage_wo/wo_payment"

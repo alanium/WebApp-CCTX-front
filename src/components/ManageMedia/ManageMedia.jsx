@@ -5,19 +5,14 @@ import { setAccess, setSuccess, setUser } from "../../redux/actions";
 import styles from "./Home.module.css";
 import {
   BiSolidUserCircle,
-  BiSolidFileFind,
-  BiSolidCheckboxChecked,
-  BiSolidWrench,
-  BiSolidStar,
   BiLogOut,
-  BiDownload,
+  BiUpload,
 } from "react-icons/bi";
 import "../../index.css";
 import Maintenace from "../Maintenance/Maintenance";
-import { FaCamera } from "react-icons/fa";
-import { MdOutlinePermMedia } from "react-icons/md";
+import { FaCamera, FaRegImages } from "react-icons/fa";
 
-export default function Home(props) {
+export default function ManageMedia(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -28,13 +23,10 @@ export default function Home(props) {
 
     if (targetButton && targetButton.name) {
       console.log(targetButton.name);
-      navigate(`/home/${targetButton.name}`);
+      navigate(`/home/manage_media/${targetButton.name}`);
     }
   };
 
-  const logoutHandler = (event) => {
-    window.location.reload();
-  };
 
   return (
     <div className={styles.homeContainer}>
@@ -52,70 +44,39 @@ export default function Home(props) {
       <div className={styles.buttonsDiv}>
         <div className={styles.btnDiv}>
           <button
-            className={styles.homeButton}
-            name="manage_wo"
+            name="upload_image"
             onClick={handleOnClick}
+            className={styles.homeButton}
           >
-            <BiSolidFileFind name="view_wo" className={styles.icon} />
+            <BiUpload className={styles.icon} />
           </button>
-          <label>Manage WO</label>
+          <label>Upload Image</label>
         </div>
         <div className={styles.btnDiv}>
           <button
-            name="manage_projects"
-            onClick={handleOnClick}
-            className={styles.homeButton}
-          >
-            <BiSolidCheckboxChecked className={styles.icon} />
-          </button>
-          <label>Manage Projects</label>
-        </div>
-        <div className={styles.btnDiv}>
-          <button
-            name="control_panel"
+            name=""
             className={styles.homeButton}
             onClick={handleOnClick}
           >
-            <BiSolidWrench
-              name="control_panel"
-              className={styles.icon}
-              onClick={handleOnClick}
-            />
-          </button>
-          <label>Control Panel</label>
-        </div>
-        <div className={styles.btnDiv}>
-          <button name="manage_media" className={styles.homeButton} onClick={handleOnClick}>
-            <MdOutlinePermMedia 
-              className={styles.icon}
+            <FaRegImages
               name=""
+              className={styles.icon}
               onClick={handleOnClick}
             />
           </button>
-          <label>Manage Media</label>
+          <label>Gallery</label>
         </div>
         <div className={styles.btnDiv}>
-          <button onClick={() => props.setLogout(true)} className={styles.homeButton}>
-            <BiLogOut className={styles.icon} />
+          <button name="camera" className={styles.homeButton} onClick={handleOnClick}>
+            <FaCamera 
+              className={styles.icon}
+              name="camera"
+              onClick={handleOnClick}
+            />
           </button>
-          <label>Logout</label>
+          <label>Camera</label>
         </div>
       </div>
-      {success ? (
-        <div className={styles.popupContainer}>
-          <div style={{maxWidth: "70%"}} className="global-container">
-            <label className="form-label" style={{ color: "white" }}>
-              Operation Successful
-            </label>
-            <button
-              className="global-button"
-              onClick={() => dispatch(setSuccess(false))}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ) : null}
         </div>
       ) : <Maintenace />}
     </div>
