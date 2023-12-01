@@ -52,8 +52,10 @@
 /* Media query for responsiveness */
 @media screen and (max-width: 768px) {
   .container {
+    width: 100%;
     max-width: 60%;
-    right: 35%;
+    max-height: 100%;
+    padding: 30px;
   }
 
   /* Add additional responsive styles as needed */
@@ -61,7 +63,9 @@
 
 @media screen and (max-width: 450px) {
   .container {
-    max-width: 50%;
-    right: 45%;
+    width: 100%;
+    max-width: 70%;
+    max-height: 100%;
+    padding: 30px;
   }
 }
