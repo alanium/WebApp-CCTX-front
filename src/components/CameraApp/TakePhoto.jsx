@@ -41,12 +41,17 @@ export default function TakePhoto(props) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
-      videoCaptureRef.current.srcObject = stream;
-      captureStreamRef.current = stream;
+      if (videoCaptureRef.current) {
+        videoCaptureRef.current.srcObject = stream;
+        captureStreamRef.current = stream;
+      } else {
+        console.error("videoCaptureRef.current is null or undefined");
+      }
     } catch (error) {
       console.error("Error accessing camera for capture:", error);
     }
   };
+  
   const stopCapture = () => {
     if (captureStreamRef.current) {
       const tracks = captureStreamRef.current.getTracks();
