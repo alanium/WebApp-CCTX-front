@@ -38,33 +38,23 @@ export default function TakePhoto(props) {
       await props.getLocation();
       const video = props.videoRef.current;
       const canvas = props.canvasRef.current;
-  
-      // Set canvas size for preview
-      const previewWidth = 1920;
-      const previewHeight = 1080;
-      canvas.width = previewWidth;
-      canvas.height = previewHeight;
-  
+
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = 4096;
+      canvas.height = 2160;
+
+
       const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, previewWidth, previewHeight);
-  
-      // Create a new canvas for capturing in higher resolution (4K)
-      const captureCanvas = document.createElement("canvas");
-      const captureContext = captureCanvas.getContext("2d");
-      captureCanvas.width = 3840; // 4K width
-      captureCanvas.height = 2160; // 4K height
-  
-      // Draw the video frame onto the higher resolution canvas
-      captureContext.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
-  
-      // Convert the higher resolution canvas to blob and upload
-      await captureCanvas.toBlob(async (blob) => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      await canvas.toBlob(async (blob) => {
         try {
           await props.uploadImageToFirebase(blob);
         } catch (error) {
           console.log(error);
         }
-      }, "image/png", 1);
+        "image/png", 1;
+      });
     }
   };
 
@@ -84,7 +74,6 @@ export default function TakePhoto(props) {
         <canvas
           ref={props.canvasRef}
           className="hidden-canvas"
-          onClick={props.handleCanvasClick}
         />
       </div>
 

@@ -154,28 +154,6 @@ const CameraApp = (props) => {
     }
   };
 
-  const handleCanvasClick = (event) => {
-    if (mediaStream) {
-      const video = videoRef.current;
-
-      const { offsetX, offsetY } = event.nativeEvent;
-      const clickX = offsetX / video.clientWidth;
-      const clickY = offsetY / video.clientHeight;
-
-      const track = mediaStream.getVideoTracks()[0];
-      if (track && "applyConstraints" in track) {
-        // Check if applyConstraints is supported
-        track
-          .applyConstraints({
-            advanced: [{ focusPointOfInterest: { x: clickX, y: clickY } }],
-          })
-          .then(() => console.log("Camera focused successfully"))
-          .catch((error) => console.error("Error focusing camera:", error));
-      } else {
-        console.log("Applying constraints not supported on this device");
-      }
-    }
-  };
 
   const switchCamera = async () => {
     setFacingMode((prevFacingMode) =>
@@ -198,7 +176,6 @@ const CameraApp = (props) => {
                   switchCamera={switchCamera}
                   startCamera={startCamera}
                   stopCamera={stopCamera}
-                  handleCanvasClick={handleCanvasClick}
                   getLocation={getLocation}
                   uploadImageToFirebase={uploadImageToFirebase}
                   setMode={setMode}
