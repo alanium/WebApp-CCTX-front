@@ -1,10 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useRef } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
-import { PiVideoCameraFill } from "react-icons/pi"
+import { PiVideoCameraFill } from "react-icons/pi";
 
 export default function TakePhoto(props) {
+  const videoCaptureRef = useRef(null);
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -33,10 +34,21 @@ export default function TakePhoto(props) {
     return () => props.stopCamera();
   }, []);
 
+  const startCapture = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
+      });
+      videoCaptureRef.current.srcObject = stream;
+    } catch (error) {
+      console.error("Error accessing camera for capture:", error);
+    }
+  };
+
   const takePhoto = async () => {
-    if (props.videoRef.current && props.canvasRef.current) {
+    if (videoCaptureRef.current && props.canvasRef.current) {
       await props.getLocation();
-      const video = props.videoRef.current;
+      const video = videoCaptureRef.current;
       const canvas = props.canvasRef.current;
 
       const aspectRatio = video.videoWidth / video.videoHeight;
@@ -59,8 +71,8 @@ export default function TakePhoto(props) {
 
   return (
     <div className="camera-container">
-      <button className="mode-button"  onClick={() => props.setMode(false)}>
-      <PiVideoCameraFill style={{fontSize: "77px", color: "white"}} />
+      <button className="mode-button" onClick={() => props.setMode(false)}>
+        <PiVideoCameraFill style={{ fontSize: "77px", color: "white" }} />
       </button>
       <video
         ref={props.videoRef}
@@ -70,10 +82,7 @@ export default function TakePhoto(props) {
       />
 
       <div className="canvas-container">
-        <canvas
-          ref={props.canvasRef}
-          className="hidden-canvas"
-        />
+        <canvas ref={props.canvasRef} className="hidden-canvas" />
       </div>
 
       <div className="button-container">
