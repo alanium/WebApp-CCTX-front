@@ -70,13 +70,22 @@ const CameraApp = (props) => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: facingMode,
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
+          width: { ideal: 4096 },
+          height: { ideal: 2160 },
         },
       });
       setMediaStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+  
+        // Set the aspect ratio for the video stream
+        const aspectRatio = 16 / 9; // 1920x1080
+        const videoTrack = stream.getVideoTracks()[0];
+        const settings = videoTrack.getSettings();
+        const newHeight = Math.round(settings.width / aspectRatio);
+        videoTrack.applyConstraints({
+          height: newHeight,
+        });
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
