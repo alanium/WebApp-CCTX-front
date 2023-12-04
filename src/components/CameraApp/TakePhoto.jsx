@@ -44,8 +44,16 @@ export default function TakePhoto(props) {
       console.error("Error accessing camera for capture:", error);
     }
   };
+  const stopCapture = () => {
+    if (captureStreamRef.current) {
+      const tracks = captureStreamRef.current.getTracks();
+      tracks.forEach((track) => track.stop());
+      captureStreamRef.current = null;
+    }
+  };
 
   const takePhoto = async () => {
+    startCapture();
     if (videoCaptureRef.current && props.canvasRef.current) {
       await props.getLocation();
       const video = videoCaptureRef.current;
@@ -67,6 +75,7 @@ export default function TakePhoto(props) {
         "image/png", 1;
       });
     }
+    stopCapture();
   };
 
   return (
