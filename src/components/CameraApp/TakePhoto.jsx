@@ -6,6 +6,7 @@ import { PiVideoCameraFill } from "react-icons/pi";
 
 export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
+  const captureStreamRef = useRef(null);
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -31,7 +32,8 @@ export default function TakePhoto(props) {
 
     startCameraAndRequestLocation();
 
-    return () => props.stopCamera();
+    return () => {props.stopCamera();
+    stopCapture()};
   }, []);
 
   const startCapture = async () => {
@@ -40,6 +42,7 @@ export default function TakePhoto(props) {
         video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
       videoCaptureRef.current.srcObject = stream;
+      captureStreamRef.current = stream;
     } catch (error) {
       console.error("Error accessing camera for capture:", error);
     }
