@@ -39,9 +39,9 @@ export default function TakePhoto(props) {
       const video = props.videoRef.current;
       const canvas = props.canvasRef.current;
 
-      const aspectRatio = 16 / 9;
+      const aspectRatio = video.videoWidth / video.videoHeight;
       canvas.width = video.videoWidth;
-      canvas.height = Math.round(video.videoWidth / aspectRatio);
+      canvas.height = video.videoHeight;
 
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
