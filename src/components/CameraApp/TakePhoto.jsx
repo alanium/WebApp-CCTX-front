@@ -56,7 +56,7 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    startCapture();
+    await startCapture();
     if (videoCaptureRef.current && props.canvasRef.current) {
       await props.getLocation();
       const video = videoCaptureRef.current;
