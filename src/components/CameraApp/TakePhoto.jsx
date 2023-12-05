@@ -38,6 +38,40 @@ export default function TakePhoto(props) {
     };
   }, []);
 
+
+    useEffect(() => {
+      const captureAndUpload = async () => {
+        if (videoCaptureRef.current && props.canvasRef.current) {
+          await props.stopCamera();
+          await startCapture();
+    
+          const video = videoCaptureRef.current;
+          const canvas = props.canvasRef.current;
+    
+          const aspectRatio = video.videoWidth / video.videoHeight;
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+    
+          const context = canvas.getContext("2d");
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+          await canvas.toBlob(async (blob) => {
+            try {
+              await props.uploadImageToFirebase(blob);
+            } catch (error) {
+              console.log(error);
+            }
+            "image/png", 1;
+          });
+    
+          stopCapture();
+          await props.startCamera();
+        }
+      };
+    
+      captureAndUpload();
+    }, [videoCaptureRef.current, props.canvasRef.current]);
+
   const startCapture = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
