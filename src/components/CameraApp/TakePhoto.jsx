@@ -85,8 +85,7 @@ export default function TakePhoto(props) {
         } catch (error) {
           console.log(error);
         }
-        "image/png", 1;
-      });
+      }, "image/png", 1);
     }
     stopCapture();
     setCapturing(false)
@@ -138,10 +137,6 @@ export default function TakePhoto(props) {
         >
           <MdChangeCircle />
         </button>
-      </div>
-
-      <div className="canvas-container">
-        <canvas ref={props.canvasRef} className="hidden-canvas" />
       </div>
     </div>
   );
