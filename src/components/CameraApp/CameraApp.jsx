@@ -70,7 +70,7 @@ const CameraApp = (props) => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: facingMode,
-          width: { ideal: 1920 },
+          width: { ideal: 1920},
           height: { ideal: 1080 },
         },
       });

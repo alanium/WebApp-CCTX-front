@@ -7,33 +7,31 @@ import { PiVideoCameraFill } from "react-icons/pi";
 export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
+  const [capturing, setCapturing] = (false)
+
   useEffect(() => {
+    // Solicitar acceso a la ubicación cuando se monta el componente
     const requestLocationAccess = async () => {
       try {
-        const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
+        await navigator.geolocation.getCurrentPosition((position) => {
+          // Get the user's latitude and longitude coordinates
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          props.getLocation();
         });
-
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        props.getLocation();
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
     };
 
+    // Iniciar la cámara y solicitar acceso a la ubicación
     const startCameraAndRequestLocation = async () => {
       await props.startCamera();
       await requestLocationAccess();
       props.setPermissions(true);
     };
 
-    const init = async () => {
-      await startCameraAndRequestLocation();
-      captureAndUpload();
-    };
-
-    init();
+    startCameraAndRequestLocation();
 
     return () => {
       props.stopCamera();
@@ -41,58 +39,21 @@ export default function TakePhoto(props) {
     };
   }, []);
 
-  const captureAndUpload = async () => {
+  const startCapture = async () => {
     try {
-      if (videoCaptureRef.current && props.canvasRef.current) {
-        await props.stopCamera();
-        startCapture().then(() => {
-          const video = videoCaptureRef.current;
-          const canvas = props.canvasRef.current;
-  
-          const aspectRatio = video.videoWidth / video.videoHeight;
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-  
-          const context = canvas.getContext("2d");
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
-          canvas.toBlob(async (blob) => {
-            try {
-              await props.uploadImageToFirebase(blob);
-            } catch (error) {
-              console.log(error);
-            }
-          }, "image/png", 1);
-  
-          props.startCamera();
-        }).catch(error => {
-          console.error(error);
-        });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
+      });
+      if (videoCaptureRef.current) {
+        videoCaptureRef.current.srcObject = stream;
+        captureStreamRef.current = stream;
+      } else {
+        console.error("videoCaptureRef.current is null or undefined");
       }
     } catch (error) {
-      console.error("Error capturing and uploading:", error);
+      console.error("Error accessing camera for capture:", error);
     }
   };
-
-  const startCapture = () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
-        });
-        if (videoCaptureRef.current) {
-          videoCaptureRef.current.srcObject = stream;
-          captureStreamRef.current = stream;
-          resolve(); // Resolve the promise after setting the stream
-        } else {
-          reject("videoCaptureRef.current is null or undefined");
-        }
-      } catch (error) {
-        reject("Error accessing camera for capture: " + error);
-      }
-    });
-  };
-  
 
   const stopCapture = () => {
     if (captureStreamRef.current) {
@@ -103,35 +64,31 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    try {
-      await props.stopCamera();
-      await startCapture();
-      if (videoCaptureRef.current && props.canvasRef.current) {
-        await props.getLocation();
-        const video = videoCaptureRef.current;
-        const canvas = props.canvasRef.current;
+    setCapturing(true)
+    await startCapture();
+    if (videoCaptureRef.current && props.canvasRef.current) {
+      await props.getLocation();
+      const video = videoCaptureRef.current;
+      const canvas = props.canvasRef.current;
 
-        const aspectRatio = video.videoWidth / video.videoHeight;
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
-        const context = canvas.getContext("2d");
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        await canvas.toBlob(async (blob) => {
-          try {
-            await props.uploadImageToFirebase(blob);
-          } catch (error) {
-            console.log(error);
-          }
-          "image/png", 1;
-        });
-      }
-      stopCapture();
-      props.startCamera();
-    } catch (error) {
-      console.error("Error taking photo:", error);
+      await canvas.toBlob(async (blob) => {
+        try {
+          await props.uploadImageToFirebase(blob);
+        } catch (error) {
+          console.log(error);
+        }
+        "image/png", 1;
+      });
     }
+    stopCapture();
+    setCapturing(false)
   };
 
   return (
@@ -139,12 +96,23 @@ export default function TakePhoto(props) {
       <button className="mode-button" onClick={() => props.setMode(false)}>
         <PiVideoCameraFill style={{ fontSize: "77px", color: "white" }} />
       </button>
-      <video
+      {capturing ? (
+        <video 
         ref={videoCaptureRef}
         autoPlay
         playsInline
         className="video-preview"
+        
+        />
+      ) : (
+        <video
+        ref={props.videoRef}
+        autoPlay
+        playsInline
+        className="video-preview"
       />
+      )}
+      
 
       <div className="canvas-container">
         <canvas ref={props.canvasRef} className="hidden-canvas" />
