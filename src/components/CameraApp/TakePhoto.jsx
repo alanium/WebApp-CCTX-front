@@ -8,6 +8,7 @@ export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
   const [capturing, setCapturing] = useState(false)
+  const [facingMode, setFacingMode] = useState("environment");
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -42,7 +43,7 @@ export default function TakePhoto(props) {
   const startCapture = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
+        video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
       if (videoCaptureRef.current) {
         videoCaptureRef.current.srcObject = stream;

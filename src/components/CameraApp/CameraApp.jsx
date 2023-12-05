@@ -183,6 +183,7 @@ const CameraApp = (props) => {
                   projectId={projectId}
                   temp={temp}
                   navigate={navigate}
+                  facingMode={facingMode}
                 />
               ) : (
                 <VideoRecorder
