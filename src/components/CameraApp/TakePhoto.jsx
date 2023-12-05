@@ -89,7 +89,7 @@ export default function TakePhoto(props) {
       stopCapture();
       setCapturing(false)
     }, "1000")
-    props.startCamera()
+    await props.startCamera()
   };
 
   return (
