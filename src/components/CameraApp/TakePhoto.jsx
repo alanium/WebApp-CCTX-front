@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
@@ -7,7 +7,7 @@ import { PiVideoCameraFill } from "react-icons/pi";
 export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
-  const [capturing, setCapturing] = (false)
+  const [capturing, setCapturing] = useState(false)
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
