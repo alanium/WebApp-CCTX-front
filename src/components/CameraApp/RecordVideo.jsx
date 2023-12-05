@@ -170,7 +170,7 @@ const startCamera = async () => {
   };
 
   const switchCamera = async () => {
-    setFacingMode((prevFacingMode) =>
+    props.setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
     stopCamera();

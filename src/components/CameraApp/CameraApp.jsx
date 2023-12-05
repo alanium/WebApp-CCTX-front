@@ -194,6 +194,7 @@ const CameraApp = (props) => {
                   temp={temp}
                   projectId={projectId}
                   setMode={setMode}
+                  setFacingMode={setFacingMode}
                 />
               )}
             </div>
