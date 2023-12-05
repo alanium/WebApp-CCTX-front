@@ -45,50 +45,54 @@ export default function TakePhoto(props) {
     try {
       if (videoCaptureRef.current && props.canvasRef.current) {
         await props.stopCamera();
-        await startCapture();
-
-        const video = videoCaptureRef.current;
-        const canvas = props.canvasRef.current;
-
-        const aspectRatio = video.videoWidth / video.videoHeight;
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        const context = canvas.getContext("2d");
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        await canvas.toBlob(async (blob) => {
-          try {
-            await props.uploadImageToFirebase(blob);
-          } catch (error) {
-            console.log(error);
-          }
-          "image/png", 1;
+        startCapture().then(() => {
+          const video = videoCaptureRef.current;
+          const canvas = props.canvasRef.current;
+  
+          const aspectRatio = video.videoWidth / video.videoHeight;
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+  
+          const context = canvas.getContext("2d");
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+          canvas.toBlob(async (blob) => {
+            try {
+              await props.uploadImageToFirebase(blob);
+            } catch (error) {
+              console.log(error);
+            }
+          }, "image/png", 1);
+  
+          props.startCamera();
+        }).catch(error => {
+          console.error(error);
         });
-
-        stopCapture();
-        await props.startCamera();
       }
     } catch (error) {
       console.error("Error capturing and uploading:", error);
     }
   };
 
-  const startCapture = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
-      });
-      if (videoCaptureRef.current) {
-        videoCaptureRef.current.srcObject = stream;
-        captureStreamRef.current = stream;
-      } else {
-        console.error("videoCaptureRef.current is null or undefined");
+  const startCapture = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 4096 }, height: { ideal: 2160 } },
+        });
+        if (videoCaptureRef.current) {
+          videoCaptureRef.current.srcObject = stream;
+          captureStreamRef.current = stream;
+          resolve(); // Resolve the promise after setting the stream
+        } else {
+          reject("videoCaptureRef.current is null or undefined");
+        }
+      } catch (error) {
+        reject("Error accessing camera for capture: " + error);
       }
-    } catch (error) {
-      console.error("Error accessing camera for capture:", error);
-    }
+    });
   };
+  
 
   const stopCapture = () => {
     if (captureStreamRef.current) {
