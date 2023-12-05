@@ -45,12 +45,8 @@ export default function TakePhoto(props) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
-      if (videoCaptureRef.current) {
-        videoCaptureRef.current.srcObject = stream;
-        captureStreamRef.current = stream;
-      } else {
-        console.error("videoCaptureRef.current is null or undefined");
-      }
+      videoCaptureRef.current?.srcObject = stream;
+      captureStreamRef.current = stream;
     } catch (error) {
       console.error("Error accessing camera for capture:", error);
     }
@@ -65,30 +61,34 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
+    await props.stopCamera()
     setCapturing(true)
     await startCapture();
-    if (videoCaptureRef.current && props.canvasRef.current) {
-      await props.getLocation();
-      const video = videoCaptureRef.current;
-      const canvas = props.canvasRef.current;
-
-      const aspectRatio = video.videoWidth / video.videoHeight;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      await canvas.toBlob(async (blob) => {
-        try {
-          await props.uploadImageToFirebase(blob);
-        } catch (error) {
-          console.log(error);
-        }
-      }, "image/png", 1);
-    }
-    stopCapture();
-    setCapturing(false)
+    setTimeout(async () => {
+      if (videoCaptureRef.current && props.canvasRef.current) {
+        await props.getLocation();
+        const video = videoCaptureRef.current;
+        const canvas = props.canvasRef.current;
+  
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+  
+        const context = canvas.getContext("2d");
+        await context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+        await canvas.toBlob(async (blob) => {
+          try {
+            await props.uploadImageToFirebase(blob);
+          } catch (error) {
+            console.log(error);
+          }
+        }, "image/png", 1);
+      }
+      stopCapture();
+      setCapturing(false)
+    }, "1000")
+    props.startCamera()
   };
 
   return (
