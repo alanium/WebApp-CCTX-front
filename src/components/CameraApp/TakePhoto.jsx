@@ -7,30 +7,33 @@ import { PiVideoCameraFill } from "react-icons/pi";
 export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
-
   useEffect(() => {
-    // Solicitar acceso a la ubicación cuando se monta el componente
     const requestLocationAccess = async () => {
       try {
-        await navigator.geolocation.getCurrentPosition((position) => {
-          // Get the user's latitude and longitude coordinates
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          props.getLocation();
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
         });
+
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        props.getLocation();
       } catch (error) {
         console.error("Error requesting location access:", error);
       }
     };
 
-    // Iniciar la cámara y solicitar acceso a la ubicación
     const startCameraAndRequestLocation = async () => {
       await props.startCamera();
       await requestLocationAccess();
       props.setPermissions(true);
     };
 
-    startCameraAndRequestLocation();
+    const init = async () => {
+      await startCameraAndRequestLocation();
+      captureAndUpload();
+    };
+
+    init();
 
     return () => {
       props.stopCamera();
@@ -38,39 +41,38 @@ export default function TakePhoto(props) {
     };
   }, []);
 
+  const captureAndUpload = async () => {
+    try {
+      if (videoCaptureRef.current && props.canvasRef.current) {
+        await props.stopCamera();
+        await startCapture();
 
-    useEffect(() => {
-      const captureAndUpload = async () => {
-        if (videoCaptureRef.current && props.canvasRef.current) {
-          await props.stopCamera();
-          await startCapture();
-    
-          const video = videoCaptureRef.current;
-          const canvas = props.canvasRef.current;
-    
-          const aspectRatio = video.videoWidth / video.videoHeight;
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-    
-          const context = canvas.getContext("2d");
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-          await canvas.toBlob(async (blob) => {
-            try {
-              await props.uploadImageToFirebase(blob);
-            } catch (error) {
-              console.log(error);
-            }
-            "image/png", 1;
-          });
-    
-          stopCapture();
-          await props.startCamera();
-        }
-      };
-    
-      captureAndUpload();
-    }, [videoCaptureRef.current, props.canvasRef.current]);
+        const video = videoCaptureRef.current;
+        const canvas = props.canvasRef.current;
+
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        await canvas.toBlob(async (blob) => {
+          try {
+            await props.uploadImageToFirebase(blob);
+          } catch (error) {
+            console.log(error);
+          }
+          "image/png", 1;
+        });
+
+        stopCapture();
+        await props.startCamera();
+      }
+    } catch (error) {
+      console.error("Error capturing and uploading:", error);
+    }
+  };
 
   const startCapture = async () => {
     try {
@@ -97,31 +99,35 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    await props.stopCamera();
-    await startCapture();
-    if (videoCaptureRef.current && props.canvasRef.current) {
-      await props.getLocation();
-      const video = videoCaptureRef.current;
-      const canvas = props.canvasRef.current;
+    try {
+      await props.stopCamera();
+      await startCapture();
+      if (videoCaptureRef.current && props.canvasRef.current) {
+        await props.getLocation();
+        const video = videoCaptureRef.current;
+        const canvas = props.canvasRef.current;
 
-      const aspectRatio = video.videoWidth / video.videoHeight;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      await canvas.toBlob(async (blob) => {
-        try {
-          await props.uploadImageToFirebase(blob);
-        } catch (error) {
-          console.log(error);
-        }
-        "image/png", 1;
-      });
+        await canvas.toBlob(async (blob) => {
+          try {
+            await props.uploadImageToFirebase(blob);
+          } catch (error) {
+            console.log(error);
+          }
+          "image/png", 1;
+        });
+      }
+      stopCapture();
+      props.startCamera();
+    } catch (error) {
+      console.error("Error taking photo:", error);
     }
-    stopCapture();
-    props.startCamera();
   };
 
   return (
