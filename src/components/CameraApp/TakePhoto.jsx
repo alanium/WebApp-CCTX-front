@@ -8,7 +8,6 @@ export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
   const [capturing, setCapturing] = useState(false)
-  const [facingMode, setFacingMode] = useState("environment");
 
   useEffect(() => {
     // Solicitar acceso a la ubicación cuando se monta el componente
@@ -45,7 +44,9 @@ export default function TakePhoto(props) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
-      videoCaptureRef.current?.srcObject = stream;
+      if (videoCaptureRef.current) {
+        videoCaptureRef.current.srcObject = stream;
+      }
       captureStreamRef.current = stream;
     } catch (error) {
       console.error("Error accessing camera for capture:", error);
