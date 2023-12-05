@@ -140,7 +140,7 @@ export default function TakePhoto(props) {
         <PiVideoCameraFill style={{ fontSize: "77px", color: "white" }} />
       </button>
       <video
-        ref={props.videoRef}
+        ref={videoCaptureRef}
         autoPlay
         playsInline
         className="video-preview"
