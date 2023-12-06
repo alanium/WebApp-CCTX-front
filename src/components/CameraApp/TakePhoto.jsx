@@ -90,14 +90,16 @@ export default function TakePhoto(props) {
           } catch (error) {
             console.log(error);
             resolve();
+          } finally {
+            await stopCapture();
+            setCapturing(false);
+            await props.startCamera();
           }
         }, "image/png", 1);
       });
     }
   
-    stopCapture();
-    setCapturing(false);
-    await props.startCamera();
+    
   };
 
   const switchCamera = async () => {
