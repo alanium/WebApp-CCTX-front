@@ -67,11 +67,14 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    props.stopCamera(); // Stop the camera before capturing
     setCapturing(true);
   
     try {
-      await startCapture(props.facingMode); // Start capturing after stopping the camera
+      // Stop the camera before capturing
+      await props.stopCamera();
+  
+      // Start capturing after stopping the camera
+      await startCapture(props.facingMode);
   
       // Allow some time for the camera to initialize
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -91,15 +94,17 @@ export default function TakePhoto(props) {
         await new Promise((resolve) => {
           canvas.toBlob(async (blob) => {
             try {
+              // Upload the image to Firebase
               await props.uploadImageToFirebase(blob);
-              resolve();
             } catch (error) {
               console.log(error);
             } finally {
               await stopCapture();
               setCapturing(false);
-              await props.startCamera(); // Start the camera after capturing
+              // Start the camera after capturing
+              await props.startCamera();
             }
+            resolve();
           }, "image/png", 1);
         });
       }
