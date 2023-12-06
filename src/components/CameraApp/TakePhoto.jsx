@@ -62,36 +62,41 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    await props.stopCamera()
-    setCapturing(true)
+    await props.stopCamera();
+    setCapturing(true);
     await startCapture();
-    setTimeout(async () => {
-      if (videoCaptureRef.current && props.canvasRef.current) {
-        await props.getLocation();
-        const video = videoCaptureRef.current;
-        const canvas = props.canvasRef.current;
   
-        const aspectRatio = video.videoWidth / video.videoHeight;
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+    // Allow some time for the camera to initialize
+    await new Promise((resolve) => setTimeout(resolve, 500));
   
-        const context = canvas.getContext("2d");
-        await context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    if (videoCaptureRef.current && props.canvasRef.current) {
+      await props.getLocation();
+      const video = videoCaptureRef.current;
+      const canvas = props.canvasRef.current;
   
-        await canvas.toBlob(async (blob) => {
+      const aspectRatio = video.videoWidth / video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+  
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+      await new Promise((resolve) => {
+        canvas.toBlob(async (blob) => {
           try {
             await props.uploadImageToFirebase(blob);
+            resolve();
           } catch (error) {
             console.log(error);
+            resolve();
           }
         }, "image/png", 1);
-      }
-      
-      
-    }, "100")
+      });
+    }
+  
     stopCapture();
-    setCapturing(false)
-    await props.startCamera()
+    setCapturing(false);
+    await props.startCamera();
   };
 
   const switchCamera = async () => {
