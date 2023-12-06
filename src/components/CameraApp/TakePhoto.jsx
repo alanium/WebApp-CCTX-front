@@ -93,7 +93,7 @@ export default function TakePhoto(props) {
   };
 
   const switchCamera = async () => {
-    setFacingMode((prevFacingMode) =>
+    props.setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
   
