@@ -86,16 +86,17 @@ export default function TakePhoto(props) {
           }
         }, "image/png", 1);
       }
-      stopCapture();
-      setCapturing(false)
-      await props.startCamera()
-    }, "1000")
-   
+      
+      
+    }, "100")
+    stopCapture();
+    setCapturing(false)
+    await props.startCamera()
   };
 
   const switchCamera = async () => {
-    await stopCapture();
     await props.stopCamera();
+
 
     props.setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
@@ -105,7 +106,6 @@ export default function TakePhoto(props) {
    
   
     // Start the camera with the updated facingMode
-    await startCapture();
     await props.startCamera();
   };
 
