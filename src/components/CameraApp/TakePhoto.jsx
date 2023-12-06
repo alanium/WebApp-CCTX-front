@@ -108,14 +108,10 @@ export default function TakePhoto(props) {
   const switchCamera = async () => {
     await stopCapture();
     await props.stopCamera();
-
-    
+  
     props.setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
-  
-    // Stop the camera and wait for it to complete before starting it again
-   
   
     // Start the camera with the updated facingMode
     await startCapture();

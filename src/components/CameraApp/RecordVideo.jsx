@@ -107,7 +107,7 @@ export default function VideoRecorder(props) {
 
 const startCamera = async () => {
   try {
-    const constraints = { video: true };
+    const constraints = { video: { facingMode } };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     setMediaStream(stream);
 
@@ -170,9 +170,9 @@ const startCamera = async () => {
   };
 
   const switchCamera = async () => {
+    const newFacingMode = facingMode === "user" ? "environment" : "user";
     stopCamera(); // Stop the current camera stream
   
-    const newFacingMode = facingMode === "user" ? "environment" : "user";
     setFacingMode(newFacingMode);
   
     // Start the camera with the new facingMode
