@@ -26,9 +26,6 @@ import { ManageRoles } from "./components/ManageRoles/ManageRoles";
 import { ManageProjects } from "./components/ManageProjects/ManageProjects";
 import { DownloadWo } from "./components/DownloadWO/DownloadWO";
 import HandleMaintenance from "./components/HandleMaintenance/HandleMaintenance";
-import Verification from "./components/Verification/Verification";
-import HelloWorldComponent from "./Validation";
-
 import CameraApp from "./components/CameraApp/CameraApp";
 import WoPayment from "./components/WoPayment/WoPayment";
 import ImageUpload from "./components/ImageUpload/ImageUpload";
