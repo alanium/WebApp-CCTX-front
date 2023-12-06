@@ -4,6 +4,10 @@ import { MdChangeCircle } from "react-icons/md";
 import { BiSolidXCircle } from "react-icons/bi";
 import { PiVideoCameraFill } from "react-icons/pi";
 
+
+//cuando switcheo la camara y quiero sacar foto la camara se switchea devuelta y saca del otro lado
+
+
 export default function TakePhoto(props) {
   const videoCaptureRef = useRef(null);
   const captureStreamRef = useRef(null);
@@ -39,10 +43,10 @@ export default function TakePhoto(props) {
     };
   }, []);
 
-  const startCapture = async () => {
+  const startCapture = async (facingMode) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
+        video: {facingMode: facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
       if (videoCaptureRef.current) {
         videoCaptureRef.current.srcObject = stream;
@@ -67,7 +71,7 @@ export default function TakePhoto(props) {
     setCapturing(true);
   
     try {
-      await startCapture(); // Start capturing after stopping the camera
+      await startCapture(props.facingMode); // Start capturing after stopping the camera
   
       // Allow some time for the camera to initialize
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -106,7 +110,6 @@ export default function TakePhoto(props) {
   };
 
   const switchCamera = async () => {
-    await stopCapture();
     await props.stopCamera();
   
     props.setFacingMode((prevFacingMode) =>
@@ -114,7 +117,7 @@ export default function TakePhoto(props) {
     );
   
     // Start the camera with the updated facingMode
-    await startCapture();
+
     await props.startCamera();
   };
 
