@@ -63,43 +63,46 @@ export default function TakePhoto(props) {
   };
 
   const takePhoto = async () => {
-    await props.stopCamera();
+    props.stopCamera(); // Stop the camera before capturing
     setCapturing(true);
-    await startCapture();
   
-    // Allow some time for the camera to initialize
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      await startCapture(); // Start capturing after stopping the camera
   
-    if (videoCaptureRef.current && props.canvasRef.current) {
-      await props.getLocation();
-      const video = videoCaptureRef.current;
-      const canvas = props.canvasRef.current;
+      // Allow some time for the camera to initialize
+      await new Promise((resolve) => setTimeout(resolve, 500));
   
-      const aspectRatio = video.videoWidth / video.videoHeight;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      if (videoCaptureRef.current && props.canvasRef.current) {
+        await props.getLocation();
+        const video = videoCaptureRef.current;
+        const canvas = props.canvasRef.current;
   
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
   
-      await new Promise((resolve) => {
-        canvas.toBlob(async (blob) => {
-          try {
-            await props.uploadImageToFirebase(blob);
-            resolve();
-          } catch (error) {
-            console.log(error);
-            resolve();
-          } finally {
-            await stopCapture();
-            setCapturing(false);
-            await props.startCamera();
-          }
-        }, "image/png", 1);
-      });
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+        await new Promise((resolve) => {
+          canvas.toBlob(async (blob) => {
+            try {
+              await props.uploadImageToFirebase(blob);
+              resolve();
+            } catch (error) {
+              console.log(error);
+            } finally {
+              await stopCapture();
+              setCapturing(false);
+              await props.startCamera(); // Start the camera after capturing
+            }
+          }, "image/png", 1);
+        });
+      }
+    } catch (error) {
+      console.error("Error taking photo:", error);
+      setCapturing(false);
     }
-  
-    
   };
 
   const switchCamera = async () => {
