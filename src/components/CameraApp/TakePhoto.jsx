@@ -42,7 +42,7 @@ export default function TakePhoto(props) {
   const startCapture = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {width: { ideal: 4096 }, height: { ideal: 2160 } },
+        video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
       if (videoCaptureRef.current) {
         videoCaptureRef.current.srcObject = stream;
@@ -88,18 +88,21 @@ export default function TakePhoto(props) {
       }
       stopCapture();
       setCapturing(false)
+      await props.startCamera()
     }, "1000")
-    await props.startCamera()
+   
   };
 
   const switchCamera = async () => {
+    await stopCapture();
+    await props.stopCamera();
+
     props.setFacingMode((prevFacingMode) =>
       prevFacingMode === "user" ? "environment" : "user"
     );
   
     // Stop the camera and wait for it to complete before starting it again
-    await stopCapture();
-    await props.stopCamera();
+   
   
     // Start the camera with the updated facingMode
     await startCapture();
