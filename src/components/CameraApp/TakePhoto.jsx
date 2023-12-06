@@ -42,7 +42,7 @@ export default function TakePhoto(props) {
   const startCapture = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {facingMode: props.facingMode, width: { ideal: 4096 }, height: { ideal: 2160 } },
+        video: {width: { ideal: 4096 }, height: { ideal: 2160 } },
       });
       if (videoCaptureRef.current) {
         videoCaptureRef.current.srcObject = stream;
