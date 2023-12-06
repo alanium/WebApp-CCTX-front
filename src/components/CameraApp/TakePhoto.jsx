@@ -92,6 +92,20 @@ export default function TakePhoto(props) {
     await props.startCamera()
   };
 
+  const switchCamera = async () => {
+    setFacingMode((prevFacingMode) =>
+      prevFacingMode === "user" ? "environment" : "user"
+    );
+  
+    // Stop the camera and wait for it to complete before starting it again
+    await stopCapture();
+    await props.stopCamera();
+  
+    // Start the camera with the updated facingMode
+    await startCapture();
+    await props.startCamera();
+  };
+
   return (
     <div className="camera-container">
       <button className="mode-button" onClick={() => props.setMode(false)}>
@@ -134,7 +148,7 @@ export default function TakePhoto(props) {
         </button>
         <button
           style={{ fontSize: "77px", color: "white" }}
-          onClick={props.switchCamera}
+          onClick={switchCamera}
         >
           <MdChangeCircle />
         </button>
