@@ -170,16 +170,20 @@ const startCamera = async () => {
   };
 
   const switchCamera = async () => {
-    const newFacingMode = facingMode === "user" ? "environment" : "user";
-    stopCamera(); // Stop the current camera stream
+    // Ensure that the current camera stream is stopped
+    await stopCamera();
   
+    // Switch the facing mode
+    const newFacingMode = facingMode === "user" ? "environment" : "user";
     setFacingMode(newFacingMode);
   
-    // Start the camera with the new facingMode
-    await startCamera();
-  
-    // Note: Make sure that startCamera() is an asynchronous function and returns a promise.
-    // This is important to ensure that the camera is started before proceeding.
+    try {
+      // Start the camera with the new facingMode
+      await startCamera();
+    } catch (error) {
+      console.error("Error starting camera:", error);
+      // Handle any errors that may occur while starting the camera
+    }
   };
 
   return (
