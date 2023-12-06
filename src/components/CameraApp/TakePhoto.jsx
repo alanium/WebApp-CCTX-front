@@ -46,6 +46,7 @@ export default function TakePhoto(props) {
       });
       if (videoCaptureRef.current) {
         videoCaptureRef.current.srcObject = stream;
+        console.log("llegué")
       }
       captureStreamRef.current = stream;
     } catch (error) {
