@@ -116,7 +116,7 @@ export function CreateProject(props) {
           result = await props.enviarDatos(
             {
               action: "get_master",
-              selected_customer: customer.customer_id,
+              id: customer.customer_id,
             },
             "create_project"
           );
