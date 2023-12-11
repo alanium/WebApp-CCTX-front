@@ -4,7 +4,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
 
   useEffect(() => {
-    saveData(setData)
+    saveData(data)
   }, [])
 
   const handleCheckChange = (event, index) => {
