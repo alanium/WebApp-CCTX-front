@@ -52,6 +52,7 @@ export function CreateProject(props) {
   const underMaintenance = useSelector((state) => state.underMaintenance);
   const [isAvaliable, setIsAvaliable] = useState(true);
   const [data, setData] = useState([])
+  const [ isDataReady , setIsDataReady ] = useState(false)
 
   useEffect(() => {
     if (underMaintenance.includes("create_project")) {
@@ -132,6 +133,7 @@ export function CreateProject(props) {
               master_estimate: data
            }
           )
+          setIsDataReady(true)
         } else if (submitCounter == 2) {
           result = await props.enviarDatos(
             { data: master, action: "get_sub" },
