@@ -11,6 +11,7 @@ import { CreateWo } from "../CreateWo/CreateWo";
 import { useNavigate } from "react-router-dom";
 import { setSuccess, setBar } from "../../redux/actions";
 import Maintenace from "../Maintenance/Maintenance";
+import { GetCategory } from "../GetCategory/GetCategory";
 
 export function CreateProject(props) {
   const [worders, setWorders] = useState([]);
@@ -50,6 +51,7 @@ export function CreateProject(props) {
   const dispatch = useDispatch();
   const underMaintenance = useSelector((state) => state.underMaintenance);
   const [isAvaliable, setIsAvaliable] = useState(true);
+  const [data, setData] = useState([])
 
   useEffect(() => {
     if (underMaintenance.includes("create_project")) {
@@ -114,7 +116,7 @@ export function CreateProject(props) {
           result = await props.enviarDatos(
             {
               action: "get_master",
-              selected_customer: customer.selected_customer,
+              selected_customer: customer.customer_id,
             },
             "create_project"
           );
@@ -122,12 +124,22 @@ export function CreateProject(props) {
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
+            { action: "get_master",
+              selected_customer : {
+                name: customer.name,
+                address: customer.selected_customer.address
+              },
+              master_estimate: data
+           }
+          )
+        } else if (submitCounter == 2) {
+          result = await props.enviarDatos(
             { data: master, action: "get_sub" },
             "create_project"
           );
 
           setIsWoReady(true);
-        } else if (submitCounter == 2) {
+        } else if (submitCounter == 3) {
           result = await props.enviarDatos(
             {
               data: sub,
@@ -182,7 +194,9 @@ export function CreateProject(props) {
                 <div>
                   {isProjectReady ? (
                     <div>
-                      {isMitemsReady ? (
+                      {isDataReady ? (
+                        <div>
+                           {isMitemsReady ? (
                         <div>
                           {isWoReady ? (
                             <div>
@@ -230,10 +244,20 @@ export function CreateProject(props) {
                           setMaster={updateMaster}
                         />
                       )}
+                        </div>
+                      ) : (
+                        <GetCategory 
+                          result={worders}
+                          saveData={setData}
+                          handleSubmit={handleSubmit}/>
+                          
+                      )}
+                     
                     </div>
                   ) : (
                     <SelectCustomer
                       worders={worders}
+                      enviarDatos={props.enviarDatos}
                       changeHandler={changeHandler}
                       handleSubmit={handleSubmit}
                       customer={customer}
