@@ -42,7 +42,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     const selectedItem = aux.find((item) => item.id === result[index].id);
 
     if (selectedItem) {
-      selectedItem.amount = event.target.value;
+      selectedItem.quantity = event.target.value;
       setData(aux);
     }
   };
@@ -50,46 +50,48 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const handleForm = (event) => {
     event.preventDefault();
     saveData(data);
-    handleSubmit(event)
+    handleSubmit(event);
   };
 
   return (
-    <form onSubmit={handleForm}>
-      <div>
-        <label htmlFor="description">Description</label>
-        <label htmlFor="cost">Cost</label>
-        <label htmlFor="amount">Amount</label>
-        <label>Total</label>
-      </div>
-      {result.map((masterItem, index) => (
-        <div key={index}>
-          <input
-            onChange={(event) => handleCheckChange(event, index)}
-            name={`checkbox-${index}`}
-            type="checkbox"
-            checked={data.some((item) => item.id === masterItem.id)}
-          />
-          <input
-            onChange={(event) => handleDescription(event, index)}
-            name="description"
-            value={masterItem.description}
-            type="text"
-          />
-          <input
-            onChange={(event) => handleCost(event, index)}
-            value={masterItem.cost}
-            type="number"
-          />
-          <input
-            onChange={(event) => handleAmount(event, index)}
-            value={masterItem.amount}
-            type="number"
-          />
-          <label>{masterItem.cost * masterItem.amount}</label>
-          <label>{masterItem.category}</label>
+    <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+      <form onSubmit={handleForm}>
+        <div>
+          <label htmlFor="description">Description</label>
+          <label htmlFor="cost">Cost</label>
+          <label htmlFor="amount">Amount</label>
+          <label>Total</label>
         </div>
-      ))}
-      <button type="submit">Submit</button>
-    </form>
+        {result.map((masterItem, index) => (
+          <div key={index}>
+            <input
+              onChange={(event) => handleCheckChange(event, index)}
+              name={`checkbox-${index}`}
+              type="checkbox"
+              checked={data.some((item) => item.id === masterItem.id)}
+            />
+            <input
+              onChange={(event) => handleDescription(event, index)}
+              name="description"
+              value={masterItem.description}
+              type="text"
+            />
+            <input
+              onChange={(event) => handleCost(event, index)}
+              value={masterItem.cost}
+              type="number"
+            />
+            <input
+              onChange={(event) => handleAmount(event, index)}
+              value={masterItem.quantity}
+              type="number"
+            />
+            <label>{Number(masterItem.cost) * masterItem.quantity}</label>
+            <label>{masterItem.category}</label>
+          </div>
+        ))}
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
