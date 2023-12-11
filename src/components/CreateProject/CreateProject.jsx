@@ -125,9 +125,9 @@ export function CreateProject(props) {
           setIsProjectReady(true);
         } else if (submitCounter == 1) {
           result = await props.enviarDatos(
-            { action: "get_master",
+            { action: "get_category",
               selected_customer : {
-                name: customer.name,
+                name: customer.selected_customer.name,
                 address: customer.selected_customer.address
               },
               master_estimate: data

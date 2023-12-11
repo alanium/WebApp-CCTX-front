@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
+
+  useEffect(() => {
+    saveData(setData)
+  }, [])
 
   const handleCheckChange = (event, index) => {
     const isChecked = event.target.checked;
