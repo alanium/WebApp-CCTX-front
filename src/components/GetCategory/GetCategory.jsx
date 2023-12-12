@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./GetCategory.module.css"
 
 export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
@@ -92,11 +93,13 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
               onChange={(event) => handleCost(event, index)}
               value={masterItem.cost}
               type="number"
+              className={styles.smallNumericInput}
             />
             <input
               onChange={(event) => handleAmount(event, index)}
               value={masterItem.quantity}
               type="number"
+              className={styles.smallNumericInput}
             />
             <label>{Number(masterItem.cost) * masterItem.quantity}</label>
             <label>{masterItem.category}</label>
