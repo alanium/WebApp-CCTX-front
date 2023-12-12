@@ -29,6 +29,13 @@
     transform: translateX(0); /* Move from left to right */
   }
 
+.totalAmountLabel {
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 70px;
+    display: inline-block;
+}
+
 .columnLabel {
     color: white;
     margin-left: 25px;
