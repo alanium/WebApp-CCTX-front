@@ -4,7 +4,28 @@
 
 .categoryLabel {
     color: white;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for text overflow */
+    white-space: nowrap; /* Prevent text from wrapping */
+    position: relative;
+    cursor: pointer;
 }
+
+.categoryLabel::after {
+    content: attr(data-full-label); /* Display the full label content */
+    position: absolute;
+    top: 0;
+    left: 100%; /* Position it just outside the parent */
+    white-space: nowrap;
+    overflow: visible;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Add a transition for a smooth effect */
+  }
+
+  .categoryLabel:hover::after {
+    opacity: 1; /* Show the full label on hover */
+  }
 
 .totalAmountLabel {
     margin-left: 15px;
