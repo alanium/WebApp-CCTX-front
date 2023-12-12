@@ -4,21 +4,26 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
 
   useEffect(() => {
-    saveData(data)
-  }, [])
+    saveData(data);
+  }, [data]);
+
 
   const handleCheckChange = (event, index) => {
     const isChecked = event.target.checked;
 
-    if (isChecked) {
-      // Si se marca, añadir el item a data
-      setData((prevData) => [...prevData, result[index]]);
-    } else {
-      // Si se desmarca, filtrar el item del data
-      setData((prevData) =>
-        prevData.filter((item) => item.id !== result[index].id)
-      );
-    }
+    setData((prevData) => {
+      if (isChecked) {
+        // If checked, add the item to data if it doesn't exist
+        if (!prevData.some((item) => item.id === result[index].id)) {
+          return [...prevData, result[index]];
+        }
+      } else {
+        // If unchecked, filter out the item from data
+        return prevData.filter((item) => item.id !== result[index].id);
+      }
+
+      return prevData;
+    });
   };
 
   const handleDescription = (event, index) => {
