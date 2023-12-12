@@ -5,7 +5,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
   useEffect(() => {
     saveData(data);
-    console.log(data)
+    
   }, [data]);
 
 
@@ -43,6 +43,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
     if (selectedItem) {
       selectedItem.cost = event.target.value;
+      selectedItem.sub_total = selectedItem.quantity * Number(selectedItem.cost)
       setData(aux);
     }
   };
@@ -53,6 +54,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
     if (selectedItem) {
       selectedItem.quantity = event.target.value;
+      selectedItem.sub_total = selectedItem.quantity * Number(selectedItem.cost)
       setData(aux);
     }
   };
