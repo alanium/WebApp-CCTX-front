@@ -107,15 +107,15 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
               type="number"
               className={styles.smallNumericInput}
             />
-            <label className={styles.totalAmountLabel}>
-              {Number(masterItem.cost) * masterItem.quantity}
+            <label style={{width: "60px"}} className={styles.totalAmountLabel}>
+              {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
             </label>
             <label className={styles.categoryLabel}>
               {masterItem.category}
             </label>
           </div>
         ))}
-        <button type="submit">Submit</button>
+        <button className="global-button" type="submit">Submit</button>
       </form>
     </div>
   );
