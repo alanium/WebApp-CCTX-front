@@ -9,9 +9,15 @@
 .totalAmountLabel {
     margin-left: 15px;
     margin-right: 15px;
+    width: 70px;
+    display: inline-block;
 }
 
 .columnLabel {
     color: white;
     margin-left: 25px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+     white-space: nowrap;
 }
