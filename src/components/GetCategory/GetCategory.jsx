@@ -89,7 +89,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
         </div>
         <div style={{ maxHeight: "400px", overflowY: "auto" }}>
           {result.map((masterItem, index) => (
-            <div style={{display: flex}} key={index}>
+            <div style={{display: "flex"}} key={index}>
               <input
                 onChange={(event) => handleCheckChange(event, index)}
                 name={`checkbox-${index}`}
