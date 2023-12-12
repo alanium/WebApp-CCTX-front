@@ -67,10 +67,14 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
   };
 
   return (
-    <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+    <div>
       <form onSubmit={handleForm}>
         <div>
-          <label style={{marginRight: "64px"}} className={styles.columnLabel} htmlFor="description">
+          <label
+            style={{ marginRight: "64px" }}
+            className={styles.columnLabel}
+            htmlFor="description"
+          >
             Description
           </label>
           <label className={styles.columnLabel} htmlFor="cost">
@@ -79,43 +83,54 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
           <label className={styles.columnLabel} htmlFor="amount">
             Amount
           </label>
-          <label style={{marginLeft: "10px"}}className={styles.columnLabel}>Total</label>
+          <label style={{ marginLeft: "10px" }} className={styles.columnLabel}>
+            Total
+          </label>
         </div>
-        {result.map((masterItem, index) => (
-          <div key={index}>
-            <input
-              onChange={(event) => handleCheckChange(event, index)}
-              name={`checkbox-${index}`}
-              type="checkbox"
-              checked={data.some((item) => item.id === masterItem.id)}
-            />
-            <input
-              onChange={(event) => handleDescription(event, index)}
-              name="description"
-              value={masterItem.description}
-              type="text"
-            />
-            <input
-              onChange={(event) => handleCost(event, index)}
-              value={masterItem.cost}
-              type="number"
-              className={styles.smallNumericInput}
-            />
-            <input
-              onChange={(event) => handleAmount(event, index)}
-              value={masterItem.quantity}
-              type="number"
-              className={styles.smallNumericInput}
-            />
-            <label style={{width: "70px !important"}} className={styles.totalAmountLabel}>
-              {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
-            </label>
-            <label className={styles.categoryLabel}>
-              {masterItem.category}
-            </label>
-          </div>
-        ))}
-        <button className="global-button" type="submit">Submit</button>
+        <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+          {result.map((masterItem, index) => (
+            <div key={index}>
+              <input
+                onChange={(event) => handleCheckChange(event, index)}
+                name={`checkbox-${index}`}
+                type="checkbox"
+                checked={data.some((item) => item.id === masterItem.id)}
+              />
+              <input
+                onChange={(event) => handleDescription(event, index)}
+                name="description"
+                value={masterItem.description}
+                type="text"
+              />
+              <input
+                onChange={(event) => handleCost(event, index)}
+                value={masterItem.cost}
+                type="number"
+                className={styles.smallNumericInput}
+              />
+              <input
+                onChange={(event) => handleAmount(event, index)}
+                value={masterItem.quantity}
+                type="number"
+                className={styles.smallNumericInput}
+              />
+              <div>
+                <div style={{ width: "70px !important" }}>
+                  <label className={styles.totalAmountLabel}>
+                    {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
+                  </label>
+                </div>
+                <label className={styles.categoryLabel}>
+                  {masterItem.category}
+                </label>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button className="global-button" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
