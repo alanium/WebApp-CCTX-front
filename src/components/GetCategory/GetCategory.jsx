@@ -70,7 +70,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>
       <form onSubmit={handleForm}>
         <div>
-          <label className={styles.categoryLabel} htmlFor="description">
+          <label style={{marginRight: "50px"}} className={styles.categoryLabel} htmlFor="description">
             Description
           </label>
           <label className={styles.categoryLabel} htmlFor="cost">
