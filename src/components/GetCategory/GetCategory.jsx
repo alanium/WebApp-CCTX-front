@@ -107,7 +107,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
               type="number"
               className={styles.smallNumericInput}
             />
-            <label style={{width: "60px"}} className={styles.totalAmountLabel}>
+            <label style={{width: "70px"}} className={styles.totalAmountLabel}>
               {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
             </label>
             <label className={styles.categoryLabel}>
