@@ -5,6 +5,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
   useEffect(() => {
     saveData(data);
+    console.log(data)
   }, [data]);
 
 
@@ -21,7 +22,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
         // If unchecked, filter out the item from data
         return prevData.filter((item) => item.id !== result[index].id);
       }
-
+      
       return prevData;
     });
   };
