@@ -10,6 +10,7 @@
     white-space: nowrap;
     position: relative;
     cursor: pointer;
+    max-width: 100px;
 }
 
 .categoryLabel::after {
