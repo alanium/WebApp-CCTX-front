@@ -70,7 +70,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>
       <form onSubmit={handleForm}>
         <div>
-          <label style={{marginRight: "60px"}} className={styles.categoryLabel} htmlFor="description">
+          <label style={{marginRight: "64px"}} className={styles.categoryLabel} htmlFor="description">
             Description
           </label>
           <label className={styles.categoryLabel} htmlFor="cost">
@@ -79,7 +79,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
           <label className={styles.categoryLabel} htmlFor="amount">
             Amount
           </label>
-          <label className={styles.categoryLabel}>Total</label>
+          <label style={{marginLeft: "10px"}}className={styles.categoryLabel}>Total</label>
         </div>
         {result.map((masterItem, index) => (
           <div key={index}>
