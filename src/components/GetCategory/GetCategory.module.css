@@ -2,13 +2,17 @@
     width: 50px;
 }
 
-.category-label {
+.categoryLabel {
     color: white;
+    margin-left: 50px;
 }
 
+.totalAmountLabel {
+    margin-left: 15px;
+    margin-right: 15px;
+}
 
-
-.column-label {
+.columnLabel {
     color: white;
     margin-right: 50px;
 }

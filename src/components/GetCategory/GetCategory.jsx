@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "./GetCategory.module.css"
+import styles from "./GetCategory.module.css";
 
 export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
 
   useEffect(() => {
     saveData(data);
-    
   }, [data]);
-
 
   const handleCheckChange = (event, index) => {
     const isChecked = event.target.checked;
@@ -23,7 +21,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
         // If unchecked, filter out the item from data
         return prevData.filter((item) => item.id !== result[index].id);
       }
-      
+
       return prevData;
     });
   };
@@ -44,7 +42,8 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
     if (selectedItem) {
       selectedItem.cost = event.target.value;
-      selectedItem.sub_total = selectedItem.quantity * Number(selectedItem.cost)
+      selectedItem.sub_total =
+        selectedItem.quantity * Number(selectedItem.cost);
       setData(aux);
     }
   };
@@ -55,7 +54,8 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
     if (selectedItem) {
       selectedItem.quantity = event.target.value;
-      selectedItem.sub_total = selectedItem.quantity * Number(selectedItem.cost)
+      selectedItem.sub_total =
+        selectedItem.quantity * Number(selectedItem.cost);
       setData(aux);
     }
   };
@@ -70,10 +70,16 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>
       <form onSubmit={handleForm}>
         <div>
-          <label htmlFor="description">Description</label>
-          <label htmlFor="cost">Cost</label>
-          <label htmlFor="amount">Amount</label>
-          <label>Total</label>
+          <label className={styles.categoryLabel} htmlFor="description">
+            Description
+          </label>
+          <label className={styles.categoryLabel} htmlFor="cost">
+            Cost
+          </label>
+          <label className={styles.categoryLabel} htmlFor="amount">
+            Amount
+          </label>
+          <label className={styles.categoryLabel}>Total</label>
         </div>
         {result.map((masterItem, index) => (
           <div key={index}>
@@ -101,8 +107,12 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
               type="number"
               className={styles.smallNumericInput}
             />
-            <label>{Number(masterItem.cost) * masterItem.quantity}</label>
-            <label>{masterItem.category}</label>
+            <label className={styles.totalAmountLabel}>
+              {Number(masterItem.cost) * masterItem.quantity}
+            </label>
+            <label className={styles.categoryLabel}>
+              {masterItem.category}
+            </label>
           </div>
         ))}
         <button type="submit">Submit</button>
