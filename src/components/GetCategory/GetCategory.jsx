@@ -120,7 +120,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
                     {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
                   </label>
                 </div>
-                <label className={styles.categoryLabel} data-full-label={masterItem.category}>
+                <label className={styles.categoryLabel}>
                   {masterItem.category}
                 </label>
               </div>

@@ -6,8 +6,8 @@
     color: white;
     display: inline-block;
     overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis for text overflow */
-    white-space: nowrap; /* Prevent text from wrapping */
+    text-overflow: ellipsis;
+    white-space: nowrap;
     position: relative;
     cursor: pointer;
 }
@@ -18,21 +18,16 @@
     top: 0;
     left: 100%; /* Position it just outside the parent */
     white-space: nowrap;
-    overflow: visible;
+    overflow: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out; /* Add a transition for a smooth effect */
+    transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out; /* Add a transition for a smooth effect */
+    transform: translateX(-100%);
   }
 
-  .categoryLabel:hover::after {
+.categoryLabel:hover::after {
     opacity: 1; /* Show the full label on hover */
+    transform: translateX(0); /* Move from left to right */
   }
-
-.totalAmountLabel {
-    margin-left: 15px;
-    margin-right: 15px;
-    width: 70px;
-    display: inline-block;
-}
 
 .columnLabel {
     color: white;
