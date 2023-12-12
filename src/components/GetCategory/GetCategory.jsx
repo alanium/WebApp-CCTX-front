@@ -87,7 +87,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
             Total
           </label>
         </div>
-        <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+        <div style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}>
           {result.map((masterItem, index) => (
             <div style={{display: "flex"}} key={index}>
               <input
