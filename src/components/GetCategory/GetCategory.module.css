@@ -37,6 +37,8 @@
     display: inline-block;
     background-color: grey;
     color: white;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .columnLabel {
