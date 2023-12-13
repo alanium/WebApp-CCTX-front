@@ -107,12 +107,14 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
                 onChange={(event) => handleCost(event, index)}
                 value={masterItem.cost}
                 type="number"
+                min={0}
                 className={styles.smallNumericInput}
               />
               <input
                 onChange={(event) => handleAmount(event, index)}
                 value={masterItem.quantity}
                 type="number"
+                min={0}
                 className={styles.smallNumericInput}
               />
               <div style={{display: "flex"}}>

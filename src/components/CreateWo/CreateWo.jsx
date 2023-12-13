@@ -23,9 +23,9 @@ export function CreateWo(props) {
   const changeHandler = (event) => {
     const { category, task, name } = event.target.dataset;
     const value = event.target.value;
-
     setEditedMaster((prevMaster) => {
-      if (prevMaster[category] && /^\d*$/.test(value)) {
+      if (name === "week" && prevMaster[category] && /^\d*$/.test(value)) {
+        // Handling changes for week
         const newValue = Math.min(Number(value), 51); // Ensure the value is not greater than 51
         return {
           ...prevMaster,
@@ -33,10 +33,19 @@ export function CreateWo(props) {
             item.name === task ? { ...item, [name]: newValue } : item
           ),
         };
+      } else if (name === "wo") {
+        // Handling changes for Work Order Numbers
+        return {
+          ...prevMaster,
+          [category]: prevMaster[category].map((item) =>
+            item.name === task ? { ...item, [name]: value } : item
+          ),
+        };
       } else {
         return prevMaster;
       }
     });
+  
   };
 
   
