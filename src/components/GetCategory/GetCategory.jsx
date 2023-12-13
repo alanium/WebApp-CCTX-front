@@ -72,8 +72,8 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     <div>
       {result.response === false ? (
         <div>
-          <label>Unexpected Error, Response: false</label>
-          <button onClick={() => navigate("/home")}>Try again later</button>
+          <label style={{color: "white"}}>Unexpected Error, Response: false</label>
+          <button className="global-button" onClick={() => navigate("/home")}>Try again later</button>
         </div>
       ) : (
         <form onSubmit={handleForm}>
