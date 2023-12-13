@@ -41,7 +41,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     const selectedItem = aux.find((item) => item.id === result[index].id);
 
     if (selectedItem) {
-      selectedItem.cost = event.target.value;
+      selectedItem.cost = Number(event.target.value);
       selectedItem.sub_total =
         selectedItem.quantity * Number(selectedItem.cost);
       setData(aux);
@@ -53,7 +53,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     const selectedItem = aux.find((item) => item.id === result[index].id);
 
     if (selectedItem) {
-      selectedItem.quantity = event.target.value;
+      selectedItem.quantity = Number(event.target.value);
       selectedItem.sub_total =
         selectedItem.quantity * Number(selectedItem.cost);
       setData(aux);
