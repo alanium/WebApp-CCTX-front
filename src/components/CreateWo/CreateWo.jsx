@@ -18,6 +18,12 @@ export function CreateWo(props) {
     setWorders(uniqueWorders);
   }, []);
 
+  useEffect(() => {
+    props.setMaster(editedMaster);
+    console.log(props.master);
+  }, [editedMaster, props]);
+
+
   const categories = Object.keys(editedMaster);
 
   const changeHandler = (event) => {
@@ -49,7 +55,6 @@ export function CreateWo(props) {
       }
     }
 
-    props.setMaster(editedMaster);
     console.log(props.master);
 
     const taskIdResponse = await props.enviarDatos(
