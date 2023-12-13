@@ -107,6 +107,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
                 onChange={(event) => handleCost(event, index)}
                 value={masterItem.cost}
                 type="number"
+                step="any"
                 min={0}
                 className={styles.smallNumericInput}
               />
@@ -114,6 +115,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
                 onChange={(event) => handleAmount(event, index)}
                 value={masterItem.quantity}
                 type="number"
+                step="any"
                 min={0}
                 className={styles.smallNumericInput}
               />
