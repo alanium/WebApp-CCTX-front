@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./GetCategory.module.css";
+import { useNavigate } from "react-router-dom";
 
 export const GetCategory = ({ result, handleSubmit, saveData }) => {
   const [data, setData] = useState(result);
+  const navigate = useNavigate();
 
   useEffect(() => {
     saveData(data);
@@ -68,76 +70,99 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
 
   return (
     <div>
-      <form onSubmit={handleForm}>
+      {result.response === false ? (
         <div>
-          <label
-            style={{ marginRight: "64px" }}
-            className={styles.columnLabel}
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <label className={styles.columnLabel} htmlFor="cost">
-            Cost
-          </label>
-          <label className={styles.columnLabel} htmlFor="amount">
-            Amount
-          </label>
-          <label style={{ marginLeft: "10px" }} className={styles.columnLabel}>
-            Total
-          </label>
+          <label>Unexpected Error, Response: false</label>
+          <button onClick={() => navigate("/home")}>Try again later</button>
         </div>
-        <div style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}>
-          {result.map((masterItem, index) => (
-            <div style={{display: "flex", marginBottom: "10px"}} key={index}>
-              <input
-                onChange={(event) => handleCheckChange(event, index)}
-                name={`checkbox-${index}`}
-                type="checkbox"
-                checked={data.some((item) => item.id === masterItem.id)}
-              />
-              <input
-                onChange={(event) => handleDescription(event, index)}
-                name="description"
-                value={masterItem.description}
-                type="text"
-                style={{borderRadius: "5px"}}
-              />
-              <input
-                onChange={(event) => handleCost(event, index)}
-                value={masterItem.cost}
-                type="number"
-                step="any"
-                min={0}
-                className={styles.smallNumericInput}
-              />
-              <input
-                onChange={(event) => handleAmount(event, index)}
-                value={masterItem.quantity}
-                type="number"
-                step="any"
-                min={0}
-                className={styles.smallNumericInput}
-              />
-              <div style={{display: "flex"}}>
-                <div>
-                  <label className={styles.totalAmountLabel}>
-                    {(Number(masterItem.cost) * masterItem.quantity).toFixed(2)}
+      ) : (
+        <form onSubmit={handleForm}>
+          <div>
+            <label
+              style={{ marginRight: "64px" }}
+              className={styles.columnLabel}
+              htmlFor="description"
+            >
+              Description
+            </label>
+            <label className={styles.columnLabel} htmlFor="cost">
+              Cost
+            </label>
+            <label className={styles.columnLabel} htmlFor="amount">
+              Amount
+            </label>
+            <label
+              style={{ marginLeft: "10px" }}
+              className={styles.columnLabel}
+            >
+              Total
+            </label>
+          </div>
+          <div
+            style={{
+              maxHeight: "400px",
+              overflowY: "auto",
+              overflowX: "hidden",
+            }}
+          >
+            {result.map((masterItem, index) => (
+              <div
+                style={{ display: "flex", marginBottom: "10px" }}
+                key={index}
+              >
+                <input
+                  onChange={(event) => handleCheckChange(event, index)}
+                  name={`checkbox-${index}`}
+                  type="checkbox"
+                  checked={data.some((item) => item.id === masterItem.id)}
+                />
+                <input
+                  onChange={(event) => handleDescription(event, index)}
+                  name="description"
+                  value={masterItem.description}
+                  type="text"
+                  style={{ borderRadius: "5px" }}
+                />
+                <input
+                  onChange={(event) => handleCost(event, index)}
+                  value={masterItem.cost}
+                  type="number"
+                  step="any"
+                  min={0}
+                  className={styles.smallNumericInput}
+                />
+                <input
+                  onChange={(event) => handleAmount(event, index)}
+                  value={masterItem.quantity}
+                  type="number"
+                  step="any"
+                  min={0}
+                  className={styles.smallNumericInput}
+                />
+                <div style={{ display: "flex" }}>
+                  <div>
+                    <label className={styles.totalAmountLabel}>
+                      {(Number(masterItem.cost) * masterItem.quantity).toFixed(
+                        2
+                      )}
+                    </label>
+                  </div>
+                  <label
+                    title={masterItem.category}
+                    className={styles.categoryLabel}
+                  >
+                    {masterItem.category}
                   </label>
                 </div>
-                <label title={masterItem.category} className={styles.categoryLabel}>
-                  {masterItem.category}
-                  
-                </label>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <button className="global-button" type="submit">
-          Submit
-        </button>
-      </form>
+          <button className="global-button" type="submit">
+            Submit
+          </button>
+        </form>
+      )}
     </div>
   );
 };
