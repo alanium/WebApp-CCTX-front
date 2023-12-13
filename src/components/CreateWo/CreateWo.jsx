@@ -54,7 +54,7 @@ export function CreateWo(props) {
 
     const taskIdResponse = await props.enviarDatos(
       {
-        data: props.master,
+        data: editedMaster,
         action: "work_order",
       },
       "create_project"
