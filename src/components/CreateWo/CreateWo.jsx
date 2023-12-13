@@ -24,35 +24,18 @@ export function CreateWo(props) {
     const { category, task, name } = event.target.dataset;
     const value = event.target.value;
     setEditedMaster((prevMaster) => {
-      if (event.target.key === "week" && prevMaster[category] && /^\d*$/.test(value)) {
-        // Handling changes for week
-        const newValue = Math.min(Number(value), 51); // Ensure the value is not greater than 51
-        return {
-          ...prevMaster,
-          [category]: prevMaster[category].map((item) =>
-            item.name === task ? { ...item, [name]: newValue } : item
-          ),
-        };
-      } else if (event.target.key === "wo") {
-        // Handling changes for Work Order Numbers
-        return {
-          ...prevMaster,
-          [category]: prevMaster[category].map((item) =>
-            item.name === task ? { ...item, [name]: value } : item
-          ),
-        };
-      } else {
-        return prevMaster;
-      }
+      return {
+        ...prevMaster,
+        [category]: prevMaster[category].map((item) =>
+          item.name === task ? { ...item, [name]: value } : item
+        ),
+      };
     });
-  
   };
-
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    props.setIsSubmitting(true)
+    props.setIsSubmitting(true);
 
     for (const category of categories) {
       for (const task of props.master[category]) {
@@ -63,48 +46,45 @@ export function CreateWo(props) {
         }
       }
     }
-  
+
     props.setMaster(editedMaster);
     console.log(props.master);
-  
-   const taskIdResponse = await props.enviarDatos(
+
+    const taskIdResponse = await props.enviarDatos(
       {
         data: props.master,
         action: "work_order",
       },
       "create_project"
     );
-    
+
     console.log(taskIdResponse);
 
     setTaskId(taskIdResponse);
-    
-  
+
     const isTaskCompleted = await checkStatus(event, taskIdResponse.task_id);
-  
+
     if (isTaskCompleted) {
       props.handleSubmit(event);
     }
   };
 
   const checkStatus = async (event, task_id) => {
-    console.log(taskId)
+    console.log(taskId);
 
     let response = await props.enviarDatos(
       { task_id: task_id, action: "check_status" },
       "create_project"
     );
 
-    
-  
     while (!response.result) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       response = await props.enviarDatos(
         { task_id: task_id, action: "check_status" },
         "create_project"
       );
     }
-  
+
     return response.result;
   };
 
@@ -127,7 +107,7 @@ export function CreateWo(props) {
           </div>
         </div>
       )}
-      
+
       <form
         className={styles.selectedTasks}
         style={{ maxHeight: "300px", overflowY: "auto" }}
