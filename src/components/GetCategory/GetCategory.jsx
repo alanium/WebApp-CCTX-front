@@ -72,7 +72,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
     <div>
       {result.response === false ? (
         <div>
-          <label style={{color: "white"}}>Unexpected Error, Response: false</label>
+          <label style={{color: "white"}}>Unexpected error, project doesnt have master items</label>
           <button className="global-button" onClick={() => navigate("/home")}>Try again later</button>
         </div>
       ) : (
