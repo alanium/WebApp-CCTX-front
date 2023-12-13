@@ -89,7 +89,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
         </div>
         <div style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}>
           {result.map((masterItem, index) => (
-            <div style={{display: "flex"}} key={index}>
+            <div style={{display: "flex", marginBottom: "10px"}} key={index}>
               <input
                 onChange={(event) => handleCheckChange(event, index)}
                 name={`checkbox-${index}`}
@@ -101,6 +101,7 @@ export const GetCategory = ({ result, handleSubmit, saveData }) => {
                 name="description"
                 value={masterItem.description}
                 type="text"
+                style={{borderRadius: "5px"}}
               />
               <input
                 onChange={(event) => handleCost(event, index)}
