@@ -23,14 +23,15 @@ export function CreateWo(props) {
   const changeHandler = (event) => {
     const { category, task, name } = event.target.dataset;
     const value = event.target.value;
-    console.log(event.target.dataset)
+  
     setEditedMaster((prevMaster) => {
-      return {
+      const updatedMaster = {
         ...prevMaster,
         [category]: prevMaster[category].map((item) =>
           item.name === task ? { ...item, [name]: value } : item
         ),
       };
+      return updatedMaster;
     });
   };
 
