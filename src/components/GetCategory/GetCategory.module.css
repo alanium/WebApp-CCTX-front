@@ -35,6 +35,8 @@
     margin-right: 15px;
     width: 70px;
     display: inline-block;
+    background-color: grey;
+    color: white;
 }
 
 .columnLabel {
