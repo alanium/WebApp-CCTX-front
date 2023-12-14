@@ -5,6 +5,8 @@ export default function WoPayment(props) {
   const [worders, setWorders] = useState([]);
   const [worder, setWorder] = useState(null);
   const [popup, setPopup] = useState(false)
+  const [completePopup, setCompletePopup] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +19,7 @@ export default function WoPayment(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+    setIsLoading(true);
     // Check if all required fields are filled out
     if (!worder || !worder.week || !worder.date || !worder.paid) {
       // Display an error message or take appropriate action
@@ -40,7 +42,11 @@ export default function WoPayment(props) {
         action: "set_wo",
       },
       "create_wo_payment"
-    );
+    ).then((response) => {
+      if (response.code === "A5") {
+        setCompletePopup(true)
+      }
+    });
   };
 
   const handleSelectChange = (event) => {
@@ -57,6 +63,13 @@ export default function WoPayment(props) {
 
   return (
     <form className="global-container">
+      {isLoading ? (
+        <div className={styles.popupContainer}>
+        <div style={{maxWidth: "70%"}}>
+        <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Loading</label>
+        </div>
+      </div>
+      ) : null}
       {popup ? (
         <div className={styles.popupContainer}>
           <div style={{maxWidth: "70%"}}>
@@ -67,6 +80,18 @@ export default function WoPayment(props) {
         </div>
       ) : 
         null
+      }
+      {
+        completePopup ? (
+          <div className={styles.popupContainer}>
+          <div style={{maxWidth: "70%"}}>
+          <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Do you wish to create another payment or go back?</label>
+          <button className="global-button" onClick={() => setCompletePopup(false)}>Create Another Payment</button> 
+         <button className="global-button" onClick={() => navigate("/home")}>Go Back</button> 
+          </div>
+         
+        </div>
+        ) : null
       }
       <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}>Create new Payment</label>
       <select className="global-input-1" onChange={handleSelectChange}>
