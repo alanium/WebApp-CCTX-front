@@ -47,6 +47,7 @@ export default function WoPayment(props) {
         setCompletePopup(true)
       }
     });
+    setIsLoading(false);
   };
 
   const handleSelectChange = (event) => {
@@ -86,7 +87,7 @@ export default function WoPayment(props) {
           <div className={styles.popupContainer}>
           <div style={{maxWidth: "70%"}}>
           <label style={{ color: "white", fontSize: "24px", marginBottom: "15px", textAlign: "center", }}> Do you wish to create another payment or go back?</label>
-          <button className="global-button" onClick={() => setCompletePopup(false)}>Create Another Payment</button> 
+          <button className="global-button" onClick={() => {setCompletePopup(false)}}>Create Another Payment</button> 
          <button className="global-button" onClick={() => navigate("/home")}>Go Back</button> 
           </div>
          
